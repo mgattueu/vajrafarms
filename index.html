@@ -3,18 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vajra Farms | Organic Farming, Dairy, and Natural By-products</title>
-  <meta name="description" content="Vajra Farms delivers organic produce, dairy, and natural by-products rooted in regenerative farming and local partnerships." />
+  <title>Vajra Farms | Organic Farming, Dairy, and By-products</title>
+  <meta name="description" content="Vajra Farms supplies organic produce, dairy, and by-products for wholesale buyers and direct customers in Khammam and beyond." />
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@300;400;500;600;700&display=swap");
 
     :root {
       --ink: #1f241e;
-      --leaf: #3a5a40;
-      --moss: #5c7f5c;
+      --leaf: #2f6b3b;
+      --moss: #4f8a5a;
       --soil: #5a4636;
-      --cream: #f5f1e8;
-      --sun: #e0a84a;
+      --cream: #f7f2e6;
+      --sun: #f1b24a;
+      --sky: #7db7d9;
+      --berry: #e4697b;
       --mist: #d8e2d6;
       --white: #ffffff;
       --shadow: 0 30px 60px rgba(31, 36, 30, 0.18);
@@ -28,7 +30,7 @@
       margin: 0;
       font-family: "Manrope", "Segoe UI", sans-serif;
       color: var(--ink);
-      background: radial-gradient(circle at top left, #fefcf7, var(--cream));
+      background: radial-gradient(circle at top left, #ffffff, #f7f0df);
       line-height: 1.6;
     }
 
@@ -50,15 +52,15 @@
     .orb {
       position: absolute;
       border-radius: 999px;
-      filter: blur(10px);
-      opacity: 0.35;
+      filter: blur(6px);
+      opacity: 0.55;
       z-index: 0;
     }
 
     .orb.one {
       width: 420px;
       height: 420px;
-      background: radial-gradient(circle at 30% 30%, #dfeadf, #b7c7b6);
+      background: radial-gradient(circle at 30% 30%, #d8f2e0, #9fceaf);
       top: -180px;
       right: -120px;
     }
@@ -66,7 +68,7 @@
     .orb.two {
       width: 520px;
       height: 520px;
-      background: radial-gradient(circle at 30% 30%, #f3e5c6, #e2c089);
+      background: radial-gradient(circle at 30% 30%, #ffe7b3, #f3b86e);
       bottom: -220px;
       left: -180px;
     }
@@ -76,7 +78,7 @@
       top: 0;
       z-index: 10;
       backdrop-filter: blur(12px);
-      background: rgba(245, 241, 232, 0.9);
+      background: rgba(247, 242, 230, 0.9);
       border-bottom: 1px solid rgba(90, 70, 54, 0.12);
     }
 
@@ -103,7 +105,7 @@
       width: 42px;
       height: 42px;
       border-radius: 14px;
-      background: linear-gradient(140deg, var(--leaf), var(--sun));
+      background: linear-gradient(140deg, var(--leaf), var(--sun), var(--berry));
       display: grid;
       place-items: center;
       color: var(--white);
@@ -138,7 +140,7 @@
       gap: 10px;
       padding: 12px 22px;
       border-radius: 999px;
-      background: var(--leaf);
+      background: linear-gradient(140deg, var(--leaf), var(--moss));
       color: var(--white);
       font-weight: 600;
       box-shadow: 0 12px 24px rgba(58, 90, 64, 0.25);
@@ -187,13 +189,13 @@
       gap: 8px;
       padding: 12px 22px;
       border-radius: 999px;
-      border: 1px solid rgba(58, 90, 64, 0.4);
+      border: 1px solid rgba(58, 90, 64, 0.55);
       color: var(--leaf);
       font-weight: 600;
     }
 
     .hero-card {
-      background: var(--white);
+      background: linear-gradient(160deg, #ffffff, #f7f1e2);
       border-radius: 28px;
       padding: 30px;
       box-shadow: var(--shadow);
@@ -217,7 +219,7 @@
       gap: 12px;
       padding: 12px 16px;
       border-radius: 16px;
-      background: var(--cream);
+      background: rgba(247, 242, 230, 0.9);
       border: 1px solid rgba(90, 70, 54, 0.08);
       font-weight: 600;
     }
@@ -226,7 +228,7 @@
       width: 34px;
       height: 34px;
       border-radius: 12px;
-      background: rgba(58, 90, 64, 0.1);
+      background: rgba(58, 90, 64, 0.12);
       display: grid;
       place-items: center;
       color: var(--leaf);
@@ -269,7 +271,7 @@
     }
 
     .card {
-      background: var(--white);
+      background: linear-gradient(180deg, #ffffff, #fdf7ec);
       border-radius: 24px;
       padding: 24px;
       border: 1px solid rgba(90, 70, 54, 0.08);
@@ -290,7 +292,7 @@
       gap: 8px;
       padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(224, 168, 74, 0.2);
+      background: rgba(241, 178, 74, 0.25);
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 1px;
@@ -306,7 +308,7 @@
     }
 
     .story-panel {
-      background: linear-gradient(140deg, #ffffff, #f8f4eb);
+      background: linear-gradient(140deg, #ffffff, #f7f1e2);
       border-radius: 28px;
       padding: 32px;
       border: 1px solid rgba(90, 70, 54, 0.08);
@@ -326,7 +328,7 @@
     .stat {
       padding: 18px 22px;
       border-radius: 20px;
-      background: var(--mist);
+      background: linear-gradient(135deg, #dfeadf, #c5d9c8);
       font-weight: 600;
     }
 
@@ -337,7 +339,7 @@
     }
 
     .cta-banner {
-      background: linear-gradient(140deg, var(--leaf), #27412b);
+      background: linear-gradient(135deg, #2f6b3b, #1f4a2b, #5a8a4a);
       color: var(--white);
       border-radius: 32px;
       padding: 36px;
@@ -440,6 +442,7 @@
           <a href="#offerings">Offerings</a>
           <a href="#method">Method</a>
           <a href="#impact">Impact</a>
+          <a href="#partners">Partners</a>
           <a href="#contact">Contact</a>
         </nav>
         <a class="cta" href="#contact">Start a supply chat</a>
@@ -449,11 +452,11 @@
     <section class="hero">
       <div class="reveal">
         <span class="tag">Organic Farming + Dairy + By-products</span>
-        <h1>Regenerative farms, everyday nourishment.</h1>
+        <h1>Regenerative farms. Vibrant, honest supply.</h1>
         <p>
           Vajra Farms grows organic produce, crafts clean dairy, and transforms farm by-products
-          into purposeful goods. We partner with local growers to deliver reliable, honest supply
-          for families, retailers, and wellness brands.
+          into purposeful goods. We serve wholesale buyers and direct customers with reliable,
+          transparent sourcing across Khammam and nearby regions.
         </p>
         <div class="hero-actions">
           <a class="cta" href="#contact">Request availability</a>
@@ -477,7 +480,7 @@
           </div>
           <div class="pill">
             <div class="icon">04</div>
-            Contract farming with quality audits
+            Wholesale + direct delivery programs
           </div>
         </div>
       </div>
@@ -487,7 +490,7 @@
       <div class="section-title reveal">
         <h2>Organic, dairy, and by-products.</h2>
         <p>
-          A curated portfolio built for long-term supply and transparent sourcing. We focus on
+          A curated portfolio built for wholesale supply and direct customers. We focus on
           quality first, then scale through partner farms.
         </p>
       </div>
@@ -506,6 +509,11 @@
           <span class="tag">By-products</span>
           <h3>Full-farm utilization</h3>
           <p>Compost, cold-pressed oils, and natural inputs built to reduce waste.</p>
+        </article>
+        <article class="card reveal delay-3">
+          <span class="tag">Wholesale + direct</span>
+          <h3>Two ways to buy</h3>
+          <p>Bulk supply for businesses and curated packs for home customers.</p>
         </article>
       </div>
     </section>
@@ -537,7 +545,7 @@
       <div class="section-title reveal">
         <h2>Local impact, trusted partnerships.</h2>
         <p>
-          We are building a dependable farm ecosystem with local growers, nutrition brands, and
+          We are building a dependable farm ecosystem with local growers, businesses, and
           community markets. Long-term contracts improve farmer income and supply stability.
         </p>
       </div>
@@ -547,13 +555,37 @@
           <p>Fresh subscription boxes and direct pickup programs (launching soon).</p>
         </div>
         <div class="card reveal delay-2">
-          <h3>For retail</h3>
-          <p>Reliable weekly delivery, batch tracking, and custom packing.</p>
+          <h3>For wholesale</h3>
+          <p>Reliable weekly delivery, batch tracking, and custom packing for businesses.</p>
         </div>
         <div class="card reveal delay-3">
           <h3>For brands</h3>
           <p>Ingredient supply with documentation and lab testing support.</p>
         </div>
+      </div>
+    </section>
+
+    <section id="partners" class="section">
+      <div class="section-title reveal">
+        <h2>Partners who lead with care.</h2>
+        <p>
+          Vajra Farms is led by a focused partnership committed to quality, transparency,
+          and long-term farmer relationships.
+        </p>
+      </div>
+      <div class="partners">
+        <article class="partner-card reveal delay-1">
+          <div class="partner-avatar">SB</div>
+          <h3>Swetha Balasani</h3>
+          <p>Managing Partner</p>
+          <p>Operations, quality standards, and grower relationships.</p>
+        </article>
+        <article class="partner-card reveal delay-2">
+          <div class="partner-avatar">MA</div>
+          <h3>Margana Anusha</h3>
+          <p>Partner</p>
+          <p>Distribution, business partnerships, and market expansion.</p>
+        </article>
       </div>
     </section>
 
@@ -592,3 +624,30 @@
   </div>
 </body>
 </html>
+    .partners {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .partner-card {
+      background: linear-gradient(150deg, #ffffff, #fdf1e1);
+      border-radius: 24px;
+      padding: 24px;
+      border: 1px solid rgba(90, 70, 54, 0.08);
+      box-shadow: 0 20px 40px rgba(31, 36, 30, 0.08);
+      display: grid;
+      gap: 12px;
+    }
+
+    .partner-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--sun), var(--berry));
+      color: var(--white);
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+    }
