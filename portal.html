@@ -53,12 +53,8 @@
       text-decoration: none; color: var(--ink);
     }
 
-    .brand-mark {
-      width: 42px; height: 42px; border-radius: 14px;
-      background: linear-gradient(140deg, var(--leaf), var(--sun), var(--berry));
-      display: grid; place-items: center;
-      color: var(--white); font-weight: 700; font-size: 20px;
-      box-shadow: 0 12px 24px rgba(58, 90, 64, 0.3);
+    .brand-logo {
+      width: 48px; height: 48px; border-radius: 50%; object-fit: cover;
     }
 
     .nav-right { display: flex; align-items: center; gap: 14px; }
@@ -295,7 +291,7 @@
   <header>
     <div class="nav">
       <a class="brand" href="index.html">
-        <div class="brand-mark">VF</div>
+        <img src="logo.png" alt="Vajra Farms" class="brand-logo" />
         Vajra Farms
       </a>
       <div class="nav-right">
