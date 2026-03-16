@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vajra Farms | Staff Portal</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@300;400;500;600;700&display=swap");
+
+    :root {
+      --ink: #1f241e;
+      --leaf: #2f6b3b;
+      --moss: #4f8a5a;
+      --soil: #5a4636;
+      --cream: #f7f2e6;
+      --sun: #f1b24a;
+      --sky: #7db7d9;
+      --berry: #e4697b;
+      --mist: #d8e2d6;
+      --white: #ffffff;
+      --danger: #d9534f;
+      --shadow: 0 30px 60px rgba(31, 36, 30, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top left, #ffffff, #f7f0df);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    header {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(247, 242, 230, 0.9);
+      border-bottom: 1px solid rgba(90, 70, 54, 0.12);
+    }
+
+    .nav {
+      max-width: 1160px; margin: 0 auto;
+      padding: 18px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+
+    .brand {
+      display: flex; align-items: center; gap: 14px;
+      font-family: "Fraunces", "Times New Roman", serif;
+      font-weight: 700; letter-spacing: 0.5px;
+      text-decoration: none; color: var(--ink);
+    }
+
+    .brand-mark {
+      width: 42px; height: 42px; border-radius: 14px;
+      background: linear-gradient(140deg, var(--leaf), var(--sun), var(--berry));
+      display: grid; place-items: center;
+      color: var(--white); font-weight: 700; font-size: 20px;
+      box-shadow: 0 12px 24px rgba(58, 90, 64, 0.3);
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+
+    .nav-user {
+      font-size: 14px; font-weight: 600; color: var(--soil);
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 999px;
+      font-family: inherit; font-size: 14px; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(140deg, var(--leaf), var(--moss));
+      color: var(--white);
+      box-shadow: 0 12px 24px rgba(58, 90, 64, 0.25);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(58, 90, 64, 0.3); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(58, 90, 64, 0.55);
+      color: var(--leaf);
+    }
+
+    .btn-outline:hover { background: rgba(58, 90, 64, 0.06); }
+
+    .btn-danger {
+      background: var(--danger); color: var(--white);
+      box-shadow: 0 8px 16px rgba(217, 83, 79, 0.25);
+    }
+
+    .btn-small { padding: 8px 16px; font-size: 13px; }
+
+    /* ── Views ── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── Login ── */
+    .login-container {
+      max-width: 420px; margin: 80px auto; padding: 0 24px;
+    }
+
+    .login-card {
+      background: linear-gradient(160deg, #ffffff, #f7f1e2);
+      border-radius: 28px; padding: 40px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(90, 70, 54, 0.08);
+    }
+
+    .login-card h2 {
+      font-family: "Fraunces", "Times New Roman", serif;
+      font-size: 1.8rem; margin-bottom: 8px;
+    }
+
+    .login-card p.subtitle {
+      color: #4a5347; margin-bottom: 28px;
+    }
+
+    /* ── Forms ── */
+    .form-group { margin-bottom: 18px; }
+
+    .form-group label {
+      display: block; font-weight: 600; font-size: 13px;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      margin-bottom: 6px; color: var(--soil);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%; padding: 12px 16px;
+      border-radius: 14px; border: 1px solid rgba(90, 70, 54, 0.2);
+      background: rgba(255,255,255,0.8);
+      font-family: inherit; font-size: 15px;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none; border-color: var(--leaf);
+      box-shadow: 0 0 0 3px rgba(47, 107, 59, 0.1);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    .error-msg {
+      background: rgba(217, 83, 79, 0.1);
+      color: var(--danger); padding: 10px 16px;
+      border-radius: 12px; font-size: 14px; font-weight: 600;
+      margin-bottom: 16px; display: none;
+    }
+
+    .success-msg {
+      background: rgba(47, 107, 59, 0.1);
+      color: var(--leaf); padding: 10px 16px;
+      border-radius: 12px; font-size: 14px; font-weight: 600;
+      margin-bottom: 16px; display: none;
+    }
+
+    /* ── Dashboard ── */
+    .dashboard {
+      max-width: 900px; margin: 40px auto; padding: 0 24px;
+    }
+
+    .dashboard h2 {
+      font-family: "Fraunces", "Times New Roman", serif;
+      font-size: 1.8rem; margin-bottom: 8px;
+    }
+
+    .dashboard p.subtitle {
+      color: #4a5347; margin-bottom: 28px;
+    }
+
+    .order-form-card {
+      background: linear-gradient(160deg, #ffffff, #f7f1e2);
+      border-radius: 28px; padding: 36px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(90, 70, 54, 0.08);
+      margin-bottom: 30px;
+    }
+
+    .order-form-card h3 {
+      font-family: "Fraunces", "Times New Roman", serif;
+      font-size: 1.4rem; margin-bottom: 24px;
+    }
+
+    /* ── Orders Table ── */
+    .orders-section { margin-top: 40px; }
+
+    .orders-section h3 {
+      font-family: "Fraunces", "Times New Roman", serif;
+      font-size: 1.4rem; margin-bottom: 16px;
+    }
+
+    .table-wrap {
+      overflow-x: auto; border-radius: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(90, 70, 54, 0.08);
+    }
+
+    table {
+      width: 100%; border-collapse: collapse;
+      background: var(--white); font-size: 14px;
+    }
+
+    thead { background: linear-gradient(140deg, var(--leaf), var(--moss)); }
+    thead th {
+      padding: 14px 16px; text-align: left;
+      color: var(--white); font-weight: 600;
+      font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px;
+      white-space: nowrap;
+    }
+
+    tbody tr { border-bottom: 1px solid rgba(90, 70, 54, 0.06); }
+    tbody tr:hover { background: rgba(247, 242, 230, 0.5); }
+    tbody td { padding: 12px 16px; white-space: nowrap; }
+
+    .no-orders {
+      text-align: center; padding: 40px; color: #4a5347;
+    }
+
+    /* ── Tabs ── */
+    .tabs {
+      display: flex; gap: 8px; margin-bottom: 28px;
+    }
+
+    .tab {
+      padding: 10px 20px; border-radius: 999px;
+      font-family: inherit; font-size: 14px; font-weight: 600;
+      cursor: pointer; border: 1px solid rgba(58, 90, 64, 0.2);
+      background: transparent; color: var(--soil);
+      transition: all 0.3s;
+    }
+
+    .tab.active {
+      background: linear-gradient(140deg, var(--leaf), var(--moss));
+      color: var(--white); border-color: transparent;
+    }
+
+    /* ── Admin: Manage Users ── */
+    .user-card {
+      background: rgba(247, 242, 230, 0.9);
+      border-radius: 16px; padding: 16px 20px;
+      border: 1px solid rgba(90, 70, 54, 0.08);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
+    }
+
+    .user-card .user-info { font-weight: 600; }
+    .user-card .user-role {
+      font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px;
+      padding: 4px 10px; border-radius: 999px;
+      background: rgba(47, 107, 59, 0.12); color: var(--leaf);
+    }
+
+    .user-role.admin-role { background: rgba(241, 178, 74, 0.25); color: var(--soil); }
+
+    /* ── Spinner ── */
+    .spinner {
+      display: inline-block; width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: var(--white);
+      border-radius: 50%; animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 60px; padding: 24px;
+      text-align: center; font-size: 13px; color: #8a8a7a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════ HEADER ════════ -->
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <div class="brand-mark">VF</div>
+        Vajra Farms
+      </a>
+      <div class="nav-right">
+        <span class="nav-user" id="navUser"></span>
+        <button class="btn btn-outline btn-small" id="btnLogout" style="display:none" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════ LOGIN VIEW ════════ -->
+  <div id="viewLogin" class="view active">
+    <div class="login-container">
+      <div class="login-card">
+        <h2>Staff Portal</h2>
+        <p class="subtitle">Sign in to manage milk orders.</p>
+        <div class="error-msg" id="loginError"></div>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="loginUser">Username</label>
+            <input type="text" id="loginUser" required autocomplete="username" placeholder="Enter your username" />
+          </div>
+          <div class="form-group">
+            <label for="loginPass">Password</label>
+            <input type="password" id="loginPass" required autocomplete="current-password" placeholder="Enter your password" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;" id="btnLogin">
+            Sign In
+          </button>
+        </form>
+      </div>
+      <footer>
+        <a href="index.html" style="color:var(--leaf);font-weight:600;">Back to Vajra Farms</a>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ════════ DASHBOARD VIEW ════════ -->
+  <div id="viewDashboard" class="view">
+    <div class="dashboard">
+      <h2>Milk Orders</h2>
+      <p class="subtitle" id="dashSubtitle">Submit and track customer milk orders.</p>
+
+      <!-- Tabs (admin sees both, staff sees only New Order) -->
+      <div class="tabs" id="dashTabs">
+        <button class="tab active" data-tab="newOrder" onclick="switchTab('newOrder')">New Order</button>
+        <button class="tab" data-tab="viewOrders" onclick="switchTab('viewOrders')">View Orders</button>
+        <button class="tab" data-tab="manageUsers" onclick="switchTab('manageUsers')">Manage Users</button>
+      </div>
+
+      <!-- ── New Order Tab ── -->
+      <div id="tabNewOrder" class="tab-content">
+        <div class="order-form-card">
+          <h3>New Milk Order</h3>
+          <div class="error-msg" id="orderError"></div>
+          <div class="success-msg" id="orderSuccess"></div>
+          <form id="orderForm" onsubmit="handleOrder(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="custName">Customer Name (Who Called)</label>
+                <input type="text" id="custName" required placeholder="Full name of customer" />
+              </div>
+              <div class="form-group">
+                <label for="custPhone">Customer Phone</label>
+                <input type="tel" id="custPhone" required placeholder="+91 XXXXX XXXXX" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="custAddress">Delivery Address</label>
+              <textarea id="custAddress" required placeholder="Full delivery address"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="milkQty">Quantity (Litres)</label>
+                <input type="number" id="milkQty" required min="0.5" step="0.5" placeholder="e.g. 2" />
+              </div>
+              <div class="form-group">
+                <label for="milkType">Milk Type</label>
+                <select id="milkType">
+                  <option value="Cow Milk">Cow Milk</option>
+                  <option value="Buffalo Milk">Buffalo Milk</option>
+                  <option value="Mixed">Mixed</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="deliveryDate">Delivery Date</label>
+                <input type="date" id="deliveryDate" required />
+              </div>
+              <div class="form-group">
+                <label for="deliveryTime">Preferred Time</label>
+                <select id="deliveryTime">
+                  <option value="Morning (6-9 AM)">Morning (6-9 AM)</option>
+                  <option value="Afternoon (12-3 PM)">Afternoon (12-3 PM)</option>
+                  <option value="Evening (4-7 PM)">Evening (4-7 PM)</option>
+                  <option value="Any Time">Any Time</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="frequency">Frequency</label>
+                <select id="frequency">
+                  <option value="One-time">One-time</option>
+                  <option value="Daily">Daily</option>
+                  <option value="Alternate Days">Alternate Days</option>
+                  <option value="Weekly">Weekly</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="staffName">Staff Name</label>
+                <input type="text" id="staffName" readonly />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="notes">Notes</label>
+              <textarea id="notes" placeholder="Any special instructions, allergies, gate codes, etc."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btnSubmitOrder" style="width:100%; justify-content:center;">
+              Submit Order
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ── View Orders Tab (Admin) ── -->
+      <div id="tabViewOrders" class="tab-content" style="display:none">
+        <div class="order-form-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+            <h3>All Orders</h3>
+            <button class="btn btn-outline btn-small" onclick="loadOrders()">Refresh</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Litres</th>
+                  <th>Type</th>
+                  <th>Delivery</th>
+                  <th>Time</th>
+                  <th>Frequency</th>
+                  <th>Staff</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="ordersBody">
+                <tr><td colspan="11" class="no-orders">Loading orders...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Manage Users Tab (Admin) ── -->
+      <div id="tabManageUsers" class="tab-content" style="display:none">
+        <div class="order-form-card">
+          <h3>Manage Staff Accounts</h3>
+          <p class="subtitle" style="margin-bottom:20px;">Add or remove staff logins. Changes are saved to Google Sheets.</p>
+          <div class="error-msg" id="userError"></div>
+          <div class="success-msg" id="userSuccess"></div>
+          <div id="usersList" style="margin-bottom:24px;"></div>
+          <h3 style="margin-bottom:16px;">Add New User</h3>
+          <form id="addUserForm" onsubmit="handleAddUser(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="newUsername">Username</label>
+                <input type="text" id="newUsername" required placeholder="e.g. ramesh" />
+              </div>
+              <div class="form-group">
+                <label for="newPassword">Password</label>
+                <input type="text" id="newPassword" required placeholder="Temporary password" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="newDisplayName">Display Name</label>
+                <input type="text" id="newDisplayName" required placeholder="e.g. Ramesh Kumar" />
+              </div>
+              <div class="form-group">
+                <label for="newRole">Role</label>
+                <select id="newRole">
+                  <option value="staff">Staff</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-small">Add User</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <footer>Vajra Farms Staff Portal</footer>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- ═══  JAVASCRIPT  ═══ -->
+  <!-- ════════════════════════════════════════════ -->
+  <script>
+    // ─────────────────────────────────────────────
+    // CONFIG — Replace this URL with your deployed Google Apps Script Web App URL
+    // ─────────────────────────────────────────────
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxSujrmY-n9HtktWkD_bRANktYXPzCiwmD8cDnSnDNXCn2VxAyhzQYXBDnDXowSb0Pcjg/exec";
+
+    // ─────────────────────────────────────────────
+    // STATE
+    // ─────────────────────────────────────────────
+    let currentUser = null; // { username, displayName, role }
+
+    // ─────────────────────────────────────────────
+    // VIEWS
+    // ─────────────────────────────────────────────
+    function showView(id) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function showDashboard() {
+      showView('viewDashboard');
+      document.getElementById('navUser').textContent = currentUser.displayName + ' (' + currentUser.role + ')';
+      document.getElementById('btnLogout').style.display = '';
+      document.getElementById('staffName').value = currentUser.displayName;
+
+      // Set default delivery date to tomorrow
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById('deliveryDate').value = tomorrow.toISOString().split('T')[0];
+
+      // Show/hide admin tabs
+      const isAdmin = currentUser.role === 'admin';
+      document.querySelector('[data-tab="viewOrders"]').style.display = isAdmin ? '' : 'none';
+      document.querySelector('[data-tab="manageUsers"]').style.display = isAdmin ? '' : 'none';
+
+      switchTab('newOrder');
+
+      if (isAdmin) {
+        loadOrders();
+        loadUsers();
+      }
+    }
+
+    // ─────────────────────────────────────────────
+    // TABS
+    // ─────────────────────────────────────────────
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelector('[data-tab="' + tab + '"]').classList.add('active');
+
+      document.getElementById('tabNewOrder').style.display = tab === 'newOrder' ? '' : 'none';
+      document.getElementById('tabViewOrders').style.display = tab === 'viewOrders' ? '' : 'none';
+      document.getElementById('tabManageUsers').style.display = tab === 'manageUsers' ? '' : 'none';
+
+      if (tab === 'viewOrders') loadOrders();
+      if (tab === 'manageUsers') loadUsers();
+    }
+
+    // ─────────────────────────────────────────────
+    // LOGIN
+    // ─────────────────────────────────────────────
+    async function handleLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnLogin');
+      const errEl = document.getElementById('loginError');
+      errEl.style.display = 'none';
+
+      const username = document.getElementById('loginUser').value.trim();
+      const password = document.getElementById('loginPass').value;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Signing in...';
+
+      try {
+        const res = await callScript({ action: 'login', username, password });
+        if (res.success) {
+          currentUser = { username: res.username, displayName: res.displayName, role: res.role };
+          sessionStorage.setItem('vf_user', JSON.stringify(currentUser));
+          showDashboard();
+        } else {
+          errEl.textContent = res.message || 'Invalid username or password.';
+          errEl.style.display = 'block';
+        }
+      } catch (err) {
+        errEl.textContent = 'Connection error. Please check your internet or script URL.';
+        errEl.style.display = 'block';
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    }
+
+    function logout() {
+      currentUser = null;
+      sessionStorage.removeItem('vf_user');
+      document.getElementById('navUser').textContent = '';
+      document.getElementById('btnLogout').style.display = 'none';
+      document.getElementById('loginForm').reset();
+      showView('viewLogin');
+    }
+
+    // ─────────────────────────────────────────────
+    // SUBMIT ORDER
+    // ─────────────────────────────────────────────
+    async function handleOrder(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmitOrder');
+      const errEl = document.getElementById('orderError');
+      const sucEl = document.getElementById('orderSuccess');
+      errEl.style.display = 'none';
+      sucEl.style.display = 'none';
+
+      const order = {
+        action: 'submitOrder',
+        timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+        customerName: document.getElementById('custName').value.trim(),
+        customerPhone: document.getElementById('custPhone').value.trim(),
+        customerAddress: document.getElementById('custAddress').value.trim(),
+        quantity: document.getElementById('milkQty').value,
+        milkType: document.getElementById('milkType').value,
+        deliveryDate: document.getElementById('deliveryDate').value,
+        deliveryTime: document.getElementById('deliveryTime').value,
+        frequency: document.getElementById('frequency').value,
+        staffName: currentUser.displayName,
+        staffUsername: currentUser.username,
+        notes: document.getElementById('notes').value.trim()
+      };
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Submitting...';
+
+      try {
+        const res = await callScript(order);
+        if (res.success) {
+          sucEl.textContent = 'Order submitted successfully!';
+          sucEl.style.display = 'block';
+          document.getElementById('orderForm').reset();
+          document.getElementById('staffName').value = currentUser.displayName;
+          // Reset delivery date to tomorrow
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          document.getElementById('deliveryDate').value = tomorrow.toISOString().split('T')[0];
+        } else {
+          errEl.textContent = res.message || 'Failed to submit order.';
+          errEl.style.display = 'block';
+        }
+      } catch (err) {
+        errEl.textContent = 'Connection error. Please try again.';
+        errEl.style.display = 'block';
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Submit Order';
+      }
+    }
+
+    // ─────────────────────────────────────────────
+    // LOAD ORDERS (Admin)
+    // ─────────────────────────────────────────────
+    async function loadOrders() {
+      const tbody = document.getElementById('ordersBody');
+      tbody.innerHTML = '<tr><td colspan="11" class="no-orders">Loading orders...</td></tr>';
+
+      try {
+        const res = await callScript({ action: 'getOrders' });
+        if (res.success && res.orders && res.orders.length > 0) {
+          tbody.innerHTML = res.orders.map(o => `
+            <tr>
+              <td>${escapeHtml(o.timestamp || '')}</td>
+              <td>${escapeHtml(o.customerName || '')}</td>
+              <td>${escapeHtml(o.customerPhone || '')}</td>
+              <td>${escapeHtml(o.customerAddress || '')}</td>
+              <td>${escapeHtml(o.quantity || '')}</td>
+              <td>${escapeHtml(o.milkType || '')}</td>
+              <td>${escapeHtml(o.deliveryDate || '')}</td>
+              <td>${escapeHtml(o.deliveryTime || '')}</td>
+              <td>${escapeHtml(o.frequency || '')}</td>
+              <td>${escapeHtml(o.staffName || '')}</td>
+              <td>${escapeHtml(o.notes || '')}</td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = '<tr><td colspan="11" class="no-orders">No orders yet.</td></tr>';
+        }
+      } catch (err) {
+        tbody.innerHTML = '<tr><td colspan="11" class="no-orders">Error loading orders.</td></tr>';
+        console.error(err);
+      }
+    }
+
+    // ─────────────────────────────────────────────
+    // MANAGE USERS (Admin)
+    // ─────────────────────────────────────────────
+    async function loadUsers() {
+      const container = document.getElementById('usersList');
+      container.innerHTML = '<p style="color:#4a5347;">Loading users...</p>';
+
+      try {
+        const res = await callScript({ action: 'getUsers' });
+        if (res.success && res.users && res.users.length > 0) {
+          container.innerHTML = res.users.map(u => `
+            <div class="user-card">
+              <div>
+                <span class="user-info">${escapeHtml(u.displayName)}</span>
+                <span style="color:#8a8a7a;font-size:13px;margin-left:8px;">@${escapeHtml(u.username)}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="user-role ${u.role === 'admin' ? 'admin-role' : ''}">${escapeHtml(u.role)}</span>
+                ${u.username !== 'admin' ? `<button class="btn btn-danger btn-small" onclick="deleteUser('${escapeHtml(u.username)}')">Remove</button>` : ''}
+              </div>
+            </div>
+          `).join('');
+        } else {
+          container.innerHTML = '<p style="color:#4a5347;">No users found.</p>';
+        }
+      } catch (err) {
+        container.innerHTML = '<p style="color:var(--danger);">Error loading users.</p>';
+        console.error(err);
+      }
+    }
+
+    async function handleAddUser(e) {
+      e.preventDefault();
+      const errEl = document.getElementById('userError');
+      const sucEl = document.getElementById('userSuccess');
+      errEl.style.display = 'none';
+      sucEl.style.display = 'none';
+
+      const data = {
+        action: 'addUser',
+        username: document.getElementById('newUsername').value.trim().toLowerCase(),
+        password: document.getElementById('newPassword').value,
+        displayName: document.getElementById('newDisplayName').value.trim(),
+        role: document.getElementById('newRole').value
+      };
+
+      try {
+        const res = await callScript(data);
+        if (res.success) {
+          sucEl.textContent = 'User added successfully!';
+          sucEl.style.display = 'block';
+          document.getElementById('addUserForm').reset();
+          loadUsers();
+        } else {
+          errEl.textContent = res.message || 'Failed to add user.';
+          errEl.style.display = 'block';
+        }
+      } catch (err) {
+        errEl.textContent = 'Connection error.';
+        errEl.style.display = 'block';
+      }
+    }
+
+    async function deleteUser(username) {
+      if (!confirm('Remove user "' + username + '"? This cannot be undone.')) return;
+      try {
+        const res = await callScript({ action: 'deleteUser', username });
+        if (res.success) loadUsers();
+        else alert(res.message || 'Failed to remove user.');
+      } catch (err) {
+        alert('Connection error.');
+      }
+    }
+
+    // ─────────────────────────────────────────────
+    // API HELPER
+    // ─────────────────────────────────────────────
+    async function callScript(data) {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data)
+      });
+      return await response.json();
+    }
+
+    // ─────────────────────────────────────────────
+    // UTILS
+    // ─────────────────────────────────────────────
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ─────────────────────────────────────────────
+    // INIT — restore session
+    // ─────────────────────────────────────────────
+    (function init() {
+      const saved = sessionStorage.getItem('vf_user');
+      if (saved) {
+        try {
+          currentUser = JSON.parse(saved);
+          showDashboard();
+        } catch (e) {
+          sessionStorage.removeItem('vf_user');
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
