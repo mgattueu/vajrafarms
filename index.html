@@ -3,646 +3,548 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vajra Farms | Organic Farming, Dairy, and By-products</title>
-  <meta name="description" content="Vajra Farms supplies organic produce, dairy, and by-products for wholesale buyers and direct customers in Khammam and beyond." />
+  <title>Vajra Farms | Naturally Pure, Traditionally Strong</title>
+  <meta name="description" content="Vajra Farms delivers fresh buffalo & cow milk daily to your doorstep in Khammam. Organic farming, dairy, and natural by-products." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@300;400;500;600;700&display=swap");
-
     :root {
-      --ink: #1f241e;
-      --leaf: #2f6b3b;
-      --moss: #4f8a5a;
-      --soil: #5a4636;
-      --cream: #f7f2e6;
-      --sun: #f1b24a;
-      --sky: #7db7d9;
-      --berry: #e4697b;
-      --mist: #d8e2d6;
+      --forest: #1a3c24;
+      --leaf: #2d7a3f;
+      --sage: #5b9a6a;
+      --mint: #a8d5b8;
+      --cream: #faf6ee;
+      --warm: #f5eed8;
+      --gold: #d4a843;
+      --earth: #8b6f47;
+      --bark: #4a3728;
+      --ink: #1a1f1a;
+      --muted: #6b7c6e;
       --white: #ffffff;
-      --shadow: 0 30px 60px rgba(31, 36, 30, 0.18);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
-      font-family: "Manrope", "Segoe UI", sans-serif;
+      font-family: "Inter", -apple-system, sans-serif;
       color: var(--ink);
-      background: radial-gradient(circle at top left, #ffffff, #f7f0df);
-      line-height: 1.6;
+      background: var(--cream);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ═══ NAVBAR ═══ */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250, 246, 238, .85);
+      backdrop-filter: blur(20px) saturate(1.2);
+      border-bottom: 1px solid rgba(26, 60, 36, .06);
+    }
+    .navbar-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; }
+    .logo-text { font-family: "DM Serif Display", serif; font-size: 1.25rem; color: var(--forest); }
+    .nav-menu { display: flex; align-items: center; gap: 28px; }
+    .nav-menu a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color .2s; }
+    .nav-menu a:hover { color: var(--forest); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 24px; border-radius: 100px;
+      font-family: inherit; font-size: 14px; font-weight: 600;
+      cursor: pointer; border: none; transition: all .25s ease;
+    }
+    .btn-primary { background: var(--forest); color: var(--white); }
+    .btn-primary:hover { background: var(--leaf); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(26, 60, 36, .2); }
+    .btn-outline { background: transparent; border: 1.5px solid rgba(26, 60, 36, .2); color: var(--forest); }
+    .btn-outline:hover { border-color: var(--forest); background: rgba(26, 60, 36, .04); }
+    .btn-gold { background: var(--gold); color: var(--white); }
+    .btn-gold:hover { background: #c09a35; }
+    .btn-white { background: var(--white); color: var(--forest); }
+    .btn-white:hover { background: var(--cream); }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+    .hamburger svg { width: 24px; height: 24px; stroke: var(--forest); }
+
+    @media (max-width: 768px) {
+      .nav-menu { display: none; }
+      .hamburger { display: block; }
     }
 
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .page {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .orb {
-      position: absolute;
-      border-radius: 999px;
-      filter: blur(6px);
-      opacity: 0.55;
-      z-index: 0;
-    }
-
-    .orb.one {
-      width: 420px;
-      height: 420px;
-      background: radial-gradient(circle at 30% 30%, #d8f2e0, #9fceaf);
-      top: -180px;
-      right: -120px;
-    }
-
-    .orb.two {
-      width: 520px;
-      height: 520px;
-      background: radial-gradient(circle at 30% 30%, #ffe7b3, #f3b86e);
-      bottom: -220px;
-      left: -180px;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: blur(12px);
-      background: rgba(247, 242, 230, 0.9);
-      border-bottom: 1px solid rgba(90, 70, 54, 0.12);
-    }
-
-    .nav {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 18px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      font-family: "Fraunces", "Times New Roman", serif;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .brand-logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 600;
-    }
-
-    .nav-links a {
-      padding: 6px 0;
-      border-bottom: 2px solid transparent;
-      transition: border-color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      border-color: var(--leaf);
-    }
-
-    .cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 22px;
-      border-radius: 999px;
-      background: linear-gradient(140deg, var(--leaf), var(--moss));
-      color: var(--white);
-      font-weight: 600;
-      box-shadow: 0 12px 24px rgba(58, 90, 64, 0.25);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 30px rgba(58, 90, 64, 0.3);
-    }
-
+    /* ═══ HERO ═══ */
     .hero {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 80px 24px 40px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 48px;
-      position: relative;
-      z-index: 1;
+      position: relative; overflow: hidden;
+      background: linear-gradient(165deg, #e8f0e4 0%, var(--cream) 40%, #fef9ed 100%);
     }
-
+    .hero::before {
+      content: ''; position: absolute; top: -40%; right: -20%;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 213, 184, .3), transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -30%; left: -15%;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(212, 168, 67, .15), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 80px 24px 60px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 100px;
+      background: rgba(45, 122, 63, .08); color: var(--leaf);
+      font-size: 13px; font-weight: 600; letter-spacing: .5px;
+      margin-bottom: 20px;
+    }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--leaf); }
     .hero h1 {
-      font-family: "Fraunces", "Times New Roman", serif;
-      font-size: clamp(2.6rem, 4vw, 4rem);
-      line-height: 1.05;
-      margin: 0 0 18px;
-      color: var(--ink);
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      line-height: 1.1; color: var(--forest);
+      margin-bottom: 20px;
     }
-
-    .hero p {
-      font-size: 1.1rem;
-      margin: 0 0 24px;
-      color: #3e473d;
+    .hero h1 em { font-style: normal; color: var(--leaf); }
+    .hero-desc { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 480px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-visual {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
     }
-
-    .hero-actions {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+    .hero-stat {
+      background: var(--white); border-radius: 20px; padding: 24px;
+      border: 1px solid rgba(26, 60, 36, .06);
+      box-shadow: 0 12px 40px rgba(26, 60, 36, .06);
+      transition: transform .3s;
     }
-
-    .cta-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 22px;
-      border-radius: 999px;
-      border: 1px solid rgba(58, 90, 64, 0.55);
-      color: var(--leaf);
-      font-weight: 600;
+    .hero-stat:hover { transform: translateY(-4px); }
+    .hero-stat:nth-child(2) { margin-top: 30px; }
+    .hero-stat:nth-child(3) { margin-top: -15px; }
+    .hero-stat-icon {
+      width: 44px; height: 44px; border-radius: 14px;
+      display: grid; place-items: center; font-size: 22px;
+      margin-bottom: 12px;
     }
-
-    .hero-card {
-      background: linear-gradient(160deg, #ffffff, #f7f1e2);
-      border-radius: 28px;
-      padding: 30px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(90, 70, 54, 0.08);
-    }
-
-    .hero-card h3 {
-      font-family: "Fraunces", "Times New Roman", serif;
-      margin: 0 0 18px;
-      font-size: 1.4rem;
-    }
-
-    .hero-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .pill {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      border-radius: 16px;
-      background: rgba(247, 242, 230, 0.9);
-      border: 1px solid rgba(90, 70, 54, 0.08);
-      font-weight: 600;
-    }
-
-    .icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: rgba(58, 90, 64, 0.12);
-      display: grid;
-      place-items: center;
-      color: var(--leaf);
-      font-weight: 700;
-    }
-
-    .section {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 60px 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .section-title h2 {
-      font-family: "Fraunces", "Times New Roman", serif;
-      font-size: clamp(2rem, 3vw, 2.8rem);
-      margin: 0;
-    }
-
-    .section-title p {
-      margin: 0;
-      max-width: 520px;
-      color: #4a5347;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 22px;
-    }
-
-    .card {
-      background: linear-gradient(180deg, #ffffff, #fdf7ec);
-      border-radius: 24px;
-      padding: 24px;
-      border: 1px solid rgba(90, 70, 54, 0.08);
-      box-shadow: 0 20px 40px rgba(31, 36, 30, 0.08);
-      display: grid;
-      gap: 12px;
-    }
-
-    .card h3 {
-      margin: 0;
-      font-family: "Fraunces", "Times New Roman", serif;
-      font-size: 1.35rem;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(241, 178, 74, 0.25);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--soil);
-    }
-
-    .story {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 28px;
-      align-items: center;
-    }
-
-    .story-panel {
-      background: linear-gradient(140deg, #ffffff, #f7f1e2);
-      border-radius: 28px;
-      padding: 32px;
-      border: 1px solid rgba(90, 70, 54, 0.08);
-      box-shadow: var(--shadow);
-    }
-
-    .story-panel ul {
-      padding-left: 18px;
-      margin: 16px 0 0;
-    }
-
-    .stats {
-      display: grid;
-      gap: 16px;
-    }
-
-    .stat {
-      padding: 18px 22px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #dfeadf, #c5d9c8);
-      font-weight: 600;
-    }
-
-    .split {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 22px;
-    }
-
-    .cta-banner {
-      background: linear-gradient(135deg, #2f6b3b, #1f4a2b, #5a8a4a);
-      color: var(--white);
-      border-radius: 32px;
-      padding: 36px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
-      align-items: center;
-      box-shadow: var(--shadow);
-    }
-
-    .cta-banner h3 {
-      font-family: "Fraunces", "Times New Roman", serif;
-      font-size: 2rem;
-      margin: 0 0 12px;
-    }
-
-    .cta-banner p {
-      margin: 0;
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .partners {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 22px;
-    }
-
-    .partner-card {
-      background: linear-gradient(150deg, #ffffff, #fdf1e1);
-      border-radius: 24px;
-      padding: 24px;
-      border: 1px solid rgba(90, 70, 54, 0.08);
-      box-shadow: 0 20px 40px rgba(31, 36, 30, 0.08);
-      display: grid;
-      gap: 12px;
-    }
-
-    .partner-avatar {
-      width: 54px;
-      height: 54px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, var(--sun), var(--berry));
-      color: var(--white);
-      font-weight: 700;
-      display: grid;
-      place-items: center;
-      font-size: 18px;
-    }
-
-    footer {
-      padding: 40px 24px 60px;
-      background: #1c221d;
-      color: rgba(255, 255, 255, 0.75);
-    }
-
-    .footer-grid {
-      max-width: 1160px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 30px;
-    }
-
-    .footer-grid h4 {
-      color: var(--white);
-      margin: 0 0 12px;
-      font-family: "Fraunces", "Times New Roman", serif;
-    }
-
-    .footer-grid a {
-      color: rgba(255, 255, 255, 0.75);
-      display: inline-block;
-      margin-bottom: 8px;
-    }
-
-    .reveal {
-      animation: reveal 0.8s ease both;
-    }
-
-    .delay-1 {
-      animation-delay: 0.1s;
-    }
-
-    .delay-2 {
-      animation-delay: 0.2s;
-    }
-
-    .delay-3 {
-      animation-delay: 0.3s;
-    }
-
-    @keyframes reveal {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    .hero-stat-icon.green { background: rgba(45, 122, 63, .1); }
+    .hero-stat-icon.gold { background: rgba(212, 168, 67, .15); }
+    .hero-stat-icon.earth { background: rgba(139, 111, 71, .1); }
+    .hero-stat-icon.mint { background: rgba(168, 213, 184, .25); }
+    .hero-stat h4 { font-size: .85rem; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+    .hero-stat p { font-family: "DM Serif Display", serif; font-size: 1.1rem; color: var(--forest); }
 
     @media (max-width: 900px) {
-      .nav-links {
-        display: none;
-      }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { max-width: 400px; }
     }
 
+    /* ═══ TRUST BAR ═══ */
+    .trust-bar {
+      background: var(--forest); color: var(--white); overflow: hidden;
+    }
+    .trust-bar-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 18px 24px;
+      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+      font-size: 14px; font-weight: 500; opacity: .85;
+    }
+    .trust-bar-inner span::before {
+      content: ''; display: inline-block;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--gold); margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    /* ═══ SECTIONS ═══ */
+    .section { max-width: 1200px; margin: 0 auto; padding: 80px 24px; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--leaf); margin-bottom: 12px;
+    }
+    .section-label::before {
+      content: ''; width: 24px; height: 2px; background: var(--leaf); border-radius: 2px;
+    }
+    .section h2 {
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      color: var(--forest); margin-bottom: 16px;
+    }
+    .section-desc { color: var(--muted); max-width: 560px; margin-bottom: 40px; font-size: 1.05rem; }
+
+    /* ═══ OFFERINGS ═══ */
+    .offerings-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;
+    }
+    .offer-card {
+      background: var(--white); border-radius: 24px; padding: 28px;
+      border: 1px solid rgba(26, 60, 36, .06);
+      box-shadow: 0 8px 30px rgba(26, 60, 36, .04);
+      transition: all .3s; position: relative; overflow: hidden;
+    }
+    .offer-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--leaf), var(--sage));
+      opacity: 0; transition: opacity .3s;
+    }
+    .offer-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(26, 60, 36, .1); }
+    .offer-card:hover::after { opacity: 1; }
+    .offer-icon {
+      width: 50px; height: 50px; border-radius: 16px;
+      background: rgba(45, 122, 63, .08);
+      display: grid; place-items: center; font-size: 24px;
+      margin-bottom: 18px;
+    }
+    .offer-card h3 {
+      font-family: "DM Serif Display", serif;
+      font-size: 1.25rem; color: var(--forest); margin-bottom: 8px;
+    }
+    .offer-card p { color: var(--muted); font-size: .95rem; }
+
+    /* ═══ METHOD ═══ */
+    .method-bg {
+      background: linear-gradient(175deg, var(--forest) 0%, #234d30 100%);
+      border-radius: 32px; padding: 60px 40px;
+      color: var(--white); margin: 0 24px;
+      max-width: 1152px;
+      margin-left: auto; margin-right: auto;
+    }
+    .method-bg .section-label { color: var(--mint); }
+    .method-bg .section-label::before { background: var(--mint); }
+    .method-bg h2 { color: var(--white); }
+    .method-bg .section-desc { color: rgba(255,255,255,.7); }
+    .method-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;
+    }
+    .method-card {
+      background: rgba(255, 255, 255, .08); border-radius: 20px; padding: 24px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      backdrop-filter: blur(4px);
+    }
+    .method-card h4 { font-family: "DM Serif Display", serif; font-size: 1.1rem; margin-bottom: 8px; }
+    .method-card p { color: rgba(255, 255, 255, .65); font-size: .9rem; }
+    .method-num {
+      font-family: "DM Serif Display", serif; font-size: 2rem;
+      color: var(--gold); line-height: 1; margin-bottom: 12px;
+    }
+
+    @media (max-width: 600px) { .method-bg { margin: 0 12px; padding: 40px 20px; border-radius: 24px; } }
+
+    /* ═══ IMPACT ═══ */
+    .impact-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+    }
+    .impact-card {
+      background: var(--white); border-radius: 24px; padding: 32px;
+      border: 1px solid rgba(26, 60, 36, .06);
+      box-shadow: 0 8px 30px rgba(26, 60, 36, .04);
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .impact-emoji { font-size: 2rem; }
+    .impact-card h3 { font-family: "DM Serif Display", serif; font-size: 1.2rem; color: var(--forest); }
+    .impact-card p { color: var(--muted); font-size: .95rem; }
+
+    /* ═══ PARTNERS ═══ */
+    .partners-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+    }
+    .partner-card {
+      background: var(--white); border-radius: 24px; padding: 32px;
+      border: 1px solid rgba(26, 60, 36, .06);
+      box-shadow: 0 8px 30px rgba(26, 60, 36, .04);
+      display: flex; gap: 20px; align-items: flex-start;
+    }
+    .partner-avatar {
+      width: 56px; height: 56px; border-radius: 18px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--gold), #e8c060);
+      color: var(--white); font-weight: 700; font-size: 18px;
+      display: grid; place-items: center;
+    }
+    .partner-info h3 { font-family: "DM Serif Display", serif; font-size: 1.15rem; color: var(--forest); }
+    .partner-role { font-size: 13px; font-weight: 600; color: var(--leaf); margin-bottom: 4px; }
+    .partner-info p { color: var(--muted); font-size: .9rem; }
+
+    /* ═══ CTA SECTION ═══ */
+    .cta-section {
+      background: linear-gradient(135deg, #f5eed8 0%, #e8f0e4 100%);
+      border-radius: 32px; padding: 60px 40px;
+      text-align: center;
+      max-width: 1152px; margin: 0 auto;
+    }
+    .cta-section h2 { font-family: "DM Serif Display", serif; font-size: clamp(1.6rem, 3vw, 2.4rem); color: var(--forest); margin-bottom: 12px; }
+    .cta-section p { color: var(--muted); margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .cta-phones { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 600px) { .cta-section { margin: 0 12px; padding: 40px 20px; border-radius: 24px; } }
+
+    /* ═══ FOOTER ═══ */
+    footer { background: var(--forest); color: rgba(255, 255, 255, .7); margin-top: 80px; }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto; padding: 60px 24px 40px;
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+    }
+    .footer-brand { font-family: "DM Serif Display", serif; font-size: 1.4rem; color: var(--white); margin-bottom: 12px; }
+    .footer-tagline { font-size: .95rem; line-height: 1.6; }
+    footer h4 { color: var(--white); font-size: .85rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
+    footer a { color: rgba(255, 255, 255, .7); display: block; padding: 4px 0; font-size: .95rem; transition: color .2s; }
+    footer a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1200px; margin: 0 auto; padding: 20px 24px;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      font-size: 13px; text-align: center; color: rgba(255, 255, 255, .4);
+    }
+
+    @media (max-width: 768px) {
+      .footer-inner { grid-template-columns: 1fr; gap: 30px; }
+    }
+
+    /* ═══ ANIMATIONS ═══ */
+    .fade-up {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: .1s; }
+    .delay-2 { transition-delay: .2s; }
+    .delay-3 { transition-delay: .25s; }
+    .delay-4 { transition-delay: .3s; }
+
     @media (prefers-reduced-motion: reduce) {
-      .reveal {
-        animation: none;
-      }
+      .fade-up { opacity: 1; transform: none; transition: none; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="orb one"></div>
-    <div class="orb two"></div>
 
-    <header>
-      <div class="nav">
-        <div class="brand">
-          <img src="logo.png" alt="Vajra Farms" class="brand-logo" />
-          Vajra Farms
-        </div>
-        <nav class="nav-links">
-          <a href="#offerings">Offerings</a>
-          <a href="#method">Method</a>
-          <a href="#impact">Impact</a>
-          <a href="#partners">Partners</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <a class="cta" href="portal.html">Staff Portal</a>
-      </div>
-    </header>
-
-    <section class="hero">
-      <div class="reveal">
-        <span class="tag">Organic Farming + Dairy + By-products</span>
-        <h1>Regenerative farms. Vibrant, honest supply.</h1>
-        <p>
-          Vajra Farms grows organic produce, crafts clean dairy, and transforms farm by-products
-          into purposeful goods. We serve wholesale buyers and direct customers with reliable,
-          transparent sourcing across Khammam and nearby regions.
-        </p>
-        <div class="hero-actions">
-          <a class="cta" href="#contact">Request availability</a>
-          <a class="cta-outline" href="#offerings">Explore our lines</a>
-        </div>
-      </div>
-      <div class="hero-card reveal delay-1">
-        <h3>What we deliver</h3>
-        <div class="hero-grid">
-          <div class="pill">
-            <div class="icon">01</div>
-            Fresh organic vegetables and grains
-          </div>
-          <div class="pill">
-            <div class="icon">02</div>
-            Dairy from pasture-raised cattle
-          </div>
-          <div class="pill">
-            <div class="icon">03</div>
-            By-products: compost, ghee, cold-pressed oils
-          </div>
-          <div class="pill">
-            <div class="icon">04</div>
-            Wholesale + direct delivery programs
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="offerings" class="section">
-      <div class="section-title reveal">
-        <h2>Organic, dairy, and by-products.</h2>
-        <p>
-          A curated portfolio built for wholesale supply and direct customers. We focus on
-          quality first, then scale through partner farms.
-        </p>
-      </div>
-      <div class="grid">
-        <article class="card reveal delay-1">
-          <span class="tag">Organic produce</span>
-          <h3>Seasonal harvests</h3>
-          <p>Leafy greens, vegetables, grains, and herbs with traceability from field to market.</p>
-        </article>
-        <article class="card reveal delay-2">
-          <span class="tag">Dairy</span>
-          <h3>Clean dairy lines</h3>
-          <p>Fresh milk, curd, and ghee produced with animal welfare and no additives.</p>
-        </article>
-        <article class="card reveal delay-3">
-          <span class="tag">By-products</span>
-          <h3>Full-farm utilization</h3>
-          <p>Compost, cold-pressed oils, and natural inputs built to reduce waste.</p>
-        </article>
-        <article class="card reveal delay-3">
-          <span class="tag">Wholesale + direct</span>
-          <h3>Two ways to buy</h3>
-          <p>Bulk supply for businesses and curated packs for home customers.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="method" class="section">
-      <div class="story">
-        <div class="story-panel reveal">
-          <h2>Our method is measurable.</h2>
-          <p>
-            We combine soil-first practices with rigorous partner standards so every delivery
-            stays consistent. Our goal is to build trust through clean inputs and honest data.
-          </p>
-          <ul>
-            <li>Regenerative soil health and biodiversity.</li>
-            <li>Water stewardship with responsible irrigation.</li>
-            <li>Cold-chain aware logistics for freshness.</li>
-            <li>Regular audits for contracted growers.</li>
-          </ul>
-        </div>
-        <div class="stats reveal delay-1">
-          <div class="stat">Traceability on every batch for partner supply.</div>
-          <div class="stat">Multi-farm network to protect against season risks.</div>
-          <div class="stat">Transparent documentation for retailers and exports.</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="impact" class="section">
-      <div class="section-title reveal">
-        <h2>Local impact, trusted partnerships.</h2>
-        <p>
-          We are building a dependable farm ecosystem with local growers, businesses, and
-          community markets. Long-term contracts improve farmer income and supply stability.
-        </p>
-      </div>
-      <div class="split">
-        <div class="card reveal delay-1">
-          <h3>For households</h3>
-          <p>Fresh subscription boxes and direct pickup programs (launching soon).</p>
-        </div>
-        <div class="card reveal delay-2">
-          <h3>For wholesale</h3>
-          <p>Reliable weekly delivery, batch tracking, and custom packing for businesses.</p>
-        </div>
-        <div class="card reveal delay-3">
-          <h3>For brands</h3>
-          <p>Ingredient supply with documentation and lab testing support.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="partners" class="section">
-      <div class="section-title reveal">
-        <h2>Partners who lead with care.</h2>
-        <p>
-          Vajra Farms is led by a focused partnership committed to quality, transparency,
-          and long-term farmer relationships.
-        </p>
-      </div>
-      <div class="partners">
-        <article class="partner-card reveal delay-1">
-          <div class="partner-avatar">SB</div>
-          <h3>Swetha Balasani</h3>
-          <p>Managing Partner</p>
-          <p>Operations, quality standards, and grower relationships.</p>
-        </article>
-        <article class="partner-card reveal delay-2">
-          <div class="partner-avatar">MA</div>
-          <h3>Margana Anusha</h3>
-          <p>Partner</p>
-          <p>Distribution, business partnerships, and market expansion.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="cta-banner reveal">
-        <div>
-          <h3>Start with the essentials. Grow from there.</h3>
-          <p>
-            Tell us what you need and we will confirm availability, pricing, and delivery options.
-          </p>
-        </div>
-        <div>
-          <a class="cta" href="tel:9652174999">Book Now: 96521 74999</a>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <div class="footer-grid">
-        <div>
-          <h4>Vajra Farms</h4>
-          <p>Organic farming, dairy, and natural by-products from a trusted partner network.</p>
-        </div>
-        <div>
-          <h4>Visit</h4>
-          <p>Khammam, India</p>
-          <p>Mon - Sat: 7:00am - 6:00pm</p>
-        </div>
-        <div>
-          <h4>Connect</h4>
-          <a href="tel:9652174999">96521 74999</a><br />
-          <a href="tel:9652217999">96522 17999</a>
-        </div>
-      </div>
-    </footer>
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="#" class="logo">
+      <img src="logo.png" alt="Vajra Farms" />
+      <span class="logo-text">Vajra Farms</span>
+    </a>
+    <div class="nav-menu">
+      <a href="#offerings">Offerings</a>
+      <a href="#method">Our Method</a>
+      <a href="#impact">Impact</a>
+      <a href="#partners">Team</a>
+      <a href="#contact">Contact</a>
+      <a href="portal.html" class="btn btn-primary">Staff Portal</a>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.nav-menu').style.display=document.querySelector('.nav-menu').style.display==='flex'?'none':'flex'" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
   </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">Fresh Daily Milk Delivery in Khammam</div>
+      <h1>Naturally Pure.<br/><em>Traditionally Strong.</em></h1>
+      <p class="hero-desc">
+        Vajra Farms delivers fresh buffalo and cow milk straight from our farm to your doorstep every morning.
+        Pure milk, no additives — just the way nature intended.
+      </p>
+      <div class="hero-actions">
+        <a href="tel:9652174999" class="btn btn-primary">Book Now: 96521 74999</a>
+        <a href="#offerings" class="btn btn-outline">What We Offer</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-stat fade-up">
+        <div class="hero-stat-icon green">&#x1F33F;</div>
+        <h4>Fresh Daily</h4>
+        <p>Farm to door every morning</p>
+      </div>
+      <div class="hero-stat fade-up delay-1">
+        <div class="hero-stat-icon gold">&#x1F404;</div>
+        <h4>Buffalo &amp; Cow</h4>
+        <p>Pasture-raised, no additives</p>
+      </div>
+      <div class="hero-stat fade-up delay-2">
+        <div class="hero-stat-icon earth">&#x1F30D;</div>
+        <h4>Organic Farming</h4>
+        <p>Regenerative soil practices</p>
+      </div>
+      <div class="hero-stat fade-up delay-3">
+        <div class="hero-stat-icon mint">&#x1F69A;</div>
+        <h4>6 Delivery Zones</h4>
+        <p>All across Khammam town</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRUST BAR ═══ -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <span>Naturally Pure Milk</span>
+    <span>No Preservatives</span>
+    <span>Daily Doorstep Delivery</span>
+    <span>Trial Available</span>
+    <span>Khammam &amp; Nearby</span>
+  </div>
+</div>
+
+<!-- ═══ OFFERINGS ═══ -->
+<section id="offerings" class="section">
+  <div class="section-label">What We Offer</div>
+  <h2 class="fade-up">Fresh dairy, organic produce, and more.</h2>
+  <p class="section-desc fade-up">From our farm to your family — clean dairy, seasonal harvests, and natural by-products you can trust.</p>
+  <div class="offerings-grid">
+    <article class="offer-card fade-up">
+      <div class="offer-icon">&#x1F95B;</div>
+      <h3>Fresh Milk Delivery</h3>
+      <p>Pure buffalo and cow milk delivered to your doorstep every morning. Start with a 3-day trial.</p>
+    </article>
+    <article class="offer-card fade-up delay-1">
+      <div class="offer-icon">&#x1F331;</div>
+      <h3>Organic Produce</h3>
+      <p>Seasonal vegetables, grains, and herbs grown with regenerative farming — traceable from field to table.</p>
+    </article>
+    <article class="offer-card fade-up delay-2">
+      <div class="offer-icon">&#x1F9C8;</div>
+      <h3>Ghee &amp; Curd</h3>
+      <p>Hand-churned ghee, fresh curd, and buttermilk made with traditional methods and zero additives.</p>
+    </article>
+    <article class="offer-card fade-up delay-3">
+      <div class="offer-icon">&#x1F33E;</div>
+      <h3>Farm By-products</h3>
+      <p>Compost, cold-pressed oils, and natural inputs — turning every part of the farm into something useful.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ METHOD ═══ -->
+<section id="method" style="padding: 80px 0;">
+  <div class="method-bg fade-up">
+    <div class="section-label">Our Method</div>
+    <h2>Quality you can measure.</h2>
+    <p class="section-desc">We combine traditional farming wisdom with modern quality standards so every delivery stays consistent.</p>
+    <div class="method-grid">
+      <div class="method-card">
+        <div class="method-num">01</div>
+        <h4>Soil-First Farming</h4>
+        <p>Regenerative practices that build soil health and biodiversity season after season.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-num">02</div>
+        <h4>Animal Welfare</h4>
+        <p>Pasture-raised cattle with natural feed, proper care, and no growth hormones.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-num">03</div>
+        <h4>Cold-Chain Fresh</h4>
+        <p>Temperature-aware handling from milking to delivery keeps everything at peak freshness.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-num">04</div>
+        <h4>Daily Accountability</h4>
+        <p>Transparent operations, regular quality checks, and traceability on every batch we deliver.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ IMPACT ═══ -->
+<section id="impact" class="section">
+  <div class="section-label">Who We Serve</div>
+  <h2 class="fade-up">Built for families, businesses, and brands.</h2>
+  <p class="section-desc fade-up">Whether you need milk for your morning coffee or bulk supply for your business — we have you covered.</p>
+  <div class="impact-grid">
+    <article class="impact-card fade-up">
+      <div class="impact-emoji">&#x1F3E0;</div>
+      <h3>For Households</h3>
+      <p>Daily milk delivery right to your door. Start with a free 3-day trial to taste the difference. Subscription plans available.</p>
+    </article>
+    <article class="impact-card fade-up delay-1">
+      <div class="impact-emoji">&#x1F3EA;</div>
+      <h3>For Businesses</h3>
+      <p>Reliable bulk supply for hotels, restaurants, sweet shops, and cafes. Weekly delivery with batch tracking.</p>
+    </article>
+    <article class="impact-card fade-up delay-2">
+      <div class="impact-emoji">&#x1F3F7;&#xFE0F;</div>
+      <h3>For Brands</h3>
+      <p>White-label dairy ingredients with documentation and lab testing support for your product lines.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ PARTNERS ═══ -->
+<section id="partners" class="section">
+  <div class="section-label">Our Team</div>
+  <h2 class="fade-up">People who lead with care.</h2>
+  <p class="section-desc fade-up">Vajra Farms is built on a partnership committed to quality, transparency, and long-term farmer relationships.</p>
+  <div class="partners-grid">
+    <article class="partner-card fade-up">
+      <div class="partner-avatar">SB</div>
+      <div class="partner-info">
+        <h3>Swetha Balasani</h3>
+        <div class="partner-role">Managing Partner</div>
+        <p>Operations, quality standards, and grower relationships across our farm network.</p>
+      </div>
+    </article>
+    <article class="partner-card fade-up delay-1">
+      <div class="partner-avatar">MA</div>
+      <div class="partner-info">
+        <h3>Margana Anusha</h3>
+        <div class="partner-role">Partner</div>
+        <p>Distribution, business development, and market expansion across Khammam region.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section id="contact" style="padding: 0 24px 80px;">
+  <div class="cta-section fade-up">
+    <div class="section-label" style="justify-content:center">Get Started</div>
+    <h2>Try our milk for 3 days. Free.</h2>
+    <p>Call us to book your trial delivery slot. Only 300 slots available at Rs.90/L. Don't miss out on the taste of purity.</p>
+    <div class="cta-phones">
+      <a href="tel:9652174999" class="btn btn-primary">96521 74999</a>
+      <a href="tel:9652217999" class="btn btn-outline">96522 17999</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Vajra Farms</div>
+      <p class="footer-tagline">Naturally pure, traditionally strong. Organic farming, fresh dairy, and natural by-products delivered daily from our farm in Khammam.</p>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <a>Khammam, Telangana, India</a>
+      <a>Mon - Sat: 6:00 AM - 6:00 PM</a>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <a href="tel:9652174999">96521 74999</a>
+      <a href="tel:9652217999">96522 17999</a>
+      <a href="https://www.instagram.com/vajra_farms_khammam" target="_blank" rel="noopener">@vajra_farms_khammam</a>
+    </div>
+  </div>
+  <div class="footer-bottom">Vajra Farms &copy; 2026. All rights reserved.</div>
+</footer>
+
+<!-- ═══ SCROLL ANIMATIONS ═══ -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
