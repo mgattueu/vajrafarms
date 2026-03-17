@@ -84,7 +84,14 @@ function seedDefaults() {
   var aSheet = getAreasSheet();
   var aData = aSheet.getDataRange().getValues();
   if (aData.length <= 1) {
-    var defaultAreas = ['Area 1', 'Area 2', 'Area 3', 'Area 4', 'Area 5', 'Area 6'];
+    var defaultAreas = [
+      'Gandhi Chowk & Centre',
+      'Wyra Road & Rotary Nagar',
+      'Balaji Nagar & Khanapuram',
+      'Mamillagudem & Nehru Nagar',
+      'Bypass Road & Dwaraka Nagar',
+      'Munneru Side & Raghunadha Palem'
+    ];
     for (var i = 0; i < defaultAreas.length; i++) {
       aSheet.appendRow([defaultAreas[i]]);
     }

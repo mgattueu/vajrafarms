@@ -121,6 +121,12 @@
     .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:var(--white);border-radius:50%;animation:spin .5s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
 
+    /* ── Inline Radio Groups ── */
+    .radio-group{display:flex;flex-wrap:wrap;gap:8px}
+    .radio-group input[type="radio"]{display:none}
+    .radio-group label{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid rgba(58,90,64,.2);background:var(--white);color:var(--soil);transition:all .2s;-webkit-tap-highlight-color:transparent;text-align:center}
+    .radio-group input[type="radio"]:checked+label{background:linear-gradient(140deg,var(--leaf),var(--moss));color:var(--white);border-color:transparent}
+
     .hidden{display:none!important}
   </style>
 </head>
@@ -184,7 +190,7 @@
         <form id="orderForm" onsubmit="handleOrder(event)">
           <div class="fr">
             <div class="fg"><label>Customer Name</label><input type="text" id="custName" required placeholder="Who called?"/></div>
-            <div class="fg"><label>Phone</label><input type="tel" id="custPhone" required placeholder="+91 XXXXX XXXXX"/></div>
+            <div class="fg"><label>Phone</label><input type="tel" id="custPhone" required placeholder="XXXXX XXXXX"/></div>
           </div>
           <div class="fr">
             <div class="fg">
@@ -192,21 +198,21 @@
               <select id="custArea" required></select>
             </div>
             <div class="fg"><label>Milk Type</label>
-              <select id="milkType">
-                <option value="Buffalo Milk" selected>Buffalo Milk</option>
-                <option value="Cow Milk">Cow Milk</option>
-                <option value="Mixed">Mixed</option>
-              </select>
+              <div class="radio-group">
+                <input type="radio" name="milkType" id="mt_buffalo" value="Buffalo Milk" checked><label for="mt_buffalo">Buffalo</label>
+                <input type="radio" name="milkType" id="mt_cow" value="Cow Milk"><label for="mt_cow">Cow</label>
+                <input type="radio" name="milkType" id="mt_mixed" value="Mixed"><label for="mt_mixed">Mixed</label>
+              </div>
             </div>
           </div>
           <div class="fg"><label>Address</label><textarea id="custAddress" required placeholder="Full delivery address"></textarea></div>
           <div class="fr">
             <div class="fg"><label>Quantity (Litres)</label><input type="number" id="milkQty" required min="0.5" step="0.5" placeholder="e.g. 2"/></div>
             <div class="fg"><label>Customer Type</label>
-              <select id="custType" onchange="toggleTrialFields()">
-                <option value="Trial" selected>Trial</option>
-                <option value="Katha">Katha (Regular)</option>
-              </select>
+              <div class="radio-group">
+                <input type="radio" name="custType" id="ct_trial" value="Trial" checked onchange="toggleTrialFields()"><label for="ct_trial">Trial</label>
+                <input type="radio" name="custType" id="ct_katha" value="Katha" onchange="toggleTrialFields()"><label for="ct_katha">Katha (Regular)</label>
+              </div>
             </div>
           </div>
           <div id="trialFields">
@@ -464,7 +470,7 @@ async function deleteArea(name) {
 
 // ─── Toggle Trial Fields ─────────────────────────────────
 function toggleTrialFields() {
-  document.getElementById('trialFields').style.display = document.getElementById('custType').value==='Trial'?'':'none';
+  document.getElementById('trialFields').style.display = document.querySelector('input[name="custType"]:checked').value==='Trial'?'':'none';
 }
 
 function toggleAreaField() {
@@ -487,11 +493,11 @@ async function handleOrder(e) {
     area: document.getElementById('custArea').value,
     customerAddress: document.getElementById('custAddress').value.trim(),
     quantity: document.getElementById('milkQty').value,
-    milkType: document.getElementById('milkType').value,
+    milkType: document.querySelector('input[name="milkType"]:checked').value,
     deliveryDate: document.getElementById('deliveryDate').value,
     deliveryTime: document.getElementById('deliveryTime').value,
     frequency: document.getElementById('frequency').value,
-    customerType: document.getElementById('custType').value,
+    customerType: document.querySelector('input[name="custType"]:checked').value,
     trialDays: document.getElementById('trialDays').value || 3,
     staffName: currentUser.displayName,
     staffUsername: currentUser.username,
@@ -504,8 +510,8 @@ async function handleOrder(e) {
       suc.textContent='Order submitted!'; suc.style.display='block';
       document.getElementById('orderForm').reset();
       document.getElementById('staffName').value = currentUser.displayName;
-      document.getElementById('milkType').value='Buffalo Milk';
-      document.getElementById('custType').value='Trial';
+      document.getElementById('mt_buffalo').checked=true;
+      document.getElementById('ct_trial').checked=true;
       toggleTrialFields();
       const tom=new Date(); tom.setDate(tom.getDate()+1);
       document.getElementById('deliveryDate').value=tom.toISOString().split('T')[0];
