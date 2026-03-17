@@ -1,62 +1,43 @@
 // ═══════════════════════════════════════════════════════════════
-// VAJRA FARMS — Google Apps Script (Backend for Staff Portal)
+// VAJRA FARMS — Google Apps Script v2 (Backend for Staff Portal)
 // ═══════════════════════════════════════════════════════════════
 //
-// SETUP INSTRUCTIONS:
-// 1. Open your Google Sheet: https://docs.google.com/spreadsheets/d/15muhKJlmGZXL7cN5zhHvosonlU6Dx_nVbNEHD3RkCMc/edit
-// 2. Go to Extensions > Apps Script
-// 3. Delete any existing code and paste this entire file
-// 4. Click "Deploy" > "New deployment"
-// 5. Choose type: "Web app"
-// 6. Set "Execute as": "Me"
-// 7. Set "Who has access": "Anyone"
-// 8. Click "Deploy" and authorize when prompted
-// 9. Copy the Web App URL
-// 10. Paste that URL into portal.html where it says YOUR_GOOGLE_APPS_SCRIPT_URL_HERE
-//
-// SHEET STRUCTURE (will be auto-created on first run):
-// Sheet "Orders" — all milk orders
-// Sheet "Users"  — staff/admin login credentials
+// SETUP: See SETUP.md for deployment instructions.
+// After updating, redeploy: Deploy > Manage deployments > Edit > New version > Deploy
 // ═══════════════════════════════════════════════════════════════
 
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
     var action = data.action;
-
     switch (action) {
-      case 'login':
-        return jsonResponse(handleLogin(data));
-      case 'submitOrder':
-        return jsonResponse(handleSubmitOrder(data));
-      case 'getOrders':
-        return jsonResponse(handleGetOrders());
-      case 'getUsers':
-        return jsonResponse(handleGetUsers());
-      case 'addUser':
-        return jsonResponse(handleAddUser(data));
-      case 'deleteUser':
-        return jsonResponse(handleDeleteUser(data));
-      default:
-        return jsonResponse({ success: false, message: 'Unknown action.' });
+      case 'login':          return j(handleLogin(data));
+      case 'submitOrder':    return j(handleSubmitOrder(data));
+      case 'getOrders':      return j(handleGetOrders(data));
+      case 'getTodayOrders': return j(handleGetTodayOrders(data));
+      case 'updateStatus':   return j(handleUpdateStatus(data));
+      case 'getUsers':       return j(handleGetUsers());
+      case 'addUser':        return j(handleAddUser(data));
+      case 'deleteUser':     return j(handleDeleteUser(data));
+      case 'getAreas':       return j(handleGetAreas());
+      case 'addArea':        return j(handleAddArea(data));
+      case 'deleteArea':     return j(handleDeleteArea(data));
+      case 'getDashboard':   return j(handleGetDashboard());
+      default:               return j({ success: false, message: 'Unknown action.' });
     }
   } catch (err) {
-    return jsonResponse({ success: false, message: err.toString() });
+    return j({ success: false, message: err.toString() });
   }
 }
 
 function doGet(e) {
-  return jsonResponse({ success: true, message: 'Vajra Farms API is running.' });
+  return j({ success: true, message: 'Vajra Farms API v2 is running.' });
 }
 
-// ─────────────────────────────────────────────
-// HELPERS
-// ─────────────────────────────────────────────
+// ─── Helpers ─────────────────────────────────────────────
 
-function jsonResponse(obj) {
-  return ContentService
-    .createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
+function j(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
 function getOrCreateSheet(name, headers) {
@@ -71,37 +52,49 @@ function getOrCreateSheet(name, headers) {
 }
 
 function getUsersSheet() {
-  return getOrCreateSheet('Users', ['Username', 'Password', 'DisplayName', 'Role']);
+  return getOrCreateSheet('Users', ['Username', 'Password', 'DisplayName', 'Role', 'Area']);
 }
 
 function getOrdersSheet() {
   return getOrCreateSheet('Orders', [
-    'Timestamp', 'CustomerName', 'CustomerPhone', 'CustomerAddress',
-    'Quantity (L)', 'MilkType', 'DeliveryDate', 'DeliveryTime',
-    'Frequency', 'StaffName', 'StaffUsername', 'Notes'
+    'Timestamp', 'CustomerName', 'CustomerPhone', 'Area', 'Address',
+    'Quantity', 'MilkType', 'DeliveryDate', 'DeliveryTime', 'Frequency',
+    'CustomerType', 'TrialDays', 'TrialStartDate', 'Status',
+    'StaffName', 'StaffUsername', 'Notes'
   ]);
 }
 
-// ─────────────────────────────────────────────
-// SEED DEFAULT ADMIN (runs once if Users sheet is empty)
-// ─────────────────────────────────────────────
+function getAreasSheet() {
+  return getOrCreateSheet('Areas', ['AreaName']);
+}
 
-function seedDefaultAdmin() {
-  var sheet = getUsersSheet();
-  var data = sheet.getDataRange().getValues();
-  // If only header row exists, add default admin
-  if (data.length <= 1) {
-    sheet.appendRow(['admin', 'vajra2024', 'Admin', 'admin']);
-    sheet.appendRow(['staff', 'staff123', 'Staff Member', 'staff']);
+// ─── Seed Defaults ───────────────────────────────────────
+
+function seedDefaults() {
+  // Seed admin user
+  var uSheet = getUsersSheet();
+  var uData = uSheet.getDataRange().getValues();
+  if (uData.length <= 1) {
+    uSheet.appendRow(['admin', 'vajra2024', 'Admin', 'admin', '']);
+    uSheet.appendRow(['staff', 'staff123', 'Staff Member', 'staff', '']);
+    uSheet.appendRow(['delivery1', 'delivery123', 'Delivery Boy 1', 'delivery', 'Area 1']);
+  }
+
+  // Seed areas
+  var aSheet = getAreasSheet();
+  var aData = aSheet.getDataRange().getValues();
+  if (aData.length <= 1) {
+    var defaultAreas = ['Area 1', 'Area 2', 'Area 3', 'Area 4', 'Area 5', 'Area 6'];
+    for (var i = 0; i < defaultAreas.length; i++) {
+      aSheet.appendRow([defaultAreas[i]]);
+    }
   }
 }
 
-// ─────────────────────────────────────────────
-// LOGIN
-// ─────────────────────────────────────────────
+// ─── Login ───────────────────────────────────────────────
 
 function handleLogin(data) {
-  seedDefaultAdmin();
+  seedDefaults();
   var sheet = getUsersSheet();
   var rows = sheet.getDataRange().getValues();
   var username = (data.username || '').toLowerCase().trim();
@@ -114,30 +107,34 @@ function handleLogin(data) {
         success: true,
         username: rows[i][0],
         displayName: rows[i][2],
-        role: rows[i][3]
+        role: rows[i][3],
+        area: rows[i][4] || ''
       };
     }
   }
-
   return { success: false, message: 'Invalid username or password.' };
 }
 
-// ─────────────────────────────────────────────
-// SUBMIT ORDER
-// ─────────────────────────────────────────────
+// ─── Submit Order ────────────────────────────────────────
 
 function handleSubmitOrder(data) {
   var sheet = getOrdersSheet();
+  var trialStart = data.customerType === 'Trial' ? (data.deliveryDate || new Date().toISOString().split('T')[0]) : '';
   sheet.appendRow([
-    data.timestamp || new Date().toLocaleString(),
+    data.timestamp || new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}),
     data.customerName || '',
     data.customerPhone || '',
+    data.area || '',
     data.customerAddress || '',
     data.quantity || '',
-    data.milkType || '',
+    data.milkType || 'Buffalo Milk',
     data.deliveryDate || '',
     data.deliveryTime || '',
     data.frequency || '',
+    data.customerType || 'Trial',
+    data.trialDays || 3,
+    trialStart,
+    'Active',
     data.staffName || '',
     data.staffUsername || '',
     data.notes || ''
@@ -145,98 +142,315 @@ function handleSubmitOrder(data) {
   return { success: true, message: 'Order submitted.' };
 }
 
-// ─────────────────────────────────────────────
-// GET ORDERS (Admin)
-// ─────────────────────────────────────────────
+// ─── Get All Orders ──────────────────────────────────────
 
-function handleGetOrders() {
+function handleGetOrders(data) {
   var sheet = getOrdersSheet();
-  var data = sheet.getDataRange().getValues();
+  var rows = sheet.getDataRange().getValues();
   var orders = [];
+  var filterArea = (data && data.area) ? data.area : '';
+  var filterStatus = (data && data.status) ? data.status : '';
+  var filterType = (data && data.customerType) ? data.customerType : '';
 
-  for (var i = data.length - 1; i >= 1; i--) {
-    orders.push({
-      timestamp: data[i][0],
-      customerName: data[i][1],
-      customerPhone: data[i][2],
-      customerAddress: data[i][3],
-      quantity: data[i][4],
-      milkType: data[i][5],
-      deliveryDate: data[i][6],
-      deliveryTime: data[i][7],
-      frequency: data[i][8],
-      staffName: data[i][9],
-      notes: data[i][11]
-    });
+  for (var i = rows.length - 1; i >= 1; i--) {
+    var order = {
+      row: i + 1,
+      timestamp: rows[i][0],
+      customerName: rows[i][1],
+      customerPhone: rows[i][2],
+      area: rows[i][3],
+      customerAddress: rows[i][4],
+      quantity: rows[i][5],
+      milkType: rows[i][6],
+      deliveryDate: rows[i][7],
+      deliveryTime: rows[i][8],
+      frequency: rows[i][9],
+      customerType: rows[i][10],
+      trialDays: rows[i][11],
+      trialStartDate: rows[i][12],
+      status: rows[i][13],
+      staffName: rows[i][14],
+      notes: rows[i][16]
+    };
+    if (filterArea && order.area !== filterArea) continue;
+    if (filterStatus && order.status !== filterStatus) continue;
+    if (filterType && order.customerType !== filterType) continue;
+    orders.push(order);
+  }
+  return { success: true, orders: orders };
+}
+
+// ─── Get Today's Orders ──────────────────────────────────
+
+function handleGetTodayOrders(data) {
+  var sheet = getOrdersSheet();
+  var rows = sheet.getDataRange().getValues();
+  var today = new Date();
+  var todayStr = Utilities.formatDate(today, 'Asia/Kolkata', 'yyyy-MM-dd');
+  var orders = [];
+  var filterArea = (data && data.area) ? data.area : '';
+
+  for (var i = 1; i < rows.length; i++) {
+    var delivDate = rows[i][7] ? rows[i][7].toString() : '';
+    if (delivDate instanceof Date) {
+      delivDate = Utilities.formatDate(delivDate, 'Asia/Kolkata', 'yyyy-MM-dd');
+    }
+    var status = rows[i][13] ? rows[i][13].toString() : '';
+    if (status !== 'Active') continue;
+
+    // Check if delivery date matches today
+    // Also include recurring orders (Daily, Alternate Days)
+    var freq = rows[i][9] ? rows[i][9].toString() : '';
+    var isToday = (delivDate === todayStr);
+    var isRecurring = (freq === 'Daily');
+
+    // For alternate days, check if the difference from start is even
+    if (freq === 'Alternate Days' && delivDate) {
+      var startDate = new Date(delivDate);
+      var diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+      if (diffDays >= 0 && diffDays % 2 === 0) isRecurring = true;
+    }
+
+    // For weekly, check same day of week
+    if (freq === 'Weekly' && delivDate) {
+      var startDay = new Date(delivDate).getDay();
+      if (today.getDay() === startDay) isRecurring = true;
+    }
+
+    // Check trial expiry
+    var custType = rows[i][10] ? rows[i][10].toString() : '';
+    var trialDays = rows[i][11] ? parseInt(rows[i][11]) : 3;
+    var trialStart = rows[i][12] ? rows[i][12].toString() : '';
+    if (custType === 'Trial' && trialStart) {
+      var trialStartDate = new Date(trialStart);
+      var daysSinceStart = Math.floor((today - trialStartDate) / (1000 * 60 * 60 * 24));
+      if (daysSinceStart >= trialDays) continue; // Trial expired
+    }
+
+    if (!isToday && !isRecurring) continue;
+
+    var order = {
+      row: i + 1,
+      timestamp: rows[i][0],
+      customerName: rows[i][1],
+      customerPhone: rows[i][2],
+      area: rows[i][3],
+      customerAddress: rows[i][4],
+      quantity: rows[i][5],
+      milkType: rows[i][6],
+      deliveryDate: delivDate,
+      deliveryTime: rows[i][8],
+      frequency: freq,
+      customerType: custType,
+      trialDays: trialDays,
+      trialStartDate: trialStart,
+      status: status,
+      staffName: rows[i][14],
+      notes: rows[i][16]
+    };
+    if (filterArea && order.area !== filterArea) continue;
+    orders.push(order);
   }
 
   return { success: true, orders: orders };
 }
 
-// ─────────────────────────────────────────────
-// GET USERS (Admin)
-// ─────────────────────────────────────────────
+// ─── Update Customer Status ──────────────────────────────
+
+function handleUpdateStatus(data) {
+  var sheet = getOrdersSheet();
+  var row = data.row;
+  if (!row) return { success: false, message: 'Row not specified.' };
+
+  if (data.status) sheet.getRange(row, 14).setValue(data.status);
+  if (data.customerType) sheet.getRange(row, 11).setValue(data.customerType);
+  if (data.trialDays) sheet.getRange(row, 12).setValue(data.trialDays);
+
+  return { success: true, message: 'Updated.' };
+}
+
+// ─── Dashboard Analytics ─────────────────────────────────
+
+function handleGetDashboard() {
+  var sheet = getOrdersSheet();
+  var rows = sheet.getDataRange().getValues();
+  var today = new Date();
+  var todayStr = Utilities.formatDate(today, 'Asia/Kolkata', 'yyyy-MM-dd');
+
+  var trialActive = 0, kathaActive = 0;
+  var trialLitres = 0, kathaLitres = 0;
+  var trialInquiries = 0, kathaInquiries = 0;
+  var paymentLapsed = 0, inactive = 0;
+  var todayTrialOrders = 0, todayKathaOrders = 0;
+  var todayTrialLitres = 0, todayKathaLitres = 0;
+
+  // Last 7 days data for charts
+  var dailyData = {};
+  for (var d = 6; d >= 0; d--) {
+    var date = new Date(today);
+    date.setDate(date.getDate() - d);
+    var dateStr = Utilities.formatDate(date, 'Asia/Kolkata', 'yyyy-MM-dd');
+    dailyData[dateStr] = { trial: 0, katha: 0, trialLitres: 0, kathaLitres: 0 };
+  }
+
+  for (var i = 1; i < rows.length; i++) {
+    var custType = rows[i][10] ? rows[i][10].toString() : 'Trial';
+    var status = rows[i][13] ? rows[i][13].toString() : 'Active';
+    var qty = parseFloat(rows[i][5]) || 0;
+    var delivDate = rows[i][7] ? rows[i][7].toString() : '';
+    if (delivDate instanceof Date) {
+      delivDate = Utilities.formatDate(delivDate, 'Asia/Kolkata', 'yyyy-MM-dd');
+    }
+
+    // Count by type and status
+    if (custType === 'Trial') {
+      trialInquiries++;
+      if (status === 'Active') { trialActive++; trialLitres += qty; }
+    } else {
+      kathaInquiries++;
+      if (status === 'Active') { kathaActive++; kathaLitres += qty; }
+    }
+    if (status === 'Payment Lapsed') paymentLapsed++;
+    if (status === 'Inactive') inactive++;
+
+    // Today's data
+    if (delivDate === todayStr && status === 'Active') {
+      if (custType === 'Trial') { todayTrialOrders++; todayTrialLitres += qty; }
+      else { todayKathaOrders++; todayKathaLitres += qty; }
+    }
+
+    // Daily chart data
+    if (dailyData[delivDate] !== undefined) {
+      if (custType === 'Trial') {
+        dailyData[delivDate].trial++;
+        dailyData[delivDate].trialLitres += qty;
+      } else {
+        dailyData[delivDate].katha++;
+        dailyData[delivDate].kathaLitres += qty;
+      }
+    }
+  }
+
+  var chartLabels = Object.keys(dailyData);
+  var chartTrial = [], chartKatha = [], chartTrialL = [], chartKathaL = [];
+  for (var k = 0; k < chartLabels.length; k++) {
+    var key = chartLabels[k];
+    chartTrial.push(dailyData[key].trial);
+    chartKatha.push(dailyData[key].katha);
+    chartTrialL.push(dailyData[key].trialLitres);
+    chartKathaL.push(dailyData[key].kathaLitres);
+  }
+
+  return {
+    success: true,
+    summary: {
+      trialActive: trialActive,
+      kathaActive: kathaActive,
+      trialLitres: trialLitres,
+      kathaLitres: kathaLitres,
+      trialInquiries: trialInquiries,
+      kathaInquiries: kathaInquiries,
+      paymentLapsed: paymentLapsed,
+      inactive: inactive,
+      todayTrialOrders: todayTrialOrders,
+      todayKathaOrders: todayKathaOrders,
+      todayTrialLitres: todayTrialLitres,
+      todayKathaLitres: todayKathaLitres
+    },
+    chart: {
+      labels: chartLabels,
+      trialCount: chartTrial,
+      kathaCount: chartKatha,
+      trialLitres: chartTrialL,
+      kathaLitres: chartKathaL
+    }
+  };
+}
+
+// ─── Areas ───────────────────────────────────────────────
+
+function handleGetAreas() {
+  seedDefaults();
+  var sheet = getAreasSheet();
+  var data = sheet.getDataRange().getValues();
+  var areas = [];
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0]) areas.push(data[i][0].toString());
+  }
+  return { success: true, areas: areas };
+}
+
+function handleAddArea(data) {
+  var name = (data.areaName || '').trim();
+  if (!name) return { success: false, message: 'Area name required.' };
+  var sheet = getAreasSheet();
+  var rows = sheet.getDataRange().getValues();
+  for (var i = 1; i < rows.length; i++) {
+    if (rows[i][0].toString().toLowerCase() === name.toLowerCase()) {
+      return { success: false, message: 'Area already exists.' };
+    }
+  }
+  sheet.appendRow([name]);
+  return { success: true, message: 'Area added.' };
+}
+
+function handleDeleteArea(data) {
+  var name = (data.areaName || '').trim();
+  var sheet = getAreasSheet();
+  var rows = sheet.getDataRange().getValues();
+  for (var i = 1; i < rows.length; i++) {
+    if (rows[i][0].toString() === name) {
+      sheet.deleteRow(i + 1);
+      return { success: true, message: 'Area removed.' };
+    }
+  }
+  return { success: false, message: 'Area not found.' };
+}
+
+// ─── Users ───────────────────────────────────────────────
 
 function handleGetUsers() {
-  seedDefaultAdmin();
+  seedDefaults();
   var sheet = getUsersSheet();
   var data = sheet.getDataRange().getValues();
   var users = [];
-
   for (var i = 1; i < data.length; i++) {
     users.push({
       username: data[i][0],
       displayName: data[i][2],
-      role: data[i][3]
+      role: data[i][3],
+      area: data[i][4] || ''
     });
   }
-
   return { success: true, users: users };
 }
-
-// ─────────────────────────────────────────────
-// ADD USER (Admin)
-// ─────────────────────────────────────────────
 
 function handleAddUser(data) {
   var sheet = getUsersSheet();
   var rows = sheet.getDataRange().getValues();
   var username = (data.username || '').toLowerCase().trim();
-
   if (!username || !data.password || !data.displayName) {
     return { success: false, message: 'All fields are required.' };
   }
-
-  // Check for duplicate username
   for (var i = 1; i < rows.length; i++) {
     if (rows[i][0].toString().toLowerCase().trim() === username) {
       return { success: false, message: 'Username already exists.' };
     }
   }
-
-  sheet.appendRow([username, data.password, data.displayName, data.role || 'staff']);
+  sheet.appendRow([username, data.password, data.displayName, data.role || 'staff', data.area || '']);
   return { success: true, message: 'User added.' };
 }
-
-// ─────────────────────────────────────────────
-// DELETE USER (Admin)
-// ─────────────────────────────────────────────
 
 function handleDeleteUser(data) {
   var sheet = getUsersSheet();
   var rows = sheet.getDataRange().getValues();
   var username = (data.username || '').toLowerCase().trim();
-
-  if (username === 'admin') {
-    return { success: false, message: 'Cannot delete the admin account.' };
-  }
-
+  if (username === 'admin') return { success: false, message: 'Cannot delete admin.' };
   for (var i = 1; i < rows.length; i++) {
     if (rows[i][0].toString().toLowerCase().trim() === username) {
       sheet.deleteRow(i + 1);
       return { success: true, message: 'User removed.' };
     }
   }
-
   return { success: false, message: 'User not found.' };
 }
