@@ -122,10 +122,10 @@
     @keyframes spin{to{transform:rotate(360deg)}}
 
     /* ── Inline Radio Groups ── */
-    .radio-group{display:flex;flex-wrap:wrap;gap:8px}
-    .radio-group input[type="radio"]{display:none}
-    .radio-group label{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid rgba(58,90,64,.2);background:var(--white);color:var(--soil);transition:all .2s;-webkit-tap-highlight-color:transparent;text-align:center}
-    .radio-group input[type="radio"]:checked+label{background:linear-gradient(140deg,var(--leaf),var(--moss));color:var(--white);border-color:transparent}
+    .radio-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+    .radio-group input[type="radio"]{position:absolute;opacity:0;width:0;height:0}
+    .fg .radio-group label{display:inline-flex;padding:9px 18px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid rgba(58,90,64,.2);background:var(--white);color:var(--soil);transition:all .2s;-webkit-tap-highlight-color:transparent;text-align:center;text-transform:none;letter-spacing:0;margin-bottom:0}
+    .fg .radio-group input[type="radio"]:checked+label{background:linear-gradient(140deg,var(--leaf),var(--moss));color:var(--white);border-color:transparent}
 
     .hidden{display:none!important}
   </style>
@@ -238,7 +238,7 @@
                 <option value="Weekly">Weekly</option>
               </select>
             </div>
-            <div class="fg"><label>Staff</label><input type="text" id="staffName" readonly/></div>
+            <div class="fg"><label>Staff</label><input type="text" id="staffName" required placeholder="Your name"/></div>
           </div>
           <div class="fg"><label>Notes</label><textarea id="notes" placeholder="Special instructions, gate codes..."></textarea></div>
           <button type="submit" class="btn btn-primary" id="btnSubmitOrder" style="width:100%">Submit Order</button>
