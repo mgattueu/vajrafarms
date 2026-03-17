@@ -112,6 +112,34 @@
     .oc-row b{color:var(--ink);min-width:55px;font-size:12px}
     .oc-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 
+    /* ── Compact Delivery Table ── */
+    .dtable{width:100%;border-collapse:separate;border-spacing:0 4px}
+    .dtable th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#8a917e;text-align:left;padding:6px 10px;white-space:nowrap}
+    .drow{cursor:pointer;transition:background .15s}
+    .drow:hover{background:rgba(47,107,59,.03)}
+    .drow td{padding:10px;font-size:13px;border-top:1px solid rgba(0,0,0,.04);border-bottom:1px solid rgba(0,0,0,.04);vertical-align:middle}
+    .drow td:first-child{border-left:3px solid var(--leaf);border-radius:8px 0 0 8px}
+    .drow td:last-child{border-radius:0 8px 8px 0}
+    .drow.trial-row td:first-child{border-left-color:var(--trial)}
+    .drow.lapsed-row td:first-child{border-left-color:var(--lapsed)}
+    .drow-name{font-weight:700;font-size:14px;color:var(--ink)}
+    .drow-sub{font-size:11px;color:#8a917e}
+    .drow-badge{padding:2px 7px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--white);white-space:nowrap}
+    .drow-badge.trial{background:var(--trial)}
+    .drow-badge.katha{background:var(--katha)}
+    .drow-badge.lapsed{background:var(--lapsed)}
+    .drow-badge.inactive{background:#999}
+    .drow-expand{display:none;background:var(--cream);border-radius:0 0 12px 12px;margin:-4px 0 4px 0}
+    .drow-expand.open{display:table-row}
+    .drow-expand td{padding:12px 14px;font-size:13px;color:#5a6357}
+    .drow-detail{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px}
+    .drow-detail div{display:flex;gap:6px}
+    .drow-detail b{color:var(--ink);font-size:12px;min-width:60px}
+    @media(max-width:600px){
+      .dtable th.hide-sm,.drow td.hide-sm{display:none}
+      .drow-detail{grid-template-columns:1fr}
+    }
+
     /* ── Area/User management cards ── */
     .mgmt-card{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(247,242,230,.7);border-radius:12px;margin-bottom:8px;gap:8px;flex-wrap:wrap}
     .mgmt-card .name{font-weight:600}
@@ -249,9 +277,9 @@
     <!-- ── Today's Deliveries ── -->
     <div id="secToday" class="app-section hidden">
       <div class="panel">
-        <h3>Today's Deliveries</h3>
+        <h3>Deliveries Dashboard</h3>
         <div class="radio-filters" id="todayAreaFilters"></div>
-        <div id="todayOrdersList"></div>
+        <div id="todayOrdersList" style="overflow-x:auto"></div>
       </div>
     </div>
 
@@ -406,8 +434,8 @@ function buildBottomNav() {
   if(role==='admin') {
     items = [
       {icon:'&#x1F4CA;',label:'Dashboard',sec:'secDashboard',action:()=>{showSection('secDashboard');loadDashboard();}},
-      {icon:'&#x2795;',label:'New Order',sec:'secNewOrder',action:()=>showSection('secNewOrder')},
-      {icon:'&#x1F69A;',label:'Today',sec:'secToday',action:()=>{showSection('secToday');loadTodayOrders();}},
+      {icon:'&#x2795;',label:'New Milk Order',sec:'secNewOrder',action:()=>showSection('secNewOrder')},
+      {icon:'&#x1F69A;',label:'Deliveries',sec:'secToday',action:()=>{showSection('secToday');loadTodayOrders();}},
       {icon:'&#x1F465;',label:'Customers',sec:'secCustomers',action:()=>{showSection('secCustomers');loadAllOrders();}},
       {icon:'&#x2699;',label:'Settings',sec:'secAreas',action:()=>{showSection('secAreas');loadAreas();loadUsers();}}
     ];
@@ -417,8 +445,8 @@ function buildBottomNav() {
     ];
   } else {
     items = [
-      {icon:'&#x2795;',label:'New Order',sec:'secNewOrder',action:()=>showSection('secNewOrder')},
-      {icon:'&#x1F69A;',label:'Today',sec:'secToday',action:()=>{showSection('secToday');loadTodayOrders();}},
+      {icon:'&#x2795;',label:'New Milk Order',sec:'secNewOrder',action:()=>showSection('secNewOrder')},
+      {icon:'&#x1F69A;',label:'Deliveries',sec:'secToday',action:()=>{showSection('secToday');loadTodayOrders();}},
     ];
   }
 
@@ -547,13 +575,52 @@ async function loadTodayOrders() {
   try {
     const res = await api({action:'getTodayOrders', area:area});
     if(res.success && res.orders.length>0) {
-      list.innerHTML = res.orders.map(o=>renderOrderCard(o)).join('');
+      list.innerHTML = renderDeliveryTable(res.orders);
     } else {
       list.innerHTML = '<p style="color:#8a917e;text-align:center;padding:20px">No deliveries for today.</p>';
     }
   } catch(ex) {
     list.innerHTML = '<p style="color:var(--danger);text-align:center;padding:20px">Error loading.</p>';
   }
+}
+
+function renderDeliveryTable(orders) {
+  let html = '<table class="dtable"><thead><tr><th>Customer</th><th>Milk</th><th class="hide-sm">Area</th><th class="hide-sm">Time</th><th>Status</th></tr></thead><tbody>';
+  orders.forEach(function(o, i) {
+    var isTrial = o.customerType==='Trial';
+    var isLapsed = o.status==='Payment Lapsed';
+    var isInactive = o.status==='Inactive';
+    var rowClass = isTrial?'trial-row':isLapsed?'lapsed-row':'';
+    var badgeClass = isTrial?'trial':isLapsed?'lapsed':isInactive?'inactive':'katha';
+    var trialInfo = '';
+    if(isTrial && o.trialDays) {
+      trialInfo = '<div><b>Trial:</b> '+esc(String(o.trialDays))+' days from '+esc(o.trialStartDate||o.deliveryDate||'')+'</div>';
+    }
+    html += '<tr class="drow '+rowClass+'" onclick="toggleRow('+i+')">';
+    html += '<td><div class="drow-name">'+esc(o.customerName||'')+'</div><div class="drow-sub">'+esc(o.customerPhone||'')+'</div></td>';
+    html += '<td>'+esc(String(o.quantity||''))+'L '+esc(o.milkType||'').replace(' Milk','')+'</td>';
+    html += '<td class="hide-sm">'+esc(o.area||'')+'</td>';
+    html += '<td class="hide-sm">'+esc(o.deliveryTime||'').replace(/\s*\(.*\)/,'')+'</td>';
+    html += '<td><span class="drow-badge '+badgeClass+'">'+esc(o.customerType||'')+'</span></td>';
+    html += '</tr>';
+    html += '<tr class="drow-expand" id="dexp_'+i+'"><td colspan="5"><div class="drow-detail">';
+    html += '<div><b>Phone:</b> <a href="tel:'+esc(o.customerPhone||'')+'">'+esc(o.customerPhone||'')+'</a></div>';
+    html += '<div><b>Area:</b> '+esc(o.area||'')+'</div>';
+    html += '<div><b>Address:</b> '+esc(o.customerAddress||'')+'</div>';
+    html += '<div><b>Milk:</b> '+esc(String(o.quantity||''))+'L '+esc(o.milkType||'')+' · '+esc(o.frequency||'')+'</div>';
+    html += '<div><b>Time:</b> '+esc(o.deliveryTime||'')+'</div>';
+    html += trialInfo;
+    if(o.notes) html += '<div><b>Notes:</b> '+esc(o.notes)+'</div>';
+    html += '<div><b>Staff:</b> '+esc(o.staffName||'')+'</div>';
+    html += '</div></td></tr>';
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+function toggleRow(i) {
+  var el = document.getElementById('dexp_'+i);
+  if(el) el.classList.toggle('open');
 }
 
 // ─── All Customers ───────────────────────────────────────
