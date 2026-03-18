@@ -298,7 +298,7 @@
           <button class="tab" onclick="filterCustomers('Payment Lapsed',this)">Payment Lapsed</button>
           <button class="tab" onclick="filterCustomers('Inactive',this)">Inactive</button>
         </div>
-        <div id="allOrdersList"></div>
+        <div id="allOrdersList" style="overflow-x:auto"></div>
       </div>
     </div>
 
@@ -656,7 +656,59 @@ function renderFilteredOrders() {
     list.innerHTML = '<p style="color:#8a917e;text-align:center;padding:20px">No customers found.</p>';
     return;
   }
-  list.innerHTML = filtered.map(o=>renderOrderCard(o,true)).join('');
+  list.innerHTML = renderCustomerTable(filtered);
+}
+
+function renderCustomerTable(orders) {
+  var html = '<table class="dtable"><thead><tr><th>Customer</th><th>Milk</th><th class="hide-sm">Area</th><th class="hide-sm">Freq</th><th>Status</th></tr></thead><tbody>';
+  orders.forEach(function(o, i) {
+    var isTrial = o.customerType==='Trial';
+    var isLapsed = o.status==='Payment Lapsed';
+    var isInactive = o.status==='Inactive';
+    var rowClass = isTrial?'trial-row':isLapsed?'lapsed-row':'';
+    var badgeClass = isTrial?'trial':isLapsed?'lapsed':isInactive?'inactive':'katha';
+    var uid = 'cexp_'+i;
+    var trialInfo = '';
+    if(isTrial && o.trialDays) {
+      trialInfo = '<div><b>Trial:</b> '+esc(String(o.trialDays))+' days from '+esc(o.trialStartDate||o.deliveryDate||'')+'</div>';
+    }
+
+    // Actions
+    var actions = '';
+    if(currentUser && currentUser.role==='admin') {
+      actions = '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">';
+      if(o.status==='Active' && isTrial) actions += '<button class="btn btn-katha btn-xs" onclick="event.stopPropagation();updateStatus('+o.row+',\'Katha\',\'Active\')">Convert to Katha</button>';
+      if(o.status==='Active') actions += '<button class="btn btn-lapsed btn-xs" onclick="event.stopPropagation();updateStatus('+o.row+',null,\'Payment Lapsed\')">Payment Lapsed</button>';
+      if(o.status==='Payment Lapsed') actions += '<button class="btn btn-xs" style="background:#999;color:#fff" onclick="event.stopPropagation();updateStatus('+o.row+',null,\'Inactive\')">Mark Inactive</button>';
+      if(o.status!=='Active') actions += '<button class="btn btn-katha btn-xs" onclick="event.stopPropagation();updateStatus('+o.row+',null,\'Active\')">Reactivate</button>';
+      actions += '</div>';
+    }
+
+    html += '<tr class="drow '+rowClass+'" onclick="toggleCustRow('+i+')">';
+    html += '<td><div class="drow-name">'+esc(o.customerName||'')+'</div><div class="drow-sub">'+esc(o.customerPhone||'')+'</div></td>';
+    html += '<td>'+esc(String(o.quantity||''))+'L '+esc(o.milkType||'').replace(' Milk','')+'</td>';
+    html += '<td class="hide-sm">'+esc(o.area||'')+'</td>';
+    html += '<td class="hide-sm">'+esc(o.frequency||'')+'</td>';
+    html += '<td><span class="drow-badge '+badgeClass+'">'+esc(o.customerType||'')+' · '+esc(o.status||'Active')+'</span></td>';
+    html += '</tr>';
+    html += '<tr class="drow-expand" id="'+uid+'"><td colspan="5"><div class="drow-detail">';
+    html += '<div><b>Phone:</b> <a href="tel:'+esc(o.customerPhone||'')+'">'+esc(o.customerPhone||'')+'</a></div>';
+    html += '<div><b>Area:</b> '+esc(o.area||'')+'</div>';
+    html += '<div><b>Address:</b> '+esc(o.customerAddress||'')+'</div>';
+    html += '<div><b>Milk:</b> '+esc(String(o.quantity||''))+'L '+esc(o.milkType||'')+' · '+esc(o.frequency||'')+'</div>';
+    html += '<div><b>Time:</b> '+esc(o.deliveryTime||'')+'</div>';
+    html += trialInfo;
+    if(o.notes) html += '<div><b>Notes:</b> '+esc(o.notes)+'</div>';
+    html += '<div><b>Staff:</b> '+esc(o.staffName||'')+' · '+esc(String(o.timestamp||''))+'</div>';
+    html += '</div>'+actions+'</td></tr>';
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+function toggleCustRow(i) {
+  var el = document.getElementById('cexp_'+i);
+  if(el) el.classList.toggle('open');
 }
 
 // ─── Render Order Card ───────────────────────────────────
