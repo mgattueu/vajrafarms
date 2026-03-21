@@ -63,7 +63,7 @@ function getOrdersSheet() {
     'Timestamp', 'CustomerName', 'CustomerPhone', 'Area', 'Address',
     'Quantity', 'MilkType', 'DeliveryDate', 'DeliveryTime', 'Frequency',
     'CustomerType', 'TrialDays', 'TrialStartDate', 'Status',
-    'StaffName', 'StaffUsername', 'Notes'
+    'StaffName', 'StaffUsername', 'Notes', 'MapsAddress'
   ]);
 }
 
@@ -181,7 +181,8 @@ function handleSubmitOrder(data) {
     'Active',
     data.staffName || '',
     data.staffUsername || '',
-    data.notes || ''
+    data.notes || '',
+    data.mapsAddress || ''
   ]);
   return { success: true, message: 'Order submitted.' };
 }
@@ -214,7 +215,8 @@ function handleGetOrders(data) {
       trialStartDate: rows[i][12],
       status: rows[i][13],
       staffName: rows[i][14],
-      notes: rows[i][16]
+      notes: rows[i][16],
+      mapsAddress: rows[i][17] || ''
     };
     if (filterArea && order.area !== filterArea) continue;
     if (filterStatus && order.status !== filterStatus) continue;
@@ -290,7 +292,8 @@ function handleGetTodayOrders(data) {
       trialStartDate: trialStart,
       status: status,
       staffName: rows[i][14],
-      notes: rows[i][16]
+      notes: rows[i][16],
+      mapsAddress: rows[i][17] || ''
     };
     if (filterArea && order.area !== filterArea) continue;
     orders.push(order);
@@ -526,18 +529,25 @@ function handleGetRoute(data) {
 
   var orders = result.orders;
 
-  // Build full addresses with Khammam context
+  // Build full addresses — prefer MapsAddress column, fallback to regular address
   var stops = [];
   for (var i = 0; i < orders.length; i++) {
+    var mapsAddr = orders[i].mapsAddress || '';
     var addr = orders[i].customerAddress || '';
     var area = orders[i].area || '';
-    // Append area and city for better geocoding
-    var fullAddr = addr;
-    if (area && fullAddr.toLowerCase().indexOf(area.toLowerCase()) === -1) {
-      fullAddr += ', ' + area;
-    }
-    if (fullAddr.toLowerCase().indexOf('khammam') === -1) {
-      fullAddr += ', Khammam, Telangana';
+
+    // Use Google Maps address if available, otherwise build from regular address
+    var fullAddr = '';
+    if (mapsAddr) {
+      fullAddr = mapsAddr;
+    } else {
+      fullAddr = addr;
+      if (area && fullAddr.toLowerCase().indexOf(area.toLowerCase()) === -1) {
+        fullAddr += ', ' + area;
+      }
+      if (fullAddr.toLowerCase().indexOf('khammam') === -1) {
+        fullAddr += ', Khammam, Telangana';
+      }
     }
     stops.push({
       index: i,
