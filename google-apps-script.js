@@ -109,7 +109,12 @@ function seedDefaults() {
   if (uData.length <= 1) {
     uSheet.appendRow(['admin', 'vajra2024', 'Admin', 'admin', '']);
     uSheet.appendRow(['staff', 'staff123', 'Staff Member', 'staff', '']);
-    uSheet.appendRow(['delivery1', 'delivery123', 'Delivery Boy 1', 'delivery', 'Area 1']);
+    uSheet.appendRow(['del1', 'del1234', 'Delivery 1 - Gandhi Chowk', 'delivery', 'Gandhi Chowk & Centre']);
+    uSheet.appendRow(['del2', 'del1234', 'Delivery 2 - Wyra Road', 'delivery', 'Wyra Road & Rotary Nagar']);
+    uSheet.appendRow(['del3', 'del1234', 'Delivery 3 - Balaji Nagar', 'delivery', 'Balaji Nagar & Khanapuram']);
+    uSheet.appendRow(['del4', 'del1234', 'Delivery 4 - Mamillagudem', 'delivery', 'Mamillagudem & Nehru Nagar']);
+    uSheet.appendRow(['del5', 'del1234', 'Delivery 5 - Bypass Road', 'delivery', 'Bypass Road & Dwaraka Nagar']);
+    uSheet.appendRow(['del6', 'del1234', 'Delivery 6 - Munneru Side', 'delivery', 'Munneru Side & Raghunadha Palem']);
   }
 
   // Seed areas
