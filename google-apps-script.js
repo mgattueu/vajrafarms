@@ -503,7 +503,6 @@ function handleGetRoute(data) {
 
   // Try route optimization via Google Maps service
   var optimizedOrder = [];
-  var mapsUrl = '';
   var totalDistance = '';
   var totalDuration = '';
 
@@ -551,27 +550,43 @@ function handleGetRoute(data) {
     optimizedOrder = stops;
   }
 
-  // Build Google Maps navigation URL
+  // Build Google Maps navigation URLs — auto-split into chunks of 10
+  var routes = [];
   if (optimizedOrder.length > 0) {
-    var waypoints = [];
-    for (var m = 0; m < optimizedOrder.length; m++) {
-      waypoints.push(encodeURIComponent(optimizedOrder[m].address));
-    }
-    // Google Maps URL: origin → waypoints → destination (back to origin)
-    var dest = encodeURIComponent(optimizedOrder[optimizedOrder.length - 1].address);
-    var waypointsStr = '';
-    if (optimizedOrder.length > 1) {
-      var wpAddrs = [];
-      for (var p = 0; p < optimizedOrder.length - 1; p++) {
-        wpAddrs.push(encodeURIComponent(optimizedOrder[p].address));
+    var chunkSize = 10;
+    var totalChunks = Math.ceil(optimizedOrder.length / chunkSize);
+    for (var c = 0; c < totalChunks; c++) {
+      var start = c * chunkSize;
+      var end = Math.min(start + chunkSize, optimizedOrder.length);
+      var chunk = optimizedOrder.slice(start, end);
+
+      // Origin: for first chunk use the farm origin, for subsequent chunks use last stop of previous chunk
+      var routeOrigin = (c === 0) ? origin : optimizedOrder[start - 1].address;
+      var routeDest = chunk[chunk.length - 1].address;
+
+      var wpStr = '';
+      if (chunk.length > 1) {
+        var wpAddrs = [];
+        for (var p = 0; p < chunk.length - 1; p++) {
+          wpAddrs.push(encodeURIComponent(chunk[p].address));
+        }
+        wpStr = '&waypoints=' + wpAddrs.join('|');
       }
-      waypointsStr = '&waypoints=' + wpAddrs.join('|');
+
+      var url = 'https://www.google.com/maps/dir/?api=1'
+        + '&origin=' + encodeURIComponent(routeOrigin)
+        + '&destination=' + encodeURIComponent(routeDest)
+        + wpStr
+        + '&travelmode=driving';
+
+      routes.push({
+        routeNumber: c + 1,
+        totalRoutes: totalChunks,
+        stops: chunk,
+        stopRange: (start + 1) + '-' + end,
+        mapsUrl: url
+      });
     }
-    mapsUrl = 'https://www.google.com/maps/dir/?api=1'
-      + '&origin=' + encodeURIComponent(origin)
-      + '&destination=' + dest
-      + waypointsStr
-      + '&travelmode=driving';
   }
 
   return {
@@ -580,6 +595,7 @@ function handleGetRoute(data) {
     totalStops: optimizedOrder.length,
     totalDistance: totalDistance,
     totalDuration: totalDuration,
-    mapsUrl: mapsUrl
+    routes: routes,
+    mapsUrl: routes.length > 0 ? routes[0].mapsUrl : ''
   };
 }

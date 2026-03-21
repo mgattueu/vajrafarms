@@ -653,7 +653,6 @@ function toggleRow(i) {
 async function startRoute() {
   var selectedArea = document.querySelector('input[name="todayArea"]:checked');
   var area = selectedArea ? selectedArea.value : '';
-  var routeBar = document.getElementById('routeBar');
   var routeStats = document.getElementById('routeStats');
   var routeStops = document.getElementById('routeStops');
 
@@ -667,12 +666,38 @@ async function startRoute() {
       var statsHtml = '<span><b>' + res.totalStops + '</b> stops</span>';
       if(res.totalDistance) statsHtml += '<span><b>' + esc(res.totalDistance) + '</b></span>';
       if(res.totalDuration) statsHtml += '<span><b>' + esc(res.totalDuration) + '</b> est.</span>';
-      if(res.mapsUrl) statsHtml += '<a href="' + esc(res.mapsUrl) + '" target="_blank" class="btn btn-outline btn-sm" style="margin-left:auto">&#x1F4CD; Open in Maps</a>';
+
+      // Show route buttons — one per chunk
+      if(res.routes && res.routes.length > 1) {
+        statsHtml += '<span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap">';
+        res.routes.forEach(function(r) {
+          statsHtml += '<a href="' + esc(r.mapsUrl) + '" target="_blank" class="btn btn-primary btn-sm">&#x1F4CD; Route ' + r.routeNumber + ' (stops ' + esc(r.stopRange) + ')</a>';
+        });
+        statsHtml += '</span>';
+      } else if(res.routes && res.routes.length === 1) {
+        statsHtml += '<a href="' + esc(res.routes[0].mapsUrl) + '" target="_blank" class="btn btn-outline btn-sm" style="margin-left:auto">&#x1F4CD; Open in Maps</a>';
+      }
       routeStats.innerHTML = statsHtml;
 
-      // Show optimized stop list
+      // Show optimized stop list with route dividers
       var stopsHtml = '';
+      var routeIdx = 0;
       res.stops.forEach(function(s, idx) {
+        // Show route divider
+        if(res.routes && res.routes.length > 1) {
+          var r = res.routes[routeIdx];
+          var rangeStart = parseInt(r.stopRange.split('-')[0]);
+          if(idx + 1 === rangeStart) {
+            stopsHtml += '<div style="display:flex;align-items:center;gap:10px;margin:12px 0 8px;font-size:12px;font-weight:700;color:var(--leaf);text-transform:uppercase;letter-spacing:.5px">';
+            stopsHtml += '<span style="flex:1;height:1px;background:rgba(47,107,59,.15)"></span>';
+            stopsHtml += 'Route ' + r.routeNumber + ' (stops ' + esc(r.stopRange) + ')';
+            stopsHtml += '<a href="' + esc(r.mapsUrl) + '" target="_blank" style="font-size:11px;color:var(--leaf);text-decoration:underline;text-transform:none;letter-spacing:0">Open</a>';
+            stopsHtml += '<span style="flex:1;height:1px;background:rgba(47,107,59,.15)"></span>';
+            stopsHtml += '</div>';
+          }
+          var rangeEnd = parseInt(r.stopRange.split('-')[1]);
+          if(idx + 1 >= rangeEnd && routeIdx < res.routes.length - 1) routeIdx++;
+        }
         stopsHtml += '<div class="route-stop">';
         stopsHtml += '<div class="route-num">' + (idx + 1) + '</div>';
         stopsHtml += '<div class="route-stop-info">';
