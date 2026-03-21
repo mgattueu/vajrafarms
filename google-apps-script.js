@@ -24,6 +24,8 @@ function doPost(e) {
       case 'deleteArea':     return j(handleDeleteArea(data));
       case 'getDashboard':   return j(handleGetDashboard());
       case 'getRoute':       return j(handleGetRoute(data));
+      case 'getSettings':    return j(handleGetSettings());
+      case 'updateSettings': return j(handleUpdateSettings(data));
       default:               return j({ success: false, message: 'Unknown action.' });
     }
   } catch (err) {
@@ -67,6 +69,35 @@ function getOrdersSheet() {
 
 function getAreasSheet() {
   return getOrCreateSheet('Areas', ['AreaName']);
+}
+
+function getSettingsSheet() {
+  return getOrCreateSheet('Settings', ['Key', 'Value']);
+}
+
+function getSetting(key, defaultValue) {
+  var sheet = getSettingsSheet();
+  var data = sheet.getDataRange().getValues();
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0] && data[i][0].toString() === key) {
+      return data[i][1] ? data[i][1].toString() : defaultValue;
+    }
+  }
+  // Seed default
+  sheet.appendRow([key, defaultValue]);
+  return defaultValue;
+}
+
+function setSetting(key, value) {
+  var sheet = getSettingsSheet();
+  var data = sheet.getDataRange().getValues();
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0] && data[i][0].toString() === key) {
+      sheet.getRange(i + 1, 2).setValue(value);
+      return;
+    }
+  }
+  sheet.appendRow([key, value]);
 }
 
 // ─── Seed Defaults ───────────────────────────────────────
@@ -467,7 +498,8 @@ function handleDeleteUser(data) {
 
 function handleGetRoute(data) {
   var filterArea = (data && data.area) ? data.area : '';
-  var origin = (data && data.origin) ? data.origin : 'Khammam, Telangana, India';
+  var defaultOrigin = '4-2-744/2, Mamatha Hospital Rd, Dwaraka Nagar, Kaviraj Nagar, Khammam, Telangana 507002, India';
+  var origin = (data && data.origin) ? data.origin : getSetting('routeOrigin', defaultOrigin);
 
   // Get today's active orders (reuse logic from getTodayOrders)
   var result = handleGetTodayOrders({ area: filterArea });
@@ -598,4 +630,23 @@ function handleGetRoute(data) {
     routes: routes,
     mapsUrl: routes.length > 0 ? routes[0].mapsUrl : ''
   };
+}
+
+// ─── Settings ───────────────────────────────────────────
+
+function handleGetSettings() {
+  var defaultOrigin = '4-2-744/2, Mamatha Hospital Rd, Dwaraka Nagar, Kaviraj Nagar, Khammam, Telangana 507002, India';
+  return {
+    success: true,
+    settings: {
+      routeOrigin: getSetting('routeOrigin', defaultOrigin)
+    }
+  };
+}
+
+function handleUpdateSettings(data) {
+  if (data.routeOrigin !== undefined) {
+    setSetting('routeOrigin', data.routeOrigin);
+  }
+  return { success: true, message: 'Settings updated.' };
 }

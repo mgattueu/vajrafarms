@@ -326,6 +326,16 @@
     <!-- ── Manage Areas ── -->
     <div id="secAreas" class="app-section hidden">
       <div class="panel">
+        <h3>Route Starting Point</h3>
+        <p style="font-size:13px;color:#8a917e;margin-bottom:10px">All delivery routes will start from this address.</p>
+        <div class="fg">
+          <label>Starting Address</label>
+          <input type="text" id="routeOrigin" placeholder="Full address..." />
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="saveRouteOrigin()">Save Starting Point</button>
+        <div class="suc-msg" id="settingsSuccess" style="margin-top:10px"></div>
+      </div>
+      <div class="panel" style="margin-top:16px">
         <h3>Manage Areas</h3>
         <div id="areasList"></div>
         <div class="fr" style="margin-top:14px">
@@ -952,6 +962,26 @@ async function deleteUser(username) {
   loadUsers();
 }
 
+// ─── Route Origin Setting ────────────────────────────────
+async function loadSettings() {
+  try {
+    var res = await api({action:'getSettings'});
+    if(res.success && res.settings) {
+      document.getElementById('routeOrigin').value = res.settings.routeOrigin || '';
+    }
+  } catch(e) {}
+}
+
+async function saveRouteOrigin() {
+  var val = document.getElementById('routeOrigin').value.trim();
+  if(!val) return;
+  var suc = document.getElementById('settingsSuccess');
+  try {
+    var res = await api({action:'updateSettings', routeOrigin:val});
+    if(res.success) { suc.textContent='Starting point saved!'; suc.style.display='block'; setTimeout(function(){suc.style.display='none';},3000); }
+  } catch(e) { }
+}
+
 // ─── Settings combined view ──────────────────────────────
 // When "Settings" bottom nav is clicked, show both areas and users
 const origShowSection = showSection;
@@ -960,6 +990,7 @@ showSection = function(id) {
   if(id==='secAreas') {
     document.getElementById('secUsers').classList.remove('hidden');
     loadUsers();
+    loadSettings();
   }
 };
 
