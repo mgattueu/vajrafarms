@@ -501,6 +501,18 @@ function handleDeleteUser(data) {
 
 // ─── Route Optimization ────────────────────────────────
 
+// Haversine formula: distance in km between two lat/lng points
+function haversine(lat1, lng1, lat2, lng2) {
+  var R = 6371; // Earth radius in km
+  var dLat = (lat2 - lat1) * Math.PI / 180;
+  var dLng = (lng2 - lng1) * Math.PI / 180;
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLng / 2) * Math.sin(dLng / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
 function handleGetRoute(data) {
   var filterArea = (data && data.area) ? data.area : '';
   var defaultOrigin = '4-2-744/2, Mamatha Hospital Rd, Dwaraka Nagar, Kaviraj Nagar, Khammam, Telangana 507002, India';
@@ -538,53 +550,74 @@ function handleGetRoute(data) {
     });
   }
 
-  // Try route optimization via Google Maps service
+  // Geocode all addresses and optimize using nearest-neighbor
   var optimizedOrder = [];
   var totalDistance = '';
   var totalDuration = '';
 
   try {
+    // Geocode origin
+    var originGeo = Maps.newGeocoder().geocode(origin);
+    var originLat = 17.2473; // Khammam default
+    var originLng = 80.1514;
+    if (originGeo.status === 'OK' && originGeo.results.length > 0) {
+      originLat = originGeo.results[0].geometry.location.lat;
+      originLng = originGeo.results[0].geometry.location.lng;
+    }
+
+    // Geocode each stop
+    for (var g = 0; g < stops.length; g++) {
+      try {
+        var geo = Maps.newGeocoder().geocode(stops[g].address);
+        if (geo.status === 'OK' && geo.results.length > 0) {
+          stops[g].lat = geo.results[0].geometry.location.lat;
+          stops[g].lng = geo.results[0].geometry.location.lng;
+        } else {
+          // Can't geocode — assign default coords so it goes last
+          stops[g].lat = originLat;
+          stops[g].lng = originLng;
+        }
+      } catch (ge) {
+        stops[g].lat = originLat;
+        stops[g].lng = originLng;
+      }
+    }
+
+    // Nearest-neighbor algorithm
     if (stops.length >= 2) {
-      var df = Maps.newDirectionFinder()
-        .setOrigin(origin)
-        .setDestination(origin) // return to start
-        .setMode(Maps.DirectionFinder.Mode.DRIVING)
-        .setOptimizeWaypoints(true);
+      var visited = [];
+      var unvisited = stops.slice();
+      var curLat = originLat;
+      var curLng = originLng;
+      var totalDist = 0;
 
-      for (var s = 0; s < stops.length; s++) {
-        df.addWaypoint(stops[s].address);
+      while (unvisited.length > 0) {
+        var nearest = 0;
+        var nearestDist = haversine(curLat, curLng, unvisited[0].lat, unvisited[0].lng);
+        for (var n = 1; n < unvisited.length; n++) {
+          var d = haversine(curLat, curLng, unvisited[n].lat, unvisited[n].lng);
+          if (d < nearestDist) { nearest = n; nearestDist = d; }
+        }
+        totalDist += nearestDist;
+        curLat = unvisited[nearest].lat;
+        curLng = unvisited[nearest].lng;
+        visited.push(unvisited[nearest]);
+        unvisited.splice(nearest, 1);
       }
 
-      var directions = df.getDirections();
-
-      if (directions.status === 'OK' && directions.routes.length > 0) {
-        var route = directions.routes[0];
-        var waypointOrder = route.waypoint_order; // optimized indices
-
-        // Reorder stops
-        for (var w = 0; w < waypointOrder.length; w++) {
-          optimizedOrder.push(stops[waypointOrder[w]]);
-        }
-
-        // Calculate totals
-        var legs = route.legs;
-        var distM = 0, durS = 0;
-        for (var l = 0; l < legs.length; l++) {
-          distM += legs[l].distance.value;
-          durS += legs[l].duration.value;
-        }
-        totalDistance = (distM / 1000).toFixed(1) + ' km';
-        totalDuration = Math.round(durS / 60) + ' min';
-      } else {
-        // Directions failed, return original order
-        optimizedOrder = stops;
-      }
+      optimizedOrder = visited;
+      totalDistance = totalDist.toFixed(1) + ' km';
+      // Rough estimate: 20 km/h average in town
+      totalDuration = Math.round((totalDist / 20) * 60) + ' min';
     } else if (stops.length === 1) {
       optimizedOrder = stops;
+      var d1 = haversine(originLat, originLng, stops[0].lat, stops[0].lng);
+      totalDistance = d1.toFixed(1) + ' km';
+      totalDuration = Math.round((d1 / 20) * 60) + ' min';
     }
   } catch (e) {
-    // If Maps service fails, return original order
-    optimizedOrder = stops;
+    // If geocoding fails entirely, return original order
+    optimizedOrder = stops.length > 0 ? stops : [];
   }
 
   // Build Google Maps navigation URLs — auto-split into chunks of 10
