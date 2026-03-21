@@ -112,6 +112,20 @@
     .oc-row b{color:var(--ink);min-width:55px;font-size:12px}
     .oc-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 
+    /* ── Route Bar ── */
+    .route-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;padding:14px 16px;background:linear-gradient(135deg,rgba(47,107,59,.06),rgba(47,107,59,.02));border:1px solid rgba(47,107,59,.12);border-radius:14px}
+    .route-bar .btn{gap:6px}
+    .route-stats{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--soil)}
+    .route-stats b{color:var(--leaf)}
+    .route-stops{margin-bottom:16px}
+    .route-stop{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+    .route-stop:last-child{border-bottom:none}
+    .route-num{width:28px;height:28px;border-radius:50%;background:var(--leaf);color:var(--white);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .route-stop-info{font-size:13px;line-height:1.5}
+    .route-stop-name{font-weight:700;color:var(--ink)}
+    .route-stop-addr{color:#5a6357}
+    .route-stop-meta{font-size:11px;color:#8a917e}
+
     /* ── Compact Delivery Table ── */
     .dtable{width:100%;border-collapse:separate;border-spacing:0 4px}
     .dtable th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#8a917e;text-align:left;padding:6px 10px;white-space:nowrap}
@@ -279,6 +293,13 @@
       <div class="panel">
         <h3>Deliveries Dashboard</h3>
         <div class="radio-filters" id="todayAreaFilters"></div>
+        <div id="routeBar" style="display:none">
+          <div class="route-bar">
+            <button class="btn btn-primary btn-sm" onclick="startRoute()">&#x1F697; Start Route</button>
+            <div class="route-stats" id="routeStats"></div>
+          </div>
+        </div>
+        <div id="routeStops" class="route-stops" style="display:none"></div>
         <div id="todayOrdersList" style="overflow-x:auto"></div>
       </div>
     </div>
@@ -576,8 +597,13 @@ async function loadTodayOrders() {
     const res = await api({action:'getTodayOrders', area:area});
     if(res.success && res.orders.length>0) {
       list.innerHTML = renderDeliveryTable(res.orders);
+      document.getElementById('routeBar').style.display = '';
+      document.getElementById('routeStops').style.display = 'none';
+      document.getElementById('routeStats').innerHTML = '<span>' + res.orders.length + ' deliveries</span>';
     } else {
       list.innerHTML = '<p style="color:#8a917e;text-align:center;padding:20px">No deliveries for today.</p>';
+      document.getElementById('routeBar').style.display = 'none';
+      document.getElementById('routeStops').style.display = 'none';
     }
   } catch(ex) {
     list.innerHTML = '<p style="color:var(--danger);text-align:center;padding:20px">Error loading.</p>';
@@ -621,6 +647,49 @@ function renderDeliveryTable(orders) {
 function toggleRow(i) {
   var el = document.getElementById('dexp_'+i);
   if(el) el.classList.toggle('open');
+}
+
+// ─── Route Optimization ─────────────────────────────────
+async function startRoute() {
+  var selectedArea = document.querySelector('input[name="todayArea"]:checked');
+  var area = selectedArea ? selectedArea.value : '';
+  var routeBar = document.getElementById('routeBar');
+  var routeStats = document.getElementById('routeStats');
+  var routeStops = document.getElementById('routeStops');
+
+  routeStats.innerHTML = '<span>Optimizing route...</span>';
+  routeStops.style.display = 'none';
+
+  try {
+    var res = await api({action:'getRoute', area:area});
+    if(res.success && res.stops && res.stops.length > 0) {
+      // Show stats
+      var statsHtml = '<span><b>' + res.totalStops + '</b> stops</span>';
+      if(res.totalDistance) statsHtml += '<span><b>' + esc(res.totalDistance) + '</b></span>';
+      if(res.totalDuration) statsHtml += '<span><b>' + esc(res.totalDuration) + '</b> est.</span>';
+      if(res.mapsUrl) statsHtml += '<a href="' + esc(res.mapsUrl) + '" target="_blank" class="btn btn-outline btn-sm" style="margin-left:auto">&#x1F4CD; Open in Maps</a>';
+      routeStats.innerHTML = statsHtml;
+
+      // Show optimized stop list
+      var stopsHtml = '';
+      res.stops.forEach(function(s, idx) {
+        stopsHtml += '<div class="route-stop">';
+        stopsHtml += '<div class="route-num">' + (idx + 1) + '</div>';
+        stopsHtml += '<div class="route-stop-info">';
+        stopsHtml += '<div class="route-stop-name">' + esc(s.name) + '</div>';
+        stopsHtml += '<div class="route-stop-addr">' + esc(s.address) + '</div>';
+        stopsHtml += '<div class="route-stop-meta">' + esc(String(s.quantity)) + 'L ' + esc(s.milkType || '') + ' · ' + esc(s.phone || '') + '</div>';
+        stopsHtml += '</div></div>';
+      });
+      routeStops.innerHTML = stopsHtml;
+      routeStops.style.display = 'block';
+    } else {
+      routeStats.innerHTML = '<span style="color:var(--danger)">' + esc(res.message || 'No stops found.') + '</span>';
+      routeStops.style.display = 'none';
+    }
+  } catch(ex) {
+    routeStats.innerHTML = '<span style="color:var(--danger)">Error optimizing route.</span>';
+  }
 }
 
 // ─── All Customers ───────────────────────────────────────

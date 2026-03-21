@@ -23,6 +23,7 @@ function doPost(e) {
       case 'addArea':        return j(handleAddArea(data));
       case 'deleteArea':     return j(handleDeleteArea(data));
       case 'getDashboard':   return j(handleGetDashboard());
+      case 'getRoute':       return j(handleGetRoute(data));
       default:               return j({ success: false, message: 'Unknown action.' });
     }
   } catch (err) {
@@ -460,4 +461,125 @@ function handleDeleteUser(data) {
     }
   }
   return { success: false, message: 'User not found.' };
+}
+
+// ─── Route Optimization ────────────────────────────────
+
+function handleGetRoute(data) {
+  var filterArea = (data && data.area) ? data.area : '';
+  var origin = (data && data.origin) ? data.origin : 'Khammam, Telangana, India';
+
+  // Get today's active orders (reuse logic from getTodayOrders)
+  var result = handleGetTodayOrders({ area: filterArea });
+  if (!result.success || !result.orders || result.orders.length === 0) {
+    return { success: false, message: 'No deliveries found for today.' };
+  }
+
+  var orders = result.orders;
+
+  // Build full addresses with Khammam context
+  var stops = [];
+  for (var i = 0; i < orders.length; i++) {
+    var addr = orders[i].customerAddress || '';
+    var area = orders[i].area || '';
+    // Append area and city for better geocoding
+    var fullAddr = addr;
+    if (area && fullAddr.toLowerCase().indexOf(area.toLowerCase()) === -1) {
+      fullAddr += ', ' + area;
+    }
+    if (fullAddr.toLowerCase().indexOf('khammam') === -1) {
+      fullAddr += ', Khammam, Telangana';
+    }
+    stops.push({
+      index: i,
+      address: fullAddr,
+      name: orders[i].customerName || '',
+      phone: orders[i].customerPhone || '',
+      quantity: orders[i].quantity || '',
+      milkType: orders[i].milkType || '',
+      time: orders[i].deliveryTime || ''
+    });
+  }
+
+  // Try route optimization via Google Maps service
+  var optimizedOrder = [];
+  var mapsUrl = '';
+  var totalDistance = '';
+  var totalDuration = '';
+
+  try {
+    if (stops.length >= 2) {
+      var df = Maps.newDirectionFinder()
+        .setOrigin(origin)
+        .setDestination(origin) // return to start
+        .setMode(Maps.DirectionFinder.Mode.DRIVING)
+        .setOptimizeWaypoints(true);
+
+      for (var s = 0; s < stops.length; s++) {
+        df.addWaypoint(stops[s].address);
+      }
+
+      var directions = df.getDirections();
+
+      if (directions.status === 'OK' && directions.routes.length > 0) {
+        var route = directions.routes[0];
+        var waypointOrder = route.waypoint_order; // optimized indices
+
+        // Reorder stops
+        for (var w = 0; w < waypointOrder.length; w++) {
+          optimizedOrder.push(stops[waypointOrder[w]]);
+        }
+
+        // Calculate totals
+        var legs = route.legs;
+        var distM = 0, durS = 0;
+        for (var l = 0; l < legs.length; l++) {
+          distM += legs[l].distance.value;
+          durS += legs[l].duration.value;
+        }
+        totalDistance = (distM / 1000).toFixed(1) + ' km';
+        totalDuration = Math.round(durS / 60) + ' min';
+      } else {
+        // Directions failed, return original order
+        optimizedOrder = stops;
+      }
+    } else if (stops.length === 1) {
+      optimizedOrder = stops;
+    }
+  } catch (e) {
+    // If Maps service fails, return original order
+    optimizedOrder = stops;
+  }
+
+  // Build Google Maps navigation URL
+  if (optimizedOrder.length > 0) {
+    var waypoints = [];
+    for (var m = 0; m < optimizedOrder.length; m++) {
+      waypoints.push(encodeURIComponent(optimizedOrder[m].address));
+    }
+    // Google Maps URL: origin → waypoints → destination (back to origin)
+    var dest = encodeURIComponent(optimizedOrder[optimizedOrder.length - 1].address);
+    var waypointsStr = '';
+    if (optimizedOrder.length > 1) {
+      var wpAddrs = [];
+      for (var p = 0; p < optimizedOrder.length - 1; p++) {
+        wpAddrs.push(encodeURIComponent(optimizedOrder[p].address));
+      }
+      waypointsStr = '&waypoints=' + wpAddrs.join('|');
+    }
+    mapsUrl = 'https://www.google.com/maps/dir/?api=1'
+      + '&origin=' + encodeURIComponent(origin)
+      + '&destination=' + dest
+      + waypointsStr
+      + '&travelmode=driving';
+  }
+
+  return {
+    success: true,
+    stops: optimizedOrder,
+    totalStops: optimizedOrder.length,
+    totalDistance: totalDistance,
+    totalDuration: totalDuration,
+    mapsUrl: mapsUrl
+  };
 }
