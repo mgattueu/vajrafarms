@@ -1,910 +1,1281 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vajra Farms | Fresh Milk Delivery in Khammam</title>
-  <meta name="description" content="Vajra Farms delivers fresh buffalo & cow milk daily to your doorstep in Khammam. Pure dairy, organic farming, and natural by-products.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --green-900: #14261a;
-      --green-800: #1a3c24;
-      --green-700: #245a33;
-      --green-600: #2d7a3f;
-      --green-100: #e4f0e8;
-      --green-50: #f1f8f3;
-      --cream: #faf7f0;
-      --cream-dark: #f0ead6;
-      --gold: #c9943e;
-      --gold-light: #f5ecd8;
-      --text: #1a2e1f;
-      --text-secondary: #5a6e5f;
-      --border: rgba(26, 60, 36, .08);
-      --card-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.03);
-      --radius: 16px;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vajra Farms | Naturally Pure. Traditionally Strong.</title>
+    <meta
+      name="description"
+      content="Vajra Farms brings naturally pure, traditionally strong dairy with farm-rooted care and uncompromising freshness."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      document.documentElement.classList.toggle(
+        "preview-mode",
+        new URLSearchParams(window.location.search).has("preview"),
+      );
+    </script>
+    <link rel="icon" type="image/webp" href="images/optimized/logo.webp" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- ===== Loading screen ===== -->
+    <div id="vfLoader" class="vf-loader" aria-live="polite" aria-label="Loading Vajra Farms">
+      <img src="images/optimized/logo.webp" alt="Vajra Farms" class="vf-loader-logo" />
+      <div class="vf-loader-track"><div class="vf-loader-fill" id="vfLoaderFill"></div></div>
+      <p class="vf-loader-label" id="vfLoaderLabel">Loading…</p>
+    </div>
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <!-- ===== Sky intro: clouds + birds, parts on scroll ===== -->
+    <div class="vf-intro-wrap" id="vfIntroWrap">
+      <section class="vf-sky" id="vfSky" aria-label="Vajra Farms intro">
+        <div class="vf-birds" id="vfBirds"></div>
 
-    body {
-      font-family: "Inter", system-ui, sans-serif;
-      color: var(--text);
-      background: var(--cream);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+        <div class="vf-far-clouds" aria-hidden="true">
+          <span class="vf-far-cloud vf-far-cloud--1"></span>
+          <span class="vf-far-cloud vf-far-cloud--2"></span>
+          <span class="vf-far-cloud vf-far-cloud--3"></span>
+        </div>
 
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
+        <div class="vf-sky-copy">
+          <img src="images/optimized/logo.webp" alt="Vajra Farms" class="vf-sky-logo" />
+          <h1 class="vf-sky-title">Vajra Farms</h1>
+          <p class="vf-sky-tagline">Naturally Pure. Traditionally Strong.</p>
+          <button class="vf-enter-btn" id="vfEnterBtn" type="button">
+            Enter the Farm
+          </button>
+        </div>
 
-    .container {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+        <div class="vf-cloud-group vf-cloud-group--left" aria-hidden="true">
+          <span class="vf-cloud vf-cloud--l1"></span>
+          <span class="vf-cloud vf-cloud--l2"></span>
+          <span class="vf-cloud vf-cloud--l3"></span>
+        </div>
+        <div class="vf-cloud-group vf-cloud-group--right" aria-hidden="true">
+          <span class="vf-cloud vf-cloud--r1"></span>
+          <span class="vf-cloud vf-cloud--r2"></span>
+          <span class="vf-cloud vf-cloud--r3"></span>
+        </div>
+      </section>
+    </div>
 
-    /* ── Typography ── */
-    h1, h2, h3 {
-      font-family: "DM Serif Display", serif;
-      color: var(--green-800);
-      line-height: 1.15;
-    }
+    <main class="page-shell site-content" id="site-content">
+      <section class="hero-section">
+        <header class="site-header">
+          <nav class="site-nav nav-left" aria-label="Primary left">
+            <a href="index.html#home">Home</a>
+            <a href="team.html">Team</a>
+          </nav>
 
-    /* ── Buttons ── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 13px 28px;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      transition: all .2s ease;
-    }
-    .btn-primary {
-      background: var(--green-800);
-      color: #fff;
-    }
-    .btn-primary:hover {
-      background: var(--green-700);
-    }
-    .btn-secondary {
-      background: var(--green-100);
-      color: var(--green-800);
-    }
-    .btn-secondary:hover {
-      background: #d4e8d9;
-    }
-    .btn-outline {
-      background: transparent;
-      border: 1.5px solid var(--border);
-      color: var(--green-800);
-    }
-    .btn-outline:hover {
-      border-color: var(--green-700);
-      background: var(--green-50);
-    }
+          <a class="brand" href="index.html#home" aria-label="Vajra Farms home">
+            <img class="brand-badge" src="images/optimized/logo.webp" alt="Vajra Farms logo" />
+          </a>
 
-    /* ── Navbar ── */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(250, 247, 240, .92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 68px;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .logo img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .logo span {
-      font-family: "DM Serif Display", serif;
-      font-size: 1.2rem;
-      color: var(--green-800);
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-links a:not(.btn) {
-      padding: 8px 14px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      border-radius: 8px;
-      transition: all .2s;
-    }
-    .nav-links a:not(.btn):hover {
-      color: var(--green-800);
-      background: var(--green-50);
-    }
-    .nav-links .btn {
-      padding: 9px 20px;
-      font-size: 13px;
-      margin-left: 8px;
-    }
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-    }
-    .hamburger svg {
-      width: 22px;
-      height: 22px;
-      stroke: var(--green-800);
-    }
+          <div class="header-right">
+            <nav class="site-nav nav-right" aria-label="Primary right">
+              <a href="quality.html">Quality</a>
+              <a href="contact.html">Contact</a>
+            </nav>
 
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 68px;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        background: var(--cream);
-        padding: 16px 24px;
-        gap: 4px;
-        border-bottom: 1px solid var(--border);
-        box-shadow: 0 8px 24px rgba(0,0,0,.06);
-      }
-      .nav-links.open { display: flex; }
-      .nav-links a:not(.btn) { width: 100%; }
-      .nav-links .btn { margin-left: 0; margin-top: 8px; width: 100%; justify-content: center; }
-      .hamburger { display: block; }
-    }
+            <div class="header-actions">
+              <a href="https://vajra-farms-backend-asia--vajra-farms.asia-southeast1.hosted.app/customer/login" class="login-link" aria-label="Login">
+                Login
+              </a>
+            </div>
+          </div>
+        </header>
 
-    /* ── Hero ── */
-    .hero {
-      padding: 72px 0 80px;
-      text-align: center;
-    }
-    .hero-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      border-radius: 100px;
-      background: var(--green-100);
-      color: var(--green-700);
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 24px;
-    }
-    .hero-label svg {
-      width: 14px;
-      height: 14px;
-      fill: var(--green-600);
-    }
-    .hero h1 {
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      margin-bottom: 20px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .hero h1 span {
-      color: var(--green-600);
-    }
-    .hero-desc {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      max-width: 520px;
-      margin: 0 auto 36px;
-      line-height: 1.7;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 56px;
-    }
+        <div class="hero-panel" id="home">
 
-    /* Stats row */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .stat-item {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      text-align: center;
-      box-shadow: var(--card-shadow);
-    }
-    .stat-item svg {
-      width: 28px;
-      height: 28px;
-      margin: 0 auto 10px;
-      stroke: var(--green-600);
-      fill: none;
-      stroke-width: 1.5;
-    }
-    .stat-label {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: .8px;
-      color: var(--text-secondary);
-      margin-bottom: 4px;
-    }
-    .stat-value {
-      font-family: "DM Serif Display", serif;
-      font-size: 1rem;
-      color: var(--green-800);
-    }
+          <!-- Background video: scene2 → scene3 → loop (starts after transition) -->
+          <video id="heroSceneVideo" class="hero-scene-video" playsinline muted preload="auto" src="videos/scene2.mp4" loop></video>
 
-    @media (max-width: 640px) {
-      .stats-row { grid-template-columns: 1fr 1fr; }
-    }
+          <!-- ===== Bliss scene — Vanta birds only ===== -->
+          <div class="bliss-scene" aria-hidden="true">
+            <!-- Subtle centre scrim — improves text contrast -->
+            <div class="bliss-scrim"></div>
+            <!-- BIRDS: flock in upper sky -->
+            <div id="blissHeroBirds" class="bliss-vanta-layer bliss-vanta-birds"></div>
+          </div>
+          <!-- ===== /Bliss scene ===== -->
 
-    /* ── Trust Strip ── */
-    .trust-strip {
-      background: var(--green-800);
-      color: rgba(255,255,255,.85);
-      padding: 14px 0;
-      font-size: 13px;
-      font-weight: 500;
-    }
-    .trust-list {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-    .trust-list span {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-    }
-    .trust-list span::before {
-      content: '';
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--gold);
-    }
+          <div class="hero-content">
+            <h1>Farm-<span class="hero-word-fresh">fresh</span> milk, every day.</h1>
+            <p class="hero-copy">
+              Pure full-cream milk from Vajra Farms — straight from the source, delivered to your door.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-light" href="contact.html">Order Fresh Milk</a>
+              <a class="button button-dark" href="team.html">See How It Works</a>
+            </div>
+          </div>
+        </div>
 
-    /* ── Shared Section ── */
-    .section {
-      padding: 80px 0;
-    }
-    .section-header {
-      margin-bottom: 40px;
-    }
-    .section-label {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--green-600);
-      margin-bottom: 10px;
-    }
-    .section-header h2 {
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      margin-bottom: 12px;
-    }
-    .section-header p {
-      color: var(--text-secondary);
-      max-width: 500px;
-      font-size: 1rem;
-    }
+        <div class="visual-strip" aria-label="Product visuals">
+          <article class="visual-card visual-one">
+            <div class="visual-image">
+              <img
+                src="images/optimized/farm-to-door.webp"
+                alt="Sketch art of fresh dairy delivered from farm to door."
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <p class="visual-kicker">Fresh Daily</p>
+            <h2>Farm to door</h2>
+            <p>Rich dairy that feels close to the farm.</p>
+          </article>
+          <article class="visual-card visual-two">
+            <div class="visual-image">
+              <img
+                src="images/optimized/buffalo-cow.webp"
+                alt="Sketch art of buffalo and cow in a pasture."
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <p class="visual-kicker">Buffalo &amp; Cow</p>
+            <h2>Pasture-raised</h2>
+            <p>Simple, clean goodness without shortcuts.</p>
+          </article>
+          <article class="visual-card visual-three">
+            <div class="visual-image">
+              <img
+                src="images/optimized/organic.webp"
+                alt="Sketch art representing organic regenerative farming."
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <p class="visual-kicker">Organic</p>
+            <h2>Regenerative</h2>
+            <p>Balanced texture and satisfying richness.</p>
+          </article>
+          <article class="visual-card visual-four">
+            <div class="visual-image">
+              <img
+                src="images/optimized/khammam.webp"
+                alt="Sketch art map of six dairy service zones across Khammam."
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <p class="visual-kicker">6 Zones</p>
+            <h2>Across Khammam</h2>
+            <p>Built on values that stay strong over time.</p>
+          </article>
+        </div>
 
-    /* ── Card (universal) ── */
-    .card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      box-shadow: var(--card-shadow);
-      transition: box-shadow .2s ease;
-    }
-    .card:hover {
-      box-shadow: 0 2px 6px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
-    }
-    .card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--green-50);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-    .card-icon svg {
-      width: 22px;
-      height: 22px;
-      stroke: var(--green-600);
-      fill: none;
-      stroke-width: 1.5;
-    }
-    .card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-    }
-    .card p {
-      color: var(--text-secondary);
-      font-size: .92rem;
-      line-height: 1.6;
-    }
-    .card-tag {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 6px;
-      background: var(--green-100);
-      color: var(--green-700);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
+        <section class="method-section">
+          <span class="section-anchor" id="story" aria-hidden="true"></span>
+          <span class="section-anchor" id="quality" aria-hidden="true"></span>
+          <div class="method-copy">
+            <p class="section-kicker">Our Method</p>
+            <h2>Quality you can measure.</h2>
+            <p class="method-copy-text">
+              Traditional farming wisdom works best when it is supported by
+              clear systems, daily discipline, and visible standards. At Vajra
+              Farms, every delivery is shaped by regenerative land care,
+              thoughtful animal management, careful freshness controls, and
+              checks that keep quality consistent from source to doorstep.
+            </p>
+          </div>
 
-    /* ── Offerings Grid ── */
-    .offerings-main {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-    .offerings-secondary {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .card-secondary {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      box-shadow: var(--card-shadow);
-    }
-    .card-secondary .card-icon {
-      margin-bottom: 0;
-      flex-shrink: 0;
-      background: var(--gold-light);
-    }
-    .card-secondary .card-icon svg {
-      stroke: var(--gold);
-    }
-    .card-secondary h4 {
-      font-family: "DM Serif Display", serif;
-      font-size: .95rem;
-      color: var(--green-800);
-      margin-bottom: 2px;
-    }
-    .card-secondary p {
-      font-size: .82rem;
-      color: var(--text-secondary);
-    }
+          <div class="method-showcase" data-method-showcase>
+            <div class="method-image-stack" aria-hidden="true">
+              <figure class="method-image is-active" data-step-image="1">
+                <img src="images/optimized/soil-first-farming.webp" alt="" />
+              </figure>
+              <figure class="method-image" data-step-image="2">
+                <img src="images/optimized/animalwelfare.webp" alt="" />
+              </figure>
+              <figure class="method-image" data-step-image="3">
+                <img src="images/optimized/cold-chain.webp" alt="" />
+              </figure>
+              <figure class="method-image" data-step-image="4">
+                <img src="images/optimized/accountability.webp" alt="" />
+              </figure>
+            </div>
 
-    @media (max-width: 640px) {
-      .offerings-main { grid-template-columns: 1fr; }
-      .offerings-secondary { grid-template-columns: 1fr; }
-    }
+            <div class="method-detail-card">
+              <div class="method-panels">
+                <article class="method-panel is-active" data-step-panel="1">
+                  <p class="method-panel-number">01</p>
+                  <h3>Soil-First Farming</h3>
+                  <p>
+                    Regenerative field practices are designed to strengthen soil
+                    structure, improve natural fertility, and support healthier
+                    forage over time. That stronger foundation influences the
+                    quality of everything that follows.
+                  </p>
+                </article>
 
-    /* ── Method (dark) ── */
-    .method-section {
-      padding: 80px 0;
-    }
-    .method-box {
-      background: var(--green-800);
-      border-radius: 20px;
-      padding: 48px 40px;
-      color: #fff;
-    }
-    .method-box .section-label {
-      color: var(--mint, #a8d5b8);
-    }
-    .method-box h2 {
-      color: #fff;
-    }
-    .method-box .section-header p {
-      color: rgba(255,255,255,.6);
-    }
-    .method-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-    .method-card {
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 14px;
-      padding: 24px;
-    }
-    .method-num {
-      font-family: "DM Serif Display", serif;
-      font-size: 1.6rem;
-      color: var(--gold);
-      margin-bottom: 10px;
-    }
-    .method-card h4 {
-      font-family: "DM Serif Display", serif;
-      font-size: .95rem;
-      margin-bottom: 8px;
-    }
-    .method-card p {
-      color: rgba(255,255,255,.55);
-      font-size: .85rem;
-      line-height: 1.6;
-    }
+                <article class="method-panel" data-step-panel="2">
+                  <p class="method-panel-number">02</p>
+                  <h3>Animal Welfare</h3>
+                  <p>
+                    Our cattle are raised with space, natural feed, attentive
+                    care, and routines that reduce stress. We focus on
+                    well-being first, because healthy animals are central to
+                    dependable dairy quality.
+                  </p>
+                </article>
 
-    @media (max-width: 768px) {
-      .method-grid { grid-template-columns: 1fr 1fr; }
-      .method-box { padding: 36px 24px; }
-    }
-    @media (max-width: 480px) {
-      .method-grid { grid-template-columns: 1fr; }
-    }
+                <article class="method-panel" data-step-panel="3">
+                  <p class="method-panel-number">03</p>
+                  <h3>Cold-Chain Fresh</h3>
+                  <p>
+                    From collection through handling and delivery, freshness is
+                    protected with temperature-aware steps that reduce
+                    unnecessary exposure. The goal is simple: preserve taste,
+                    safety, and consistency in every batch.
+                  </p>
+                </article>
 
-    /* ── Impact ── */
-    .impact-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
+                <article class="method-panel" data-step-panel="4">
+                  <p class="method-panel-number">04</p>
+                  <h3>Daily Accountability</h3>
+                  <p>
+                    Regular quality checks, batch-level tracking, and daily
+                    review routines help us stay answerable to every customer we
+                    serve. That accountability keeps our standards practical,
+                    visible, and repeatable.
+                  </p>
+                </article>
+              </div>
 
-    @media (max-width: 768px) {
-      .impact-grid { grid-template-columns: 1fr; }
-    }
+              <div class="method-controls" aria-label="Method steps">
+                <button class="method-arrow" type="button" data-method-prev aria-label="Previous step">
+                  <span></span>
+                </button>
+                <button class="method-progress" type="button" data-method-progress aria-label="Select next method step">
+                  <span data-method-current>1</span>/<span data-method-total>4</span>
+                </button>
+                <button class="method-arrow method-arrow-next" type="button" data-method-next aria-label="Next step">
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
 
-    /* ── Team ── */
-    .team-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .team-card {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-    .team-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      flex-shrink: 0;
-      background: linear-gradient(135deg, var(--gold), #ddb050);
-      color: #fff;
-      font-weight: 700;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .team-name {
-      font-family: "DM Serif Display", serif;
-      font-size: 1.05rem;
-      color: var(--green-800);
-    }
-    .team-role {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--green-600);
-      margin-bottom: 4px;
-    }
-    .team-desc {
-      color: var(--text-secondary);
-      font-size: .85rem;
-      line-height: 1.5;
-    }
+        <section class="serve-section" id="serve">
+          <div class="serve-heading">
+            <p class="section-kicker">Who We Serve</p>
+            <h2>Built for families and businesses.</h2>
+            <p class="serve-subtitle">
+              From morning coffee to bulk supply — we have you covered.
+            </p>
+          </div>
 
-    @media (max-width: 640px) {
-      .team-grid { grid-template-columns: 1fr; }
-    }
+          <div class="serve-grid" aria-label="Who we serve">
+            <article class="serve-card serve-card-households">
+              <img
+                class="serve-card-image"
+                src="images/optimized/household.webp"
+                alt="Fresh dairy products for households."
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="serve-card-overlay">
+                <div class="serve-card-content">
+                  <h3>For Households</h3>
+                  <p>
+                    Daily milk delivery to your door. Start with a 3-day trial.
+                    Subscription plans available for daily, alternate, or weekly
+                    delivery.
+                  </p>
+                </div>
+              </div>
+            </article>
 
-    /* ── CTA ── */
-    .cta-box {
-      background: var(--green-50);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 48px 40px;
-      text-align: center;
-    }
-    .cta-box h2 {
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      margin-bottom: 10px;
-    }
-    .cta-box p {
-      color: var(--text-secondary);
-      max-width: 440px;
-      margin: 0 auto 24px;
-      font-size: .95rem;
-    }
-    .cta-phones {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+            <article class="serve-card serve-card-businesses">
+              <img
+                class="serve-card-image"
+                src="images/optimized/business.webp"
+                alt="Reliable dairy supply for businesses."
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="serve-card-overlay">
+                <div class="serve-card-content">
+                  <h3>For Businesses</h3>
+                  <p>
+                    Reliable bulk supply for hotels, restaurants, sweet shops,
+                    and cafes. Consistent quality with batch tracking.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
 
-    @media (max-width: 480px) {
-      .cta-box { padding: 36px 24px; }
-    }
+        <section class="follow-section" aria-labelledby="follow-title">
+          <div class="follow-heading">
+            <p class="section-kicker">Follow Along</p>
+            <h2 id="follow-title">Follow us @vajra_farms_khammam</h2>
+          </div>
 
-    /* ── Footer ── */
-    footer {
-      background: var(--green-900);
-      color: rgba(255,255,255,.65);
-      margin-top: 80px;
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 40px;
-      padding: 48px 0 32px;
-    }
-    .footer-brand {
-      font-family: "DM Serif Display", serif;
-      font-size: 1.2rem;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-    .footer-tagline {
-      font-size: .88rem;
-      line-height: 1.7;
-    }
-    footer h4 {
-      color: rgba(255,255,255,.9);
-      font-size: .78rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-    footer a {
-      display: block;
-      padding: 3px 0;
-      font-size: .88rem;
-      transition: color .2s;
-    }
-    footer a:hover { color: #fff; }
-    .footer-bottom {
-      padding: 16px 0;
-      border-top: 1px solid rgba(255,255,255,.06);
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      color: rgba(255,255,255,.3);
-    }
-    .footer-legal-links {
-      display: flex;
-      gap: 16px;
-    }
-    .footer-legal-links a {
-      display: inline;
-      padding: 0;
-      font-size: 12px;
-    }
+          <div class="follow-carousel" data-follow-carousel>
+            <div class="follow-viewport" data-follow-viewport>
+              <div class="follow-track">
+                <article class="follow-card">
+                  <video class="follow-video" muted loop playsinline preload="none" poster="videos/posters/Video-74.jpg?v=2">
+                    <source src="videos/optimized/Video-74.mp4?v=2" type="video/mp4" />
+                  </video>
+                  <div class="follow-card-overlay">
+                    <div class="follow-card-controls">
+                      <button class="follow-play" type="button" data-follow-play aria-label="Play video"></button>
+                      <button class="follow-volume is-muted" type="button" data-follow-volume aria-label="Unmute video"></button>
+                    </div>
+                  </div>
+                </article>
 
-    @media (max-width: 768px) {
-      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
-    }
+                <article class="follow-card">
+                  <video class="follow-video" muted loop playsinline preload="none" poster="videos/posters/Video-252.jpg?v=2">
+                    <source src="videos/optimized/Video-252.mp4?v=2" type="video/mp4" />
+                  </video>
+                  <div class="follow-card-overlay">
+                    <div class="follow-card-controls">
+                      <button class="follow-play" type="button" data-follow-play aria-label="Play video"></button>
+                      <button class="follow-volume is-muted" type="button" data-follow-volume aria-label="Unmute video"></button>
+                    </div>
+                  </div>
+                </article>
 
-    /* ── Fade ── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity .5s ease, transform .5s ease;
-    }
-    .fade-up.visible { opacity: 1; transform: none; }
-    .d1 { transition-delay: .08s; }
-    .d2 { transition-delay: .16s; }
-    .d3 { transition-delay: .24s; }
+                <article class="follow-card">
+                  <video class="follow-video" muted loop playsinline preload="none" poster="videos/posters/laxmi.jpg?v=1">
+                    <source src="videos/optimized/laxmi.mp4?v=1" type="video/mp4" />
+                  </video>
+                  <div class="follow-card-overlay">
+                    <div class="follow-card-controls">
+                      <button class="follow-play" type="button" data-follow-play aria-label="Play video"></button>
+                      <button class="follow-volume is-muted" type="button" data-follow-volume aria-label="Unmute video"></button>
+                    </div>
+                  </div>
+                </article>
 
-    @media (prefers-reduced-motion: reduce) {
-      .fade-up { opacity: 1; transform: none; transition: none; }
-    }
-  </style>
-</head>
-<body>
+                <article class="follow-card">
+                  <video class="follow-video" muted loop playsinline preload="none" poster="videos/posters/Video-580.jpg?v=2">
+                    <source src="videos/optimized/Video-580.mp4?v=2" type="video/mp4" />
+                  </video>
+                  <div class="follow-card-overlay">
+                    <div class="follow-card-controls">
+                      <button class="follow-play" type="button" data-follow-play aria-label="Play video"></button>
+                      <button class="follow-volume is-muted" type="button" data-follow-volume aria-label="Unmute video"></button>
+                    </div>
+                  </div>
+                </article>
 
-<!-- NAV -->
-<nav class="navbar">
-  <div class="container nav-inner">
-    <a href="#" class="logo">
-      <img src="logo.png" alt="Vajra Farms">
-      <span>Vajra Farms</span>
+                <article class="follow-card">
+                  <video class="follow-video" muted loop playsinline preload="none" poster="videos/posters/Video-635.jpg?v=2">
+                    <source src="videos/optimized/Video-635.mp4?v=2" type="video/mp4" />
+                  </video>
+                  <div class="follow-card-overlay">
+                    <div class="follow-card-controls">
+                      <button class="follow-play" type="button" data-follow-play aria-label="Play video"></button>
+                      <button class="follow-volume is-muted" type="button" data-follow-volume aria-label="Unmute video"></button>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="follow-card">
+                  <video class="follow-video" muted loop playsinline preload="none" poster="videos/posters/Video-807.jpg?v=2">
+                    <source src="videos/optimized/Video-807.mp4?v=2" type="video/mp4" />
+                  </video>
+                  <div class="follow-card-overlay">
+                    <div class="follow-card-controls">
+                      <button class="follow-play" type="button" data-follow-play aria-label="Play video"></button>
+                      <button class="follow-volume is-muted" type="button" data-follow-volume aria-label="Unmute video"></button>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="follow-card">
+                  <video class="follow-video" muted loop playsinline preload="none" poster="videos/posters/Video-920.jpg?v=2">
+                    <source src="videos/optimized/Video-920.mp4?v=2" type="video/mp4" />
+                  </video>
+                  <div class="follow-card-overlay">
+                    <div class="follow-card-controls">
+                      <button class="follow-play" type="button" data-follow-play aria-label="Play video"></button>
+                      <button class="follow-volume is-muted" type="button" data-follow-volume aria-label="Unmute video"></button>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="follow-card">
+                  <video class="follow-video" muted loop playsinline preload="none" poster="videos/posters/Video-980.jpg?v=2">
+                    <source src="videos/optimized/Video-980.mp4?v=2" type="video/mp4" />
+                  </video>
+                  <div class="follow-card-overlay">
+                    <div class="follow-card-controls">
+                      <button class="follow-play" type="button" data-follow-play aria-label="Play video"></button>
+                      <button class="follow-volume is-muted" type="button" data-follow-volume aria-label="Unmute video"></button>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="follow-controls" aria-label="Video navigation">
+              <button class="follow-arrow follow-arrow-prev" type="button" data-follow-prev aria-label="Previous video">
+                <span></span>
+              </button>
+              <button class="follow-arrow follow-arrow-next" type="button" data-follow-next aria-label="Next video">
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="plans-section" aria-labelledby="plans-title">
+          <div class="plans-heading">
+            <p class="section-kicker">Subscription Plans</p>
+            <h2 id="plans-title">Choose the delivery plan that fits your routine.</h2>
+          </div>
+
+          <div class="plans-grid">
+            <article class="plan-card">
+              <div class="plan-card-top">
+                <h3>30 Days Plan</h3>
+                <p>Standard Plan</p>
+              </div>
+              <div class="plan-card-body">
+                <div class="plan-volume-grid plan-volume-grid-simple">
+                  <div class="plan-volume">
+                    <span class="plan-volume-label">1/2 Liter</span>
+                    <strong>₹ 1350</strong>
+                  </div>
+                  <div class="plan-volume">
+                    <span class="plan-volume-label">1 Liter</span>
+                    <strong>₹ 2700</strong>
+                  </div>
+                </div>
+                <ul class="plan-features">
+                  <li>Daily Fresh Milk</li>
+                  <li>On-time Delivery</li>
+                  <li>Quality You Can Trust</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="plan-card">
+              <div class="plan-card-top">
+                <h3>60 Days Plan</h3>
+                <p>Great Value. Save More</p>
+              </div>
+              <div class="plan-card-body">
+                <div class="plan-volume-grid">
+                  <div class="plan-volume">
+                    <span class="plan-volume-label">1/2 Liter</span>
+                    <small>₹ 2700</small>
+                    <strong>₹ 2655</strong>
+                  </div>
+                  <div class="plan-volume">
+                    <span class="plan-volume-label">1 Liter</span>
+                    <small>₹ 5400</small>
+                    <strong>₹ 5310</strong>
+                  </div>
+                </div>
+                <div class="plan-save-band">
+                  <span>₹45 <small>(1/2 Liter)</small></span>
+                  <b>You Save</b>
+                  <span>₹90 <small>(1 Liter)</small></span>
+                </div>
+                <ul class="plan-features">
+                  <li>Daily Fresh Milk</li>
+                  <li>On-time Delivery</li>
+                  <li>Priority Customer Support</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="plan-card plan-card-wide">
+              <div class="plan-card-top">
+                <h3>90 Days Plan</h3>
+                <p>Maximum Savings Best Choice</p>
+              </div>
+              <div class="plan-card-body">
+                <div class="plan-volume-grid">
+                  <div class="plan-volume">
+                    <span class="plan-volume-label">1/2 Liter</span>
+                    <small>₹ 4050</small>
+                    <strong>₹ 3960</strong>
+                  </div>
+                  <div class="plan-volume">
+                    <span class="plan-volume-label">1 Liter</span>
+                    <small>₹ 8100</small>
+                    <strong>₹ 7920</strong>
+                  </div>
+                </div>
+                <div class="plan-save-band">
+                  <span>₹90 <small>(1 Liter)</small></span>
+                  <b>You Save</b>
+                  <span>₹180 <small>(2 Liter)</small></span>
+                </div>
+                <ul class="plan-features">
+                  <li>Daily Fresh Milk</li>
+                  <li>On-time Delivery</li>
+                  <li>Priority Customer Support</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="testimonials-section" aria-labelledby="testimonials-title">
+          <div class="testimonials-heading">
+            <p class="section-kicker">What Families Say</p>
+            <h2 id="testimonials-title">A daily stream of trust, taste, and repeat orders.</h2>
+            <p class="testimonials-subtitle">
+              Real reactions inspired by households, businesses, and partners who
+              care about freshness, consistency, and farm-first quality.
+            </p>
+          </div>
+
+          <div class="testimonials-marquee" data-testimonials-marquee>
+            <div class="testimonials-row" data-speed="96"></div>
+            <div class="testimonials-row" data-speed="108"></div>
+          </div>
+        </section>
+
+        <section class="cta-section">
+          <video class="cta-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+            <source src="videos/optimized/ctabackground.mp4" type="video/mp4" />
+          </video>
+          <div class="cta-overlay" aria-hidden="true"></div>
+          <div class="cta-panel">
+            <p class="section-kicker">Ready to Begin</p>
+            <h2>Bring farm-fresh dairy into your daily routine.</h2>
+            <p class="cta-copy">
+              Start with a 3-day trial, set up a household subscription, or
+              talk to us about dependable bulk supply for your business.
+            </p>
+            <div class="cta-actions">
+              <a class="button button-dark" href="contact.html">Start Delivery</a>
+              <a class="button button-light cta-secondary" href="contact.html">Get in Touch</a>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="contact">
+      <div class="footer-brand">
+        <img class="footer-logo" src="images/optimized/logo.webp" alt="Vajra Farms logo" />
+        <h2>Vajra Farms</h2>
+        <p class="footer-tag">Naturally Pure. Traditionally Strong.</p>
+        <p class="footer-copy">
+          Honest dairy from a farm-first system, delivered with freshness,
+          consistency, and the care families can trust every day.
+        </p>
+        <div class="footer-socials" aria-label="Social links">
+          <a href="https://www.facebook.com/share/1LA6sTYY1w/" aria-label="Facebook" class="footer-social footer-social-facebook" target="_blank" rel="noopener noreferrer">
+            <span></span>
+          </a>
+          <a href="https://www.instagram.com/vajra_farms_khammam?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" aria-label="Instagram" class="footer-social footer-social-instagram" target="_blank" rel="noopener noreferrer">
+            <span></span>
+          </a>
+          <a href="https://www.youtube.com/@vajrafarmskhammam" aria-label="YouTube" class="footer-social footer-social-youtube" target="_blank" rel="noopener noreferrer">
+            <span></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-links-group">
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <a href="index.html#home">Home</a>
+          <a href="team.html">Team</a>
+          <a href="quality.html">Quality</a>
+          <a href="index.html#serve">Who We Serve</a>
+        </div>
+
+        <div class="footer-column">
+          <h3>Legal</h3>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+        </div>
+
+        <div class="footer-column footer-contact">
+          <h3>Reach Us</h3>
+          <p>Khammam District, Telangana, India</p>
+          <p>
+            <span class="phone-label">Phone:</span>
+            <span class="phone-number-list">
+              <a href="tel:+919652174999">+91 96521 74999</a>
+              <a href="tel:+919652217999">+91 96522 17999</a>
+            </span>
+          </p>
+          <p>Email: <a href="mailto:vajrafarms26@gmail.com">vajrafarms26@gmail.com</a></p>
+        </div>
+      </div>
+    </footer>
+
+    <a
+      class="whatsapp-float"
+      href="https://wa.me/919652217999"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat with Vajra Farms on WhatsApp"
+    >
+      <span aria-hidden="true"></span>
     </a>
-    <div class="nav-links" id="navLinks">
-      <a href="#offerings">Offerings</a>
-      <a href="#method">Our Method</a>
-      <a href="#impact">Impact</a>
-      <a href="#team">Team</a>
-      <a href="#contact">Contact</a>
-      <a href="portal.html" class="btn btn-primary">Staff Portal</a>
-    </div>
-    <button class="hamburger" aria-label="Menu" onclick="document.getElementById('navLinks').classList.toggle('open')">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-  </div>
-</nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-label">
-      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="4"/></svg>
-      Fresh Daily Milk Delivery in Khammam
-    </div>
-    <h1>Naturally Pure.<br><span>Traditionally Strong.</span></h1>
-    <p class="hero-desc">Fresh buffalo and cow milk delivered from our farm to your doorstep every morning. No additives, no preservatives — just pure milk.</p>
-    <div class="hero-actions">
-      <a href="tel:9652174999" class="btn btn-primary">Book Now: 96521 74999</a>
-      <a href="#offerings" class="btn btn-outline">What We Offer</a>
-    </div>
+    <!-- Nature sounds audio — stays silent until the sound button is clicked -->
+    <audio id="heroAudio" src="Free Nature Sounds - Nature Sounds Forest Birds (Free To Use Vlog Sound Effects).mp3" loop preload="none" muted></audio>
 
-    <div class="stats-row">
-      <div class="stat-item fade-up">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
-        <div class="stat-label">Fresh Daily</div>
-        <div class="stat-value">Farm to door</div>
-      </div>
-      <div class="stat-item fade-up d1">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"/><path d="M12 22V2"/></svg>
-        <div class="stat-label">Buffalo &amp; Cow</div>
-        <div class="stat-value">Pasture-raised</div>
-      </div>
-      <div class="stat-item fade-up d2">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10z"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <div class="stat-label">Organic</div>
-        <div class="stat-value">Regenerative</div>
-      </div>
-      <div class="stat-item fade-up d3">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="22" height="12" rx="2"/><path d="M1 10h22"/><path d="M6 6v12"/><path d="M10 6v12"/></svg>
-        <div class="stat-label">6 Zones</div>
-        <div class="stat-value">Across Khammam</div>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- Sound toggle — fixed bottom-right, visible after intro -->
+    <button id="heroMuteBtn" class="hero-mute-btn is-muted" type="button" aria-label="Play nature sounds" aria-hidden="true"></button>
 
-<!-- TRUST -->
-<div class="trust-strip">
-  <div class="container trust-list">
-    <span>100% Pure Milk</span>
-    <span>Buffalo &amp; Cow</span>
-    <span>No Preservatives</span>
-    <span>Daily Delivery</span>
-    <span>3-Day Free Trial</span>
-  </div>
-</div>
+    <!-- Three.js + Vanta (intro birds + hero clouds & birds) + GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-<!-- OFFERINGS -->
-<section id="offerings" class="section">
-  <div class="container">
-    <div class="section-header fade-up">
-      <div class="section-label">What We Offer</div>
-      <h2>Dairy you can trust, delivered daily.</h2>
-      <p>Our core is fresh milk — delivered every morning from our own farm. We also offer dairy products and seasonal produce.</p>
-    </div>
+    <script>
+      /* ===== Loading screen ===== */
+      (() => {
+        const loader = document.getElementById("vfLoader");
+        const fill   = document.getElementById("vfLoaderFill");
+        const label  = document.getElementById("vfLoaderLabel");
+        if (!loader) return;
 
-    <div class="offerings-main">
-      <div class="card fade-up">
-        <div class="card-tag">Our Specialty</div>
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l2 4H6l2-4z"/><path d="M6 6v12a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V6"/><path d="M10 10v4"/><path d="M14 10v4"/></svg>
-        </div>
-        <h3>Fresh Milk Delivery</h3>
-        <p>Pure buffalo and cow milk delivered every morning. Choose daily, alternate day, or weekly plans. Start with a 3-day trial at Rs.90/L.</p>
-      </div>
-      <div class="card fade-up d1">
-        <div class="card-tag">Dairy</div>
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
-        </div>
-        <h3>Ghee, Curd &amp; Buttermilk</h3>
-        <p>Hand-churned ghee, fresh curd, and traditional buttermilk — made from our own milk with zero additives or preservatives.</p>
-      </div>
-    </div>
+        let loaded = 0;
+        const total = 2;
 
-    <div class="offerings-secondary fade-up d2">
-      <div class="card-secondary">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20l4-16m2 16l4-16M3 8h18M3 16h18"/></svg>
-        </div>
-        <div>
-          <h4>Organic Produce</h4>
-          <p>Seasonal vegetables, grains &amp; herbs from our farm</p>
-        </div>
-      </div>
-      <div class="card-secondary">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div>
-          <h4>Natural By-products</h4>
-          <p>Farm compost, cold-pressed oils &amp; natural inputs</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        const tick = () => {
+          loaded++;
+          const pct = Math.round((loaded / total) * 100);
+          if (fill)  fill.style.width = pct + "%";
+          if (label) label.textContent = pct < 100 ? "Loading… " + pct + "%" : "Ready";
+          if (loaded >= total) done();
+        };
 
-<!-- METHOD -->
-<section id="method" class="method-section">
-  <div class="container">
-    <div class="method-box fade-up">
-      <div class="section-header">
-        <div class="section-label">Our Method</div>
-        <h2>Quality you can measure.</h2>
-        <p>Traditional farming wisdom combined with modern quality standards for every delivery.</p>
-      </div>
-      <div class="method-grid">
-        <div class="method-card">
-          <div class="method-num">01</div>
-          <h4>Soil-First Farming</h4>
-          <p>Regenerative practices that build soil health season after season.</p>
-        </div>
-        <div class="method-card">
-          <div class="method-num">02</div>
-          <h4>Animal Welfare</h4>
-          <p>Pasture-raised cattle with natural feed, proper care, no hormones.</p>
-        </div>
-        <div class="method-card">
-          <div class="method-num">03</div>
-          <h4>Cold-Chain Fresh</h4>
-          <p>Temperature-aware handling from milking to your doorstep.</p>
-        </div>
-        <div class="method-card">
-          <div class="method-num">04</div>
-          <h4>Daily Accountability</h4>
-          <p>Regular quality checks and traceability on every batch.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        const done = () => {
+          loader.classList.add("vf-loader--done");
+          setTimeout(() => loader.remove(), 700);
+        };
 
-<!-- IMPACT -->
-<section id="impact" class="section">
-  <div class="container">
-    <div class="section-header fade-up">
-      <div class="section-label">Who We Serve</div>
-      <h2>Built for families, businesses, and brands.</h2>
-      <p>From morning coffee to bulk supply — we have you covered.</p>
-    </div>
-    <div class="impact-grid">
-      <div class="card fade-up">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
-        <h3>For Households</h3>
-        <p>Daily milk delivery to your door. Start with a 3-day trial. Subscription plans available for daily, alternate, or weekly delivery.</p>
-      </div>
-      <div class="card fade-up d1">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        </div>
-        <h3>For Businesses</h3>
-        <p>Reliable bulk supply for hotels, restaurants, sweet shops, and cafes. Consistent quality with batch tracking.</p>
-      </div>
-      <div class="card fade-up d2">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-        </div>
-        <h3>For Brands</h3>
-        <p>White-label dairy ingredients with documentation and lab testing support for your product lines.</p>
-      </div>
-    </div>
-  </div>
-</section>
+        // Track logo image
+        const img = new Image();
+        img.onload = img.onerror = tick;
+        img.src = "images/optimized/logo.webp";
 
-<!-- TEAM -->
-<section id="team" class="section">
-  <div class="container">
-    <div class="section-header fade-up">
-      <div class="section-label">Our Team</div>
-      <h2>People who lead with care.</h2>
-      <p>Built on partnership, committed to quality and transparency.</p>
-    </div>
-    <div class="team-grid">
-      <div class="card team-card fade-up">
-        <div class="team-avatar">SB</div>
-        <div>
-          <div class="team-name">Swetha Balasani</div>
-          <div class="team-role">Managing Partner</div>
-          <div class="team-desc">Operations, quality standards, and grower relationships across our farm network.</div>
-        </div>
-      </div>
-      <div class="card team-card fade-up d1">
-        <div class="team-avatar">AM</div>
-        <div>
-          <div class="team-name">Anusha Margana</div>
-          <div class="team-role">Partner</div>
-          <div class="team-desc">Distribution, business development, and market expansion across Khammam region.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        // Track the actual hero video element — already has src set
+        const heroVid = document.getElementById("heroSceneVideo");
+        if (heroVid && heroVid.readyState >= 3) {
+          tick(); // already buffered
+        } else if (heroVid) {
+          const onReady = () => { heroVid.removeEventListener("canplaythrough", onReady); heroVid.removeEventListener("error", onReady); tick(); };
+          heroVid.addEventListener("canplaythrough", onReady);
+          heroVid.addEventListener("error", onReady);
+        } else {
+          tick();
+        }
 
-<!-- CTA -->
-<section id="contact" class="section" style="padding-top: 0;">
-  <div class="container">
-    <div class="cta-box fade-up">
-      <div class="section-label" style="text-align:center">Get Started</div>
-      <h2>Try our milk for 3 days.</h2>
-      <p>Call us to book your trial delivery. Fresh buffalo milk at Rs.90/L, delivered to your doorstep every morning.</p>
-      <div class="cta-phones">
-        <a href="tel:9652174999" class="btn btn-primary">96521 74999</a>
-        <a href="tel:9652217999" class="btn btn-secondary">96522 17999</a>
-      </div>
-    </div>
-  </div>
-</section>
+        // Safety timeout — never block user more than 6 s
+        setTimeout(done, 6000);
+      })();
+    </script>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container footer-grid">
-    <div>
-      <div class="footer-brand">Vajra Farms</div>
-      <p class="footer-tagline">Naturally pure, traditionally strong. Fresh dairy and organic produce delivered daily from our farm in Khammam.</p>
-    </div>
-    <div>
-      <h4>Visit</h4>
-      <a>Khammam, Telangana, India</a>
-      <a>Mon - Sat: 6 AM - 6 PM</a>
-    </div>
-    <div>
-      <h4>Connect</h4>
-      <a href="tel:9652174999">96521 74999</a>
-      <a href="tel:9652217999">96522 17999</a>
-      <a href="https://www.instagram.com/vajra_farms_khammam" target="_blank" rel="noopener">@vajra_farms_khammam</a>
-    </div>
-  </div>
-  <div class="container footer-bottom">
-    <span>Vajra Farms &copy; 2026. All rights reserved.</span>
-    <div class="footer-legal-links">
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="terms.html">Terms &amp; Conditions</a>
-    </div>
-  </div>
-</footer>
+    <script>
+      /* ===== Sky intro: clouds + Vanta birds, parts via scroll-lock ===== */
+      (() => {
+        const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const wrap = document.getElementById("vfIntroWrap");
+        if (!wrap) return;
 
-<script>
-  var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-up').forEach(function(el) { obs.observe(el); });
-</script>
+        // Start at the top and keep the browser from restoring a prior scroll
+        // position, so the clouds always reveal the hero (first section).
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+        window.scrollTo(0, 0);
 
-</body>
+        const sky = document.getElementById("vfSky");
+        const copy = wrap.querySelector(".vf-sky-copy");
+        const birds = wrap.querySelector(".vf-birds");
+        const leftGroup = wrap.querySelector(".vf-cloud-group--left");
+        const rightGroup = wrap.querySelector(".vf-cloud-group--right");
+        const farClouds = Array.from(wrap.querySelectorAll(".vf-far-cloud"));
+
+        let vanta = null;
+        const startBirds = () => {
+          if (vanta || prefersReduced || typeof VANTA === "undefined") return;
+          vanta = VANTA.BIRDS({
+            el: "#vfBirds",
+            THREE: window.THREE,
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            backgroundAlpha: 0.0,
+            color1: 0x2a1c10,
+            color2: 0x3d2817,
+            birdSize: 0.9,
+            wingSpan: 22.0,
+            speedLimit: 4.0,
+            separation: 50.0,
+            alignment: 30.0,
+            cohesion: 24.0,
+            quantity: 2.0,
+          });
+        };
+        startBirds();
+
+        // Reduced motion / no scroll needed: just hide the intro instantly.
+        if (prefersReduced) {
+          wrap.style.display = "none";
+          return;
+        }
+
+        const clamp = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+        const easeOut = (t) => 1 - Math.pow(1 - t, 1.8);
+
+        let target = 0; // where the user has scrolled toward (0..1)
+        let progress = 0; // eased, rendered value
+        let done = false;
+        let raf = 0;
+
+        // Lock the page so it stays perfectly still while the clouds part —
+        // the hero is revealed in place, not sliding up from below.
+        const lock = () => {
+          document.documentElement.classList.add("vf-intro-active");
+          document.body.classList.add("vf-intro-active");
+        };
+        const unlock = () => {
+          document.documentElement.classList.remove("vf-intro-active");
+          document.body.classList.remove("vf-intro-active");
+        };
+        lock();
+
+        const render = () => {
+          const p = easeOut(clamp(progress));
+          // Clouds part outward.
+          if (leftGroup) leftGroup.style.transform = "translate3d(" + (-118 * p) + "%,0,0)";
+          if (rightGroup) rightGroup.style.transform = "translate3d(" + (118 * p) + "%,0,0)";
+          // Copy lifts + fades early.
+          if (copy) {
+            copy.style.transform = "translate3d(0," + (-22 * p) + "%,0)";
+            copy.style.opacity = String(clamp(1 - p / 0.7));
+          }
+          // Far clouds fade quickly.
+          const farO = String(clamp(1 - p / 0.5));
+          farClouds.forEach((c) => (c.style.opacity = farO));
+          // Birds fade after 45%, sky after 55%.
+          if (birds) birds.style.opacity = String(clamp(1 - (p - 0.45) / 0.45));
+          if (sky) sky.style.opacity = String(clamp(1 - (p - 0.55) / 0.45));
+        };
+
+        const tick = () => {
+          const diff = target - progress;
+          if (Math.abs(diff) > 0.0008) {
+            progress += diff * 0.12;
+            render();
+            raf = requestAnimationFrame(tick);
+          } else {
+            progress = target;
+            render();
+            raf = 0;
+            if (progress >= 1 && !done) finish();
+          }
+        };
+        const requestTick = () => {
+          if (!raf) raf = requestAnimationFrame(tick);
+        };
+
+        const finish = () => {
+          done = true;
+          if (vanta) { try { vanta.destroy(); } catch (_) {} vanta = null; }
+
+          // Reveal hero, start scene2 loop, unlock scroll
+          wrap.classList.add("vf-done");
+
+          // Show sound button now that hero is visible
+          const muteBtn   = document.getElementById("heroMuteBtn");
+          if (muteBtn) { muteBtn.setAttribute("aria-hidden", "false"); muteBtn.classList.add("is-visible"); }
+
+          const heroVid = document.getElementById("heroSceneVideo");
+          if (heroVid) {
+            heroVid.playbackRate = 0.4;
+            const tryPlay = () => heroVid.play().catch(() => {});
+            if (heroVid.readyState >= 3) {
+              tryPlay();
+            } else {
+              heroVid.addEventListener("canplay", tryPlay, { once: true });
+              heroVid.load();
+            }
+          }
+
+          unlock();
+        };
+
+        // ── Enter button: instant finish ──────
+        const enterBtn  = document.getElementById("vfEnterBtn");
+        const heroAudio = document.getElementById("heroAudio");
+        const muteBtn   = document.getElementById("heroMuteBtn");
+
+        if (enterBtn) {
+          enterBtn.addEventListener("click", () => {
+            if (done) return;
+            // Jump straight to end
+            target = 1;
+            requestTick();
+          });
+        }
+
+        // Sound button wiring: this is the only place nature audio can start.
+        if (muteBtn && heroAudio) {
+          muteBtn.addEventListener("click", () => {
+            const shouldPlay = heroAudio.paused || heroAudio.muted;
+
+            if (shouldPlay) {
+              heroAudio.muted = false;
+              heroAudio.play()
+                .then(() => {
+                  muteBtn.classList.remove("is-muted");
+                  muteBtn.setAttribute("aria-label", "Mute nature sounds");
+                })
+                .catch(() => {
+                  heroAudio.muted = true;
+                  muteBtn.classList.add("is-muted");
+                  muteBtn.setAttribute("aria-label", "Play nature sounds");
+                });
+              return;
+            }
+
+            heroAudio.pause();
+            heroAudio.muted = true;
+            muteBtn.classList.add("is-muted");
+            muteBtn.setAttribute("aria-label", "Play nature sounds");
+          });
+        }
+
+        // Only the Enter button advances the intro — no scroll/key/touch
+
+        render();
+      })();
+
+      /* ===== Hero Vanta: clouds + birds ===== */
+      (() => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const boot = () => {
+          if (typeof VANTA === "undefined") return;
+
+          // BIRDS — larger, more visible, slower = more like real birds
+          if (VANTA.BIRDS) {
+            VANTA.BIRDS({
+              el: "#blissHeroBirds",
+              THREE: window.THREE,
+              backgroundAlpha: 0,
+              mouseControls: false,
+              touchControls: false,
+              gyroControls:  false,
+              color1: 0x1a2e08,
+              color2: 0x0e1c04,
+              birdSize:    2.0,
+              wingSpan:   35.0,
+              speedLimit:  2.5,
+              separation: 90.0,
+              alignment:  55.0,
+              cohesion:   15.0,
+              quantity:    2.0,
+            });
+          }
+        };
+
+        // Boot early — runs behind intro overlay, revealed when clouds part
+        if (document.readyState === "complete") boot();
+        else window.addEventListener("load", boot);
+      })();
+
+      (() => {
+        const showcase = document.querySelector("[data-method-showcase]");
+        if (!showcase) return;
+
+        const panels = Array.from(showcase.querySelectorAll("[data-step-panel]"));
+        const images = Array.from(showcase.querySelectorAll("[data-step-image]"));
+        const current = showcase.querySelector("[data-method-current]");
+        const total = showcase.querySelector("[data-method-total]");
+        const prev = showcase.querySelector("[data-method-prev]");
+        const next = showcase.querySelector("[data-method-next]");
+        const progress = showcase.querySelector("[data-method-progress]");
+        let index = 0;
+
+        const render = () => {
+          panels.forEach((panel, panelIndex) => {
+            panel.classList.toggle("is-active", panelIndex === index);
+          });
+
+          images.forEach((image, imageIndex) => {
+            const relative = (imageIndex - index + images.length) % images.length;
+            image.classList.toggle("is-active", relative === 0);
+            image.classList.toggle("is-stack-1", relative === 1);
+            image.classList.toggle("is-stack-2", relative === 2);
+            image.classList.toggle("is-stack-3", relative === 3);
+          });
+
+          if (current) current.textContent = String(index + 1);
+          if (total) total.textContent = String(panels.length);
+        };
+
+        const stepTo = (nextIndex) => {
+          index = (nextIndex + panels.length) % panels.length;
+          render();
+        };
+
+        prev?.addEventListener("click", () => stepTo(index - 1));
+        next?.addEventListener("click", () => stepTo(index + 1));
+        progress?.addEventListener("click", () => stepTo(index + 1));
+
+        render();
+      })();
+
+      (() => {
+        const marquee = document.querySelector("[data-testimonials-marquee]");
+        if (!marquee) return;
+
+        const names = [
+          "Aarav",
+          "Saanvi",
+          "Rohit",
+          "Meera",
+          "Karthik",
+          "Ananya",
+          "Vikram",
+          "Diya",
+          "Harsha",
+          "Nitya",
+          "Rahul",
+          "Ishita",
+          "Sai",
+          "Lavanya",
+          "Arjun",
+          "Keerthi",
+          "Madhav",
+          "Pooja",
+          "Naveen",
+          "Shreya",
+          "Siri",
+          "Venkat",
+          "Kavya",
+          "Teja",
+        ];
+
+        const handles = [
+          "homekitchen",
+          "freshcup",
+          "khammamdays",
+          "farmtable",
+          "greenroutine",
+          "dailyboil",
+          "sweetshopjournal",
+          "cafelarder",
+          "honestpantry",
+          "milknotes",
+        ];
+
+        const openings = [
+          "Milk arrived right on time again.",
+          "The freshness is noticeable every morning.",
+          "Finally found a dairy service that feels dependable.",
+          "This has become part of our daily routine.",
+          "The taste is clean, rich, and consistently good.",
+          "Very happy with how reliable the delivery has been.",
+          "Our family switched and honestly never looked back.",
+          "Exactly the kind of quality we hoped for.",
+        ];
+
+        const middles = [
+          "Tea tastes better, coffee feels fuller, and the kids actually notice the difference.",
+          "We love that it feels farm-rooted without losing the convenience of a modern subscription.",
+          "The texture, creaminess, and overall consistency have been excellent every week.",
+          "What stands out most is that every bottle feels handled with care and discipline.",
+          "You can tell the brand cares about quality, not just fast delivery.",
+          "It works beautifully for home use and also gives us confidence when guests visit.",
+          "The routine is simple, and the product quality has stayed strong from day one.",
+          "There is a very reassuring difference in both taste and trust.",
+        ];
+
+        const closings = [
+          "Would absolutely recommend it.",
+          "This is the easiest re-order we make.",
+          "Very glad we started the trial.",
+          "Consistent enough that we now plan around it.",
+          "It genuinely feels premium without being fussy.",
+          "That balance of freshness and reliability is rare.",
+          "A really strong everyday product.",
+          "Definitely staying with this.",
+        ];
+
+        const contexts = [
+          "For our home",
+          "For our cafe",
+          "For our sweet shop",
+          "For our family kitchen",
+          "For everyday breakfast",
+          "For repeat business orders",
+          "For weekend hosting",
+          "For daily deliveries",
+        ];
+
+        const teluguComments = [
+          "పాలు చాలా తాజాగానే వస్తున్నాయి. ప్రతి రోజు క్వాలిటీ ఒకేలా ఉండటం చాలా నచ్చింది.",
+          "మా ఇంటికి డెలివరీ టైమ్ కి వస్తోంది. టీ, కాఫీ రుచి కూడా బాగా మారింది.",
+          "ఇంత నమ్మకంగా పాలు ఇచ్చే సర్వీస్ చాలా అరుదు. ఇప్పుడు మేము రెగ్యులర్‌గా తీసుకుంటున్నాం.",
+          "ఫ్రెష్‌నెస్ కూడా బాగుంది, ప్యాకింగ్ కూడా శుభ్రంగా ఉంది. ఇంట్లో అందరికీ నచ్చింది.",
+          "మా స్వీట్ షాప్ కోసం కూడా క్వాలిటీ స్థిరంగా ఉండటం చాలా ఉపయోగంగా ఉంది.",
+          "ఈ బ్రాండ్‌లో నిజమైన ఫార్మ్ ఫ్రెష్ ఫీల్ ఉంది. ప్రతి బాటిల్ బాగా హ్యాండిల్ చేసినట్టే అనిపిస్తుంది.",
+        ];
+
+        const hours = ["1h", "2h", "3h", "5h", "8h", "12h", "1d", "2d"];
+
+        const comments = [];
+        for (let i = 0; i < 120; i += 1) {
+          const name = names[i % names.length];
+          const handle = handles[i % handles.length];
+          const opening = openings[i % openings.length];
+          const middle = middles[(i * 3) % middles.length];
+          const closing = closings[(i * 5) % closings.length];
+          const context = contexts[(i * 7) % contexts.length];
+          const likes = 6 + ((i * 11) % 91);
+          const time = hours[i % hours.length];
+
+          const useTelugu = i % 7 === 0;
+          comments.push({
+            name,
+            handle: `${handle}_${(i % 17) + 3}`,
+            text: useTelugu
+              ? teluguComments[i % teluguComments.length]
+              : `${opening} ${context}, ${middle} ${closing}`,
+            likes,
+            time,
+          });
+        }
+
+        const shuffle = (items, offset = 0) => {
+          const copy = items.slice();
+          for (let i = copy.length - 1; i > 0; i -= 1) {
+            const j = (i * 13 + offset * 17) % copy.length;
+            [copy[i], copy[j]] = [copy[j], copy[i]];
+          }
+          return copy;
+        };
+
+        const createCard = (comment) => {
+          const card = document.createElement("article");
+          card.className = "testimonial-card";
+
+          const initials = comment.name.slice(0, 2).toUpperCase();
+          card.innerHTML = `
+            <div class="testimonial-card-head">
+              <div class="testimonial-avatar">${initials}</div>
+              <div class="testimonial-meta">
+                <strong>${comment.name}</strong>
+                <span>@${comment.handle}</span>
+              </div>
+            </div>
+            <p class="testimonial-text">${comment.text}</p>
+            <div class="testimonial-foot">
+              <span>${comment.likes} likes</span>
+              <span>${comment.time}</span>
+            </div>
+          `;
+
+          return card;
+        };
+
+        const rows = Array.from(marquee.querySelectorAll(".testimonials-row"));
+
+        rows.forEach((row, rowIndex) => {
+          const track = document.createElement("div");
+          track.className = "testimonials-track";
+          track.style.setProperty("--marquee-duration", `${row.dataset.speed || 96}s`);
+
+          if (rowIndex % 2 === 1) {
+            track.classList.add("is-reverse");
+          }
+
+          const set = document.createElement("div");
+          set.className = "testimonials-set";
+
+          const ordered = shuffle(comments, rowIndex).slice(rowIndex * 24, rowIndex * 24 + 40);
+          ordered.forEach((comment) => {
+            set.appendChild(createCard(comment));
+          });
+
+          const clone = set.cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+
+          track.appendChild(set);
+          track.appendChild(clone);
+          row.appendChild(track);
+        });
+      })();
+
+      (() => {
+        const carousel = document.querySelector("[data-follow-carousel]");
+        if (!carousel) return;
+
+        const viewport = carousel.querySelector("[data-follow-viewport]");
+        const prev = carousel.querySelector("[data-follow-prev]");
+        const next = carousel.querySelector("[data-follow-next]");
+        const track = carousel.querySelector(".follow-track");
+        const originalCards = Array.from(track?.children || []);
+        let cards = [];
+        let autoScrollId = 0;
+        let manualPauseUntil = 0;
+
+        if (!viewport || !track || originalCards.length === 0) return;
+
+        originalCards.forEach((card) => {
+          const clone = card.cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+          track.appendChild(clone);
+        });
+
+        cards = Array.from(carousel.querySelectorAll(".follow-card"));
+
+        const scrollByCard = (direction) => {
+          const card = viewport.querySelector(".follow-card");
+          const gap = 18;
+          const amount = card ? (card.getBoundingClientRect().width + gap) * 1.45 : viewport.clientWidth * 0.92;
+          manualPauseUntil = performance.now() + 650;
+          viewport.scrollBy({ left: amount * direction, behavior: "smooth" });
+          window.setTimeout(() => {
+            normalizeLoopPosition();
+          }, 720);
+        };
+
+        const hasActivePlayback = () =>
+          cards.some((card) => card.classList.contains("is-playing"));
+
+        const getLoopWidth = () => track.scrollWidth / 2;
+
+        const normalizeLoopPosition = () => {
+          const loopWidth = getLoopWidth();
+          if (!loopWidth) return;
+
+          if (viewport.scrollLeft >= loopWidth) {
+            viewport.scrollLeft -= loopWidth;
+          } else if (viewport.scrollLeft < 0) {
+            viewport.scrollLeft += loopWidth;
+          }
+        };
+
+        const startAutoScroll = () => {
+          const tick = (time) => {
+            if (!hasActivePlayback() && time >= manualPauseUntil) {
+              viewport.scrollLeft += 0.85;
+              normalizeLoopPosition();
+            }
+
+            autoScrollId = window.requestAnimationFrame(tick);
+          };
+
+          autoScrollId = window.requestAnimationFrame(tick);
+        };
+
+        const pauseAllExcept = (activeVideo) => {
+          cards.forEach((card) => {
+            const video = card.querySelector(".follow-video");
+            const playButton = card.querySelector("[data-follow-play]");
+            const volumeButton = card.querySelector("[data-follow-volume]");
+            if (!video || video === activeVideo) return;
+            video.pause();
+            card.classList.remove("is-playing");
+            playButton?.classList.remove("is-playing");
+            playButton?.setAttribute("aria-label", "Play video");
+            video.muted = true;
+            volumeButton?.classList.add("is-muted");
+            volumeButton?.setAttribute("aria-label", "Unmute video");
+          });
+        };
+
+        cards.forEach((card) => {
+          const video = card.querySelector(".follow-video");
+          const playButton = card.querySelector("[data-follow-play]");
+          const volumeButton = card.querySelector("[data-follow-volume]");
+          if (!video || !playButton || !volumeButton) return;
+
+          playButton.addEventListener("click", async () => {
+            if (!video.paused) {
+              video.pause();
+              card.classList.remove("is-playing");
+              playButton.classList.remove("is-playing");
+              playButton.setAttribute("aria-label", "Play video");
+              return;
+            }
+
+            pauseAllExcept(video);
+            video.muted = false;
+            video.volume = 1;
+            volumeButton.classList.remove("is-muted");
+            volumeButton.setAttribute("aria-label", "Mute video");
+
+            try {
+              await video.play();
+              card.classList.add("is-playing");
+              playButton.classList.add("is-playing");
+              playButton.setAttribute("aria-label", "Pause video");
+            } catch (_) {
+              card.classList.remove("is-playing");
+              video.muted = true;
+              volumeButton.classList.add("is-muted");
+              volumeButton.setAttribute("aria-label", "Unmute video");
+              playButton.classList.remove("is-playing");
+              playButton.setAttribute("aria-label", "Play video");
+            }
+          });
+
+          volumeButton.addEventListener("click", async () => {
+            const willUnmute = video.muted;
+            if (video.paused) {
+              pauseAllExcept(video);
+              try {
+                await video.play();
+                card.classList.add("is-playing");
+                playButton.classList.add("is-playing");
+                playButton.setAttribute("aria-label", "Pause video");
+              } catch (_) {
+                card.classList.remove("is-playing");
+                playButton.classList.remove("is-playing");
+                playButton.setAttribute("aria-label", "Play video");
+              }
+            }
+
+            video.muted = !willUnmute ? true : false;
+            if (!video.muted) {
+              video.volume = 1;
+            }
+            volumeButton.classList.toggle("is-muted", video.muted);
+            volumeButton.setAttribute("aria-label", video.muted ? "Unmute video" : "Mute video");
+          });
+
+          video.addEventListener("ended", () => {
+            card.classList.remove("is-playing");
+            playButton.classList.remove("is-playing");
+            playButton.setAttribute("aria-label", "Play video");
+          });
+
+          video.addEventListener("pause", () => {
+            if (!video.ended) {
+              card.classList.remove("is-playing");
+              playButton.classList.remove("is-playing");
+              playButton.setAttribute("aria-label", "Play video");
+            }
+          });
+        });
+
+        prev?.addEventListener("click", () => scrollByCard(-1));
+        next?.addEventListener("click", () => scrollByCard(1));
+        startAutoScroll();
+      })();
+    </script>
+  </body>
 </html>
