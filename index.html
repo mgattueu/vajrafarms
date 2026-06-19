@@ -595,8 +595,21 @@
       padding: 16px 0;
       border-top: 1px solid rgba(255,255,255,.06);
       font-size: 12px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
       color: rgba(255,255,255,.3);
+    }
+    .footer-legal-links {
+      display: flex;
+      gap: 16px;
+    }
+    .footer-legal-links a {
+      display: inline;
+      padding: 0;
+      font-size: 12px;
     }
 
     @media (max-width: 768px) {
@@ -875,7 +888,13 @@
       <a href="https://www.instagram.com/vajra_farms_khammam" target="_blank" rel="noopener">@vajra_farms_khammam</a>
     </div>
   </div>
-  <div class="container footer-bottom">Vajra Farms &copy; 2026. All rights reserved.</div>
+  <div class="container footer-bottom">
+    <span>Vajra Farms &copy; 2026. All rights reserved.</span>
+    <div class="footer-legal-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms &amp; Conditions</a>
+    </div>
+  </div>
 </footer>
 
 <script>

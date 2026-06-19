@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms &amp; Conditions | Vajra Farms</title>
+  <meta name="description" content="Terms and Conditions for Vajra Farms milk delivery service — ordering, pricing, delivery, cancellations, and your rights.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-900: #14261a;
+      --green-800: #1a3c24;
+      --green-700: #245a33;
+      --green-600: #2d7a3f;
+      --green-100: #e4f0e8;
+      --green-50: #f1f8f3;
+      --cream: #faf7f0;
+      --cream-dark: #f0ead6;
+      --gold: #c9943e;
+      --text: #1a2e1f;
+      --text-secondary: #5a6e5f;
+      --border: rgba(26, 60, 36, .08);
+      --card-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.03);
+      --radius: 16px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    h1, h2, h3 {
+      font-family: "DM Serif Display", serif;
+      color: var(--green-800);
+      line-height: 1.15;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 247, 240, .92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .logo span {
+      font-family: "DM Serif Display", serif;
+      font-size: 1.2rem;
+      color: var(--green-800);
+    }
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      transition: all .2s;
+    }
+    .nav-back:hover {
+      color: var(--green-800);
+      background: var(--green-50);
+      border-color: var(--green-700);
+    }
+    .nav-back svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      background: var(--green-800);
+      color: #fff;
+      padding: 64px 0 56px;
+    }
+    .page-header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 100px;
+      background: rgba(255,255,255,.12);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.8);
+      margin-bottom: 20px;
+    }
+    .page-header h1 {
+      color: #fff;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 12px;
+    }
+    .page-header p {
+      color: rgba(255,255,255,.65);
+      font-size: 1rem;
+      max-width: 520px;
+    }
+    .page-header .meta {
+      margin-top: 24px;
+      font-size: 13px;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* ── Content ── */
+    .content {
+      max-width: 760px;
+      padding: 64px 24px 80px;
+      margin: 0 auto;
+    }
+
+    .section-block {
+      margin-bottom: 48px;
+    }
+    .section-block h2 {
+      font-size: 1.35rem;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-block h3 {
+      font-size: 1.05rem;
+      margin: 20px 0 8px;
+    }
+    .section-block p {
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      font-size: 0.97rem;
+    }
+    .section-block ul, .section-block ol {
+      color: var(--text-secondary);
+      padding-left: 20px;
+      margin-bottom: 12px;
+      font-size: 0.97rem;
+    }
+    .section-block ul li, .section-block ol li {
+      margin-bottom: 6px;
+    }
+
+    .highlight-box {
+      background: var(--green-50);
+      border: 1px solid var(--green-100);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .highlight-box p {
+      margin: 0;
+      color: var(--green-800);
+      font-size: 0.95rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .info-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--card-shadow);
+    }
+    .info-card h3 {
+      font-size: .95rem;
+      margin-bottom: 8px;
+    }
+    .info-card p {
+      margin: 0;
+      font-size: .9rem;
+    }
+
+    @media (max-width: 600px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+
+    .contact-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+    }
+    .contact-card h3 {
+      margin-bottom: 12px;
+    }
+    .contact-card p {
+      margin-bottom: 6px;
+    }
+    .contact-card a {
+      color: var(--green-700);
+      font-weight: 500;
+    }
+    .contact-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--green-900);
+      color: rgba(255,255,255,.65);
+      margin-top: 0;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 32px;
+      padding: 48px 0 32px;
+    }
+    .footer-brand {
+      font-family: "DM Serif Display", serif;
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .footer-tagline {
+      font-size: .88rem;
+      line-height: 1.7;
+    }
+    footer h4 {
+      color: rgba(255,255,255,.9);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    footer a {
+      display: block;
+      padding: 3px 0;
+      font-size: .88rem;
+      transition: color .2s;
+    }
+    footer a:hover { color: #fff; }
+    .footer-bottom {
+      padding: 16px 0;
+      border-top: 1px solid rgba(255,255,255,.06);
+      font-size: .82rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-legal-links {
+      display: flex;
+      gap: 16px;
+    }
+    .footer-legal-links a {
+      display: inline;
+      padding: 0;
+      font-size: .82rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="Vajra Farms logo">
+      <span>Vajra Farms</span>
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Home
+    </a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="badge">Legal</div>
+    <h1>Terms &amp; Conditions</h1>
+    <p>The terms that govern your use of Vajra Farms delivery services and our website.</p>
+    <div class="meta">Last updated: June 2026 &nbsp;&middot;&nbsp; Effective: June 2026</div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <div class="highlight-box">
+    <p>By placing an order with Vajra Farms — whether by phone, in person, or through our portal — you agree to these Terms &amp; Conditions. Please read them carefully. If you do not agree, please do not use our services.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>1. About Us</h2>
+    <p>Vajra Farms is a dairy farm and fresh milk delivery service based in Khammam, Telangana, India. We deliver fresh buffalo and cow milk to households, businesses, and brands across the Khammam region.</p>
+    <p>By using our services, you enter into a binding agreement with Vajra Farms under the terms set out below.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>2. Our Services</h2>
+    <p>We offer the following delivery services:</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Household Delivery</h3>
+        <p>Daily fresh milk (buffalo or cow) delivered to your home. Available on trial or subscription.</p>
+      </div>
+      <div class="info-card">
+        <h3>Business Supply</h3>
+        <p>Bulk and regular supply for hotels, restaurants, sweet shops, and cafes. Consistent quality with batch tracking.</p>
+      </div>
+      <div class="info-card">
+        <h3>Brand Ingredients</h3>
+        <p>White-label dairy ingredients with documentation and lab testing support for product lines.</p>
+      </div>
+      <div class="info-card">
+        <h3>Trial Programme</h3>
+        <p>A 3-day free or low-commitment trial to experience our product before subscribing.</p>
+      </div>
+    </div>
+
+    <p>We reserve the right to modify, suspend, or discontinue any service, pricing, or delivery area at our discretion. We will make reasonable efforts to notify active customers of significant changes.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>3. Ordering</h2>
+
+    <h3>How to order</h3>
+    <p>Orders can be placed by calling us directly. Our staff are available Monday through Saturday, 6 AM to 6 PM, at <a href="tel:9652174999" style="color: var(--green-700);">96521 74999</a> or <a href="tel:9652217999" style="color: var(--green-700);">96522 17999</a>.</p>
+
+    <h3>Order confirmation</h3>
+    <p>An order is confirmed when our staff verbally acknowledges it by phone. We will confirm the milk type, quantity, delivery address, and schedule at the time of order.</p>
+
+    <h3>Order changes</h3>
+    <p>Changes to an existing order (quantity, schedule, address) must be communicated at least <strong>one day in advance</strong> of the affected delivery. Same-day changes cannot be guaranteed.</p>
+
+    <h3>Minimum order</h3>
+    <p>There is no minimum order quantity for household deliveries. Minimum quantities for business and brand supply are agreed on a case-by-case basis.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>4. Pricing and Payment</h2>
+
+    <h3>Pricing</h3>
+    <p>Our standard retail price is <strong>Rs. 90 per litre</strong> for fresh buffalo milk. Cow milk and bulk pricing for business customers are available on request. All prices are in Indian Rupees (INR) and are inclusive of any applicable taxes unless otherwise stated.</p>
+    <p>Prices may change from time to time. We will inform active customers of price changes before they take effect, with at least 7 days' notice where possible.</p>
+
+    <h3>Payment</h3>
+    <p>Payment terms are agreed at the time of order. We accept cash and digital payment methods as communicated by our staff. For subscription customers, payment is typically collected periodically (weekly or monthly) based on your arrangement with us.</p>
+
+    <h3>Late payment</h3>
+    <p>If payment is not received by the agreed date, we reserve the right to pause deliveries until the outstanding balance is settled.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>5. Delivery</h2>
+
+    <h3>Delivery schedule</h3>
+    <p>Deliveries are made Monday through Saturday. We do not deliver on Sundays or on public holidays unless specifically agreed. Our standard delivery window is early morning.</p>
+
+    <h3>Delivery area</h3>
+    <p>We currently serve 6 zones across the Khammam region. Delivery availability is confirmed at the time of order based on your address.</p>
+
+    <h3>Access and missed deliveries</h3>
+    <p>Please ensure there is a safe and accessible location for us to leave your order if you are not home. If we cannot deliver (no access, incorrect address, gate locked), we will attempt to contact you. If we cannot reach you, the delivery may be skipped for that day.</p>
+    <p>Missed deliveries due to access issues on your end are not eligible for refunds.</p>
+
+    <h3>Delivery delays</h3>
+    <p>We strive to deliver on schedule every day. In cases of unforeseen circumstances (extreme weather, vehicle issues, supply disruption), we will make reasonable efforts to notify you and reschedule. We are not liable for delays caused by events beyond our reasonable control.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>6. Trial Programme</h2>
+    <p>Our 3-day trial allows new customers to experience our milk before committing to a subscription. The following conditions apply:</p>
+    <ul>
+      <li>The trial is limited to one per household or business address</li>
+      <li>Trial customers must provide a valid name, phone number, and delivery address</li>
+      <li>At the end of the trial, you may subscribe or end the arrangement — there is no automatic rollover to a paid subscription without your explicit agreement</li>
+      <li>Pricing during the trial will be communicated when you sign up</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h2>7. Cancellation and Pausing</h2>
+
+    <h3>Cancelling your subscription</h3>
+    <p>You may cancel your delivery subscription at any time by calling us. To avoid being charged for the next billing period, please cancel at least <strong>2 days before</strong> your next scheduled delivery.</p>
+
+    <h3>Pausing deliveries</h3>
+    <p>If you need to pause deliveries (e.g., travel, holiday), please inform us at least 1 day in advance. We will pause your delivery and resume it on the date you specify.</p>
+
+    <h3>Our right to cancel</h3>
+    <p>We reserve the right to cancel or refuse service at any time if a customer violates these terms, has an outstanding payment balance, or if delivery to your area becomes operationally unfeasible.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>8. Product Quality</h2>
+    <p>We are committed to delivering fresh, high-quality milk every day. Our milk is sourced directly from our farm animals, collected daily, and delivered the same morning.</p>
+
+    <h3>Quality issues</h3>
+    <p>If you receive milk that appears to be spoiled, contaminated, or of unacceptable quality, please contact us the same day by phone. We will investigate and, where appropriate, offer a replacement or credit for the affected delivery.</p>
+
+    <h3>Storage</h3>
+    <p>Fresh milk must be refrigerated promptly upon receipt. We are not responsible for quality degradation resulting from improper storage after delivery.</p>
+
+    <h3>Allergen information</h3>
+    <p>Our products contain milk and dairy. They are not suitable for individuals with a dairy allergy or lactose intolerance. We do not currently offer non-dairy alternatives.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>9. Website Use</h2>
+    <p>Our website at vajrafarms.com is provided for informational purposes. You may use it to learn about our services and contact us. You agree not to:</p>
+    <ul>
+      <li>Use the website for any unlawful purpose</li>
+      <li>Attempt to gain unauthorised access to our internal portal or systems</li>
+      <li>Reproduce, distribute, or commercially exploit content from our website without permission</li>
+    </ul>
+    <p>We make no warranties that the website will be continuously available or error-free.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>10. Intellectual Property</h2>
+    <p>All content on vajrafarms.com — including text, images, logos, and design — is the property of Vajra Farms or used with permission. You may not copy, reproduce, or use our content for commercial purposes without our written consent.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>11. Limitation of Liability</h2>
+    <p>To the fullest extent permitted by applicable law:</p>
+    <ul>
+      <li>Vajra Farms is not liable for any indirect, incidental, or consequential damages arising from the use of our services or website</li>
+      <li>Our total liability for any claim is limited to the value of the specific delivery or service in dispute</li>
+      <li>We are not responsible for losses caused by events outside our reasonable control (force majeure), including but not limited to extreme weather, power outages, or supply disruptions</li>
+    </ul>
+    <p>Nothing in these terms limits our liability for personal injury caused by negligence, or for fraud.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>12. Governing Law and Disputes</h2>
+    <p>These Terms &amp; Conditions are governed by the laws of India. Any disputes arising from your use of our services or these terms shall be subject to the exclusive jurisdiction of the courts in Khammam, Telangana, India.</p>
+    <p>We encourage you to contact us directly in the first instance to resolve any issue before escalating to formal proceedings.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>13. Changes to These Terms</h2>
+    <p>We may update these Terms &amp; Conditions from time to time. Updates will be reflected by a revised "Last updated" date at the top of this page. Continued use of our services after changes are posted constitutes your acceptance of the updated terms.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>14. Contact Us</h2>
+    <div class="contact-card">
+      <h3>Get in Touch</h3>
+      <p>If you have any questions about these Terms &amp; Conditions or our services, please contact us:</p>
+      <p><strong>Phone:</strong> <a href="tel:9652174999">96521 74999</a> &nbsp;/&nbsp; <a href="tel:9652217999">96522 17999</a></p>
+      <p><strong>Instagram:</strong> <a href="https://www.instagram.com/vajra_farms_khammam" target="_blank" rel="noopener">@vajra_farms_khammam</a></p>
+      <p><strong>Address:</strong> Khammam, Telangana, India</p>
+      <p style="margin-top: 12px; color: var(--text-secondary);">Operating hours: Monday – Saturday, 6 AM – 6 PM</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <div class="footer-brand">Vajra Farms</div>
+      <p class="footer-tagline">Naturally pure, traditionally strong. Fresh dairy and organic produce delivered daily from our farm in Khammam.</p>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <a>Khammam, Telangana, India</a>
+      <a>Mon - Sat: 6 AM - 6 PM</a>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <a href="tel:9652174999">96521 74999</a>
+      <a href="tel:9652217999">96522 17999</a>
+      <a href="https://www.instagram.com/vajra_farms_khammam" target="_blank" rel="noopener">@vajra_farms_khammam</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>Vajra Farms &copy; 2026. All rights reserved.</span>
+    <div class="footer-legal-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
