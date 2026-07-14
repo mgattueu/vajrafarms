@@ -78,6 +78,7 @@
 
           <div class="header-right">
             <nav class="site-nav nav-right" aria-label="Primary right">
+              <a href="pricing.html">Pricing</a>
               <a href="quality.html">Quality</a>
               <a href="contact.html">Contact</a>
             </nav>
@@ -95,12 +96,10 @@
           <!-- Background video: scene2 → scene3 → loop (starts after transition) -->
           <video id="heroSceneVideo" class="hero-scene-video" playsinline muted preload="auto" src="videos/scene2.mp4" loop></video>
 
-          <!-- ===== Bliss scene — Vanta birds only ===== -->
+          <!-- ===== Bliss scene ===== -->
           <div class="bliss-scene" aria-hidden="true">
             <!-- Subtle centre scrim — improves text contrast -->
             <div class="bliss-scrim"></div>
-            <!-- BIRDS: flock in upper sky -->
-            <div id="blissHeroBirds" class="bliss-vanta-layer bliss-vanta-birds"></div>
           </div>
           <!-- ===== /Bliss scene ===== -->
 
@@ -592,6 +591,7 @@
           <h3>Quick Links</h3>
           <a href="index.html#home">Home</a>
           <a href="team.html">Team</a>
+          <a href="pricing.html">Pricing</a>
           <a href="quality.html">Quality</a>
           <a href="index.html#serve">Who We Serve</a>
         </div>
@@ -858,40 +858,6 @@
         // Only the Enter button advances the intro — no scroll/key/touch
 
         render();
-      })();
-
-      /* ===== Hero Vanta: clouds + birds ===== */
-      (() => {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-        const boot = () => {
-          if (typeof VANTA === "undefined") return;
-
-          // BIRDS — larger, more visible, slower = more like real birds
-          if (VANTA.BIRDS) {
-            VANTA.BIRDS({
-              el: "#blissHeroBirds",
-              THREE: window.THREE,
-              backgroundAlpha: 0,
-              mouseControls: false,
-              touchControls: false,
-              gyroControls:  false,
-              color1: 0x1a2e08,
-              color2: 0x0e1c04,
-              birdSize:    2.0,
-              wingSpan:   35.0,
-              speedLimit:  2.5,
-              separation: 90.0,
-              alignment:  55.0,
-              cohesion:   15.0,
-              quantity:    2.0,
-            });
-          }
-        };
-
-        // Boot early — runs behind intro overlay, revealed when clouds part
-        if (document.readyState === "complete") boot();
-        else window.addEventListener("load", boot);
       })();
 
       (() => {
